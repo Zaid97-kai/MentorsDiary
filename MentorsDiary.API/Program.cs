@@ -1,4 +1,5 @@
 using MentorsDiary.Application.DependencyInjection;
+using MentorsDiary.Persistence.DependencyInjection;
 
 namespace MentorsDiary.API;
 
@@ -22,7 +23,12 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddApplicationServiceCollection();
+        #region CUSTOM SERVICES
+
+        builder.Services.AddApplication();
+        builder.Services.AddPersistence(builder.Configuration);
+
+        #endregion
 
         var app = builder.Build();
 

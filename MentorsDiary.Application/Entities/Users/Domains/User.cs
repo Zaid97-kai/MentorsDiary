@@ -10,16 +10,16 @@ namespace MentorsDiary.Application.Entities.Users.Domains;
 
 /// <summary>
 /// Class User.
-/// Implements the <see cref="BaseUserCuData" />
+/// Implements the <see cref="BaseUserCU" />
 /// Implements the <see cref="IHaveId" />
 /// Implements the <see cref="IHaveName" />
 /// Implements the <see cref="IHaveImage" />
 /// </summary>
-/// <seealso cref="BaseUserCuData" />
+/// <seealso cref="BaseUserCU" />
 /// <seealso cref="IHaveId" />
 /// <seealso cref="IHaveName" />
 /// <seealso cref="IHaveImage" />
-public class User : BaseUserCuData, IHaveId, IHaveName, IHaveImage
+public class User : BaseUserCU, IHaveId, IHaveName, IHaveImage
 {
     /// <summary>
     /// Gets or sets the identifier.

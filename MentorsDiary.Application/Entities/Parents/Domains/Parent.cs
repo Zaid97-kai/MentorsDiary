@@ -5,6 +5,15 @@ using MentorsDiary.Application.Entities.Students.Domains;
 
 namespace MentorsDiary.Application.Entities.Parents.Domains;
 
+/// <summary>
+/// Class Parent.
+/// Implements the <see cref="BaseUserCU" />
+/// Implements the <see cref="IHaveId" />
+/// Implements the <see cref="IHaveName" />
+/// </summary>
+/// <seealso cref="BaseUserCU" />
+/// <seealso cref="IHaveId" />
+/// <seealso cref="IHaveName" />
 public class Parent : BaseUserCU, IHaveId, IHaveName
 {
     /// <summary>
@@ -20,6 +29,12 @@ public class Parent : BaseUserCU, IHaveId, IHaveName
     public string? Name { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="Parent"/> is sex.
+    /// </summary>
+    /// <value><c>true</c> if MAN; otherwise, <c>false</c>.</value>
+    public bool Sex { get; set; }
+
+    /// <summary>
     /// Gets or sets the name of the work.
     /// </summary>
     /// <value>The name of the work.</value>
@@ -32,16 +47,9 @@ public class Parent : BaseUserCU, IHaveId, IHaveName
     public string? Phone { get; set; }
 
     /// <summary>
-    /// Gets or sets the mother childrens.
+    /// Gets or sets the childrens.
     /// </summary>
-    /// <value>The mother childrens.</value>
+    /// <value>The childrens.</value>
     [JsonIgnore]
-    public virtual List<Student>? MotherChildrens { get; set; }
-
-    /// <summary>
-    /// Gets or sets the father childrens.
-    /// </summary>
-    /// <value>The father childrens.</value>
-    [JsonIgnore]
-    public virtual List<Student>? FatherChildrens { get; set; }
+    public virtual List<Student>? Childrens { get; set; }
 }
