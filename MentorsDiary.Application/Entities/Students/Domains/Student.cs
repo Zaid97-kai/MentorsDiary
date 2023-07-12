@@ -7,14 +7,14 @@ namespace MentorsDiary.Application.Entities.Students.Domains;
 
 /// <summary>
 /// Class Student.
-/// Implements the <see cref="BaseUserCuData" />
+/// Implements the <see cref="BaseUserCU" />
 /// Implements the <see cref="IHaveId" />
 /// Implements the <see cref="IHaveImage" />
 /// </summary>
-/// <seealso cref="BaseUserCuData" />
+/// <seealso cref="BaseUserCU" />
 /// <seealso cref="IHaveId" />
 /// <seealso cref="IHaveImage" />
-public class Student : BaseUserCuData, IHaveId, IHaveImage
+public class Student : BaseUserCU, IHaveId, IHaveImage
 {
     /// <summary>
     /// Gets or sets the identifier.
@@ -65,28 +65,10 @@ public class Student : BaseUserCuData, IHaveId, IHaveImage
     public virtual Group Group { get; set; }
 
     /// <summary>
-    /// Gets or sets the mother identifier.
+    /// Gets or sets the parent.
     /// </summary>
-    /// <value>The mother identifier.</value>
-    public int? MotherId { get; set; }
-
-    /// <summary>
-    /// Gets or sets the mother.
-    /// </summary>
-    /// <value>The mother.</value>
-    public virtual Parent? Mother { get; set; }
-
-    /// <summary>
-    /// Gets or sets the father identifier.
-    /// </summary>
-    /// <value>The father identifier.</value>
-    public int? FatherId { get; set; }
-
-    /// <summary>
-    /// Gets or sets the father.
-    /// </summary>
-    /// <value>The father.</value>
-    public virtual Parent? Father { get; set; }
+    /// <value>The parent.</value>
+    public virtual List<Parent>? Parent { get; set; }
 
     /// <summary>
     /// Gets or sets the image path.

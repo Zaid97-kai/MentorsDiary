@@ -30,7 +30,7 @@ public static class ApplicationServiceCollectionExtensions
     /// </summary>
     /// <param name="serviceCollection">The service collection.</param>
     /// <returns>IServiceCollection.</returns>
-    public static IServiceCollection AddApplicationServiceCollection(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddApplication(this IServiceCollection serviceCollection)
     {
         #region ПОДКЛЮЧЕНИЕ РЕПОЗИТОРИЕВ
 

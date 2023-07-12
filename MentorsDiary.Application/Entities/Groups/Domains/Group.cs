@@ -11,14 +11,14 @@ namespace MentorsDiary.Application.Entities.Groups.Domains;
 
 /// <summary>
 /// Class Group.
-/// Implements the <see cref="BaseUserCuData" />
+/// Implements the <see cref="BaseUserCU" />
 /// Implements the <see cref="IHaveId" />
 /// Implements the <see cref="IHaveName" />
 /// </summary>
-/// <seealso cref="BaseUserCuData" />
+/// <seealso cref="BaseUserCU" />
 /// <seealso cref="IHaveId" />
 /// <seealso cref="IHaveName" />
-public class Group : BaseUserCuData, IHaveId, IHaveName
+public class Group : BaseUserCU, IHaveId, IHaveName
 {
     /// <summary>
     /// Gets or sets the identifier.
