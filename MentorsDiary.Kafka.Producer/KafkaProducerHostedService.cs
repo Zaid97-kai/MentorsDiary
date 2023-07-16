@@ -27,7 +27,7 @@ public class KafkaProducerHostedService : IHostedService
 
     private string _serializeObject;
 
-    private string _type;
+    private Type _type;
 
     public KafkaProducerHostedService(ILogger<KafkaProducerHostedService> logger, HttpClient httpClient)
     {
@@ -43,19 +43,19 @@ public class KafkaProducerHostedService : IHostedService
     public async Task InitializerProducer(string serializeObject, Type type, CancellationToken cancellationToken)
     {
         _serializeObject = serializeObject;
-        _type = nameof(Division);
+        _type = type;
 
         await StartAsync(cancellationToken);
     }
     
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        if (_type == nameof(Division))
+        if (_type == typeof(Division))
         {
             _logger.LogInformation(_serializeObject);
             var message = new Message<string, string>
             {
-                Key = _type,
+                Key = _type.Name,
                 Value = _serializeObject
             };
             await _producer.ProduceAsync("division", message, cancellationToken);

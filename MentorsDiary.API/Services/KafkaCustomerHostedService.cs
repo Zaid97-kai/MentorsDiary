@@ -1,16 +1,14 @@
 ﻿using System.Text;
 using Kafka.Public;
 using Kafka.Public.Loggers;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-namespace MentorsDiary.Kafka.Producer;
+namespace MentorsDiary.API.Services;
 
 public class KafkaCustomerHostedService : IHostedService
 {
     private readonly ILogger<KafkaCustomerHostedService> _logger;
 
-    private ClusterClient _cluster;
+    private readonly ClusterClient _cluster;
 
     public KafkaCustomerHostedService(ILogger<KafkaCustomerHostedService> logger)
     {
