@@ -26,6 +26,7 @@ public class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((context, collection) =>
             {
+                collection.AddHostedService<KafkaCustomerHostedService>();
                 collection.AddHostedService<KafkaProducerHostedService>();
             });
 }
