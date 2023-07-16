@@ -27,6 +27,10 @@ public class Program
             .ConfigureServices((context, collection) =>
             {
                 collection.AddHostedService<KafkaCustomerHostedService>();
-                collection.AddHostedService<KafkaProducerHostedService>();
+                //collection.AddHostedService<KafkaProducerHostedService>();
+                collection.AddTransient(sp => new HttpClient
+                {
+                    BaseAddress = new Uri("https://localhost:7269")
+                });
             });
 }

@@ -23,7 +23,7 @@ public class KafkaCustomerHostedService : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _cluster.ConsumeFromLatest("kafka-topic-name");
+        _cluster.ConsumeFromLatest("division");
         _cluster.MessageReceived += record =>
         {
             _logger.LogInformation($"Received: {Encoding.UTF8.GetString(record.Value as byte[] ?? Array.Empty<byte>())}");
