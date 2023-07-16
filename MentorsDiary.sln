@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentorsDiary.API", "MentorsDiary.API\MentorsDiary.API.csproj", "{1A0E9761-36CA-4AAE-8D27-20DF135B75CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentorsDiary.Web", "MentorsDiary.Web\MentorsDiary.Web.csproj", "{BFD5AE1F-039D-48D5-9139-E5B55A2321CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentorsDiary.Web", "MentorsDiary.Web\MentorsDiary.Web.csproj", "{BFD5AE1F-039D-48D5-9139-E5B55A2321CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentorsDiary.Kafka.Lib", "MentorsDiary.Kafka.Lib\MentorsDiary.Kafka.Lib.csproj", "{08803BD5-9A1E-4F9D-9F85-D9FB555090B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentorsDiary.Kafka.Producer", "MentorsDiary.Kafka.Producer\MentorsDiary.Kafka.Producer.csproj", "{E9504E6A-7B16-44A2-88CD-C08B5E3A55DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{BFD5AE1F-039D-48D5-9139-E5B55A2321CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFD5AE1F-039D-48D5-9139-E5B55A2321CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFD5AE1F-039D-48D5-9139-E5B55A2321CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08803BD5-9A1E-4F9D-9F85-D9FB555090B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08803BD5-9A1E-4F9D-9F85-D9FB555090B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08803BD5-9A1E-4F9D-9F85-D9FB555090B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08803BD5-9A1E-4F9D-9F85-D9FB555090B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9504E6A-7B16-44A2-88CD-C08B5E3A55DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9504E6A-7B16-44A2-88CD-C08B5E3A55DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9504E6A-7B16-44A2-88CD-C08B5E3A55DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9504E6A-7B16-44A2-88CD-C08B5E3A55DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,7 +54,7 @@ Global
 		{280BBA28-6263-4487-88C7-5176ABA5F84E} = {2A52DD12-99C2-4D9F-BBFF-73D1C6A97CD3}
 		{1A0E9761-36CA-4AAE-8D27-20DF135B75CF} = {FE1C546D-4224-4134-852D-2EBF5DBC11C2}
 		{BFD5AE1F-039D-48D5-9139-E5B55A2321CD} = {FE1C546D-4224-4134-852D-2EBF5DBC11C2}
-		{08803BD5-9A1E-4F9D-9F85-D9FB555090B7} = {2A52DD12-99C2-4D9F-BBFF-73D1C6A97CD3}
+		{E9504E6A-7B16-44A2-88CD-C08B5E3A55DA} = {2A52DD12-99C2-4D9F-BBFF-73D1C6A97CD3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0873575B-BC89-42F3-8439-FBA38EEED1BD}
