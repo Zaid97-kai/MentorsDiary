@@ -45,7 +45,7 @@ public static class ApplicationServiceCollectionExtensions
         serviceCollection.AddScoped<IUserRepository, UserRepository>();
 
         #endregion
-
+        
         return serviceCollection;
     }
 }

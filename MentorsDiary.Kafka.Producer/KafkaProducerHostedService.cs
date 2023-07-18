@@ -1,4 +1,6 @@
 ﻿using Confluent.Kafka;
+using MentorsDiary.Application.Bases.Interfaces.IHaves;
+using MentorsDiary.Application.Entities.Divisions.Domains;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -19,38 +21,44 @@ public class KafkaProducerHostedService : IHostedService
     /// <summary>
     /// The producer
     /// </summary>
-    private readonly IProducer<Null, string> _producer;
+    private readonly IProducer<string, string> _producer;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="KafkaProducerHostedService"/> class.
-    /// </summary>
-    /// <param name="logger">The logger.</param>
-    public KafkaProducerHostedService(ILogger<KafkaProducerHostedService> logger)
+    private readonly HttpClient _httpClient;
+
+    private string _serializeObject;
+
+    private Type _type;
+
+    public KafkaProducerHostedService(ILogger<KafkaProducerHostedService> logger, HttpClient httpClient)
     {
         _logger = logger;
+        _httpClient = httpClient;
         var config = new ProducerConfig()
         {
             BootstrapServers = "localhost:9092"
         };
-        _producer = new ProducerBuilder<Null, string>(config).Build();
+        _producer = new ProducerBuilder<string, string>(config).Build();
     }
 
-    /// <summary>
-    /// Start as an asynchronous operation.
-    /// </summary>
-    /// <param name="cancellationToken">Indicates that the start process has been aborted.</param>
-    /// <returns>A Task representing the asynchronous operation.</returns>
+    public async Task InitializerProducer(string serializeObject, Type type, CancellationToken cancellationToken)
+    {
+        _serializeObject = serializeObject;
+        _type = type;
+
+        await StartAsync(cancellationToken);
+    }
+    
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        for (var i = 0; i < 100; i++)
+        if (_type == typeof(Division))
         {
-            var value = $"Hello {i}";
-            _logger.LogInformation(value);
-            var message = new Message<Null, string>
+            _logger.LogInformation(_serializeObject);
+            var message = new Message<string, string>
             {
-                Value = value
+                Key = _type.Name,
+                Value = _serializeObject
             };
-            await _producer.ProduceAsync("kafka-topic-name", message, cancellationToken);
+            await _producer.ProduceAsync("division", message, cancellationToken);
 
             _producer.Flush(TimeSpan.FromSeconds(10));
         }
