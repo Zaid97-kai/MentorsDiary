@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
+﻿using MentorsDiary.Web.Utilities;
+using Microsoft.AspNetCore.WebUtilities;
 
-namespace MentorsDiary.Web.Services.Bases;
+namespace MentorsDiary.Web.Data.Services.Bases;
 
 /// <summary>
 /// Class BaseService.
-/// Implements the <see cref="MentorsDiary.Web.Services.Bases.IBaseService{TEntity}" />
+/// Implements the <see cref="IBaseService{TEntity}" />
 /// </summary>
 /// <typeparam name="TEntity">The type of the t entity.</typeparam>
-/// <seealso cref="MentorsDiary.Web.Services.Bases.IBaseService{TEntity}" />
+/// <seealso cref="IBaseService{TEntity}" />
 public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
 {
     /// <summary>

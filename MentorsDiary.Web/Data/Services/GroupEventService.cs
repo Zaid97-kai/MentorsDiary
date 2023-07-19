@@ -1,7 +1,7 @@
 ﻿using MentorsDiary.Application.Entities.GroupEvents.Domains;
-using MentorsDiary.Web.Services.Bases;
+using MentorsDiary.Web.Data.Services.Bases;
 
-namespace MentorsDiary.Web.Services;
+namespace MentorsDiary.Web.Data.Services;
 
 /// <summary>
 /// Class GroupEventService.

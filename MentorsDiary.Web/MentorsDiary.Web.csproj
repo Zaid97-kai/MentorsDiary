@@ -10,4 +10,10 @@
     <ProjectReference Include="..\MentorsDiary.Application\MentorsDiary.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AntDesign" Version="0.15.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="ZaidFlix.Service.HttpService" Version="1.0.6" />
+  </ItemGroup>
+
 </Project>

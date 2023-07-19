@@ -5,6 +5,7 @@ using MentorsDiary.Application.Entities.Curators.Domains;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using HttpService.Model.User.Domain;
 
 namespace MentorsDiary.Application.Entities.Users.Domains;
 
@@ -19,7 +20,7 @@ namespace MentorsDiary.Application.Entities.Users.Domains;
 /// <seealso cref="IHaveId" />
 /// <seealso cref="IHaveName" />
 /// <seealso cref="IHaveImage" />
-public class User : BaseUserCU, IHaveId, IHaveName, IHaveImage
+public class User : BaseUserCU, IHaveId, IHaveName, IHaveImage, IBaseUser
 {
     /// <summary>
     /// Gets or sets the identifier.
