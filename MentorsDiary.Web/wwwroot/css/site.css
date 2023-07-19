@@ -56,7 +56,6 @@ a, .btn-link {
     position: absolute;
     right: 0.75rem;
     top: 0.5rem;
-
 }
 
 .blazor-error-boundary {
@@ -79,4 +78,41 @@ li:hover {
 
 .nav_button {
     visibility: hidden;
+}
+
+.box-card {
+    border-radius: 4px;
+    border: 1px solid #ebeef5;
+    background-color: #fff;
+    overflow: hidden;
+    color: #303133;
+    transition: .3s
+}
+
+.box-card.is-always-shadow, .box-card.is-hover-shadow:focus, .box-card.is-hover-shadow:hover {
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1)
+}
+
+.box-card__header {
+    padding: 18px 20px;
+    border-bottom: 1px solid #ebeef5;
+    box-sizing: border-box
+}
+
+.box-card__body {
+    padding: 20px
+}
+
+.box-card-actions {
+    visibility: hidden;
+}
+
+.box-card.is-always-shadow .box-card-actions,
+.box-card.is-hover-shadow:focus .box-card-actions,
+.box-card.is-hover-shadow:hover .box-card-actions {
+    visibility: visible;
+}
+
+.box-card.is-hover-shadow .box-card-actions:has(.ant-btn-loading) {
+    visibility: visible;
 }
