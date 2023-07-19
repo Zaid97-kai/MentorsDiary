@@ -11,7 +11,7 @@ public partial class MainHeader
     /// </summary>
     /// <value>The authentication service.</value>
     [Inject]
-    private AuthenticationService? AuthenticationService { get; set; }
+    private AuthenticationService AuthenticationService { get; set; } = null!;
 
     [Inject] 
     private NavigationManager NavigationManager { get; set; } = null!;
@@ -28,16 +28,14 @@ public partial class MainHeader
     /// <value>The current user.</value>
     private User CurrentUser => (User)AuthenticationService?.AuthorizedUser!;
 
-    /// <summary>
-    /// Modals the add vdew window.
-    /// </summary>
-    public void ModalEnterWindow()
+    public void NavigateToLoginWindow()
     {
-        IsVisibleEnterModalWindow = !IsVisibleEnterModalWindow;
+        NavigationManager.NavigateTo("/login");
+
         StateHasChanged();
     }
 
-    private async Task NavigateToHome()
+    private void NavigateToHome()
     {
         NavigationManager.NavigateTo("/");
     }

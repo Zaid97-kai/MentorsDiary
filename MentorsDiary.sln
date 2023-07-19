@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentorsDiary.API", "MentorsDiary.API\MentorsDiary.API.csproj", "{1A0E9761-36CA-4AAE-8D27-20DF135B75CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentorsDiary.Web", "MentorsDiary.Web\MentorsDiary.Web.csproj", "{A7573D87-98E2-4F48-B913-99633A831E24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentorsDiary.Web", "MentorsDiary.Web\MentorsDiary.Web.csproj", "{A7573D87-98E2-4F48-B913-99633A831E24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

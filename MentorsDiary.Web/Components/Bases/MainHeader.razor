@@ -10,11 +10,11 @@
     <GridCol Span="6" Style="text-align: right; align-items: flex-end">
         @if (CurrentUser != null)
         {
-            <button class="btn-outline-primary" @onclick="ModalEnterWindow">ВЫЙТИ</button>
+            <button class="btn-outline-primary" @onclick="NavigateToLoginWindow">ВЫЙТИ</button>
         }
         else
         {
-            <button class="btn-outline-primary" @onclick="ModalEnterWindow">ВОЙТИ</button>
+            <button class="btn-outline-primary" @onclick="NavigateToLoginWindow">ВОЙТИ</button>
         }
         <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" vievbox="0 0 24 24" width="24px" fill="#000000">
             <g><rect fill="none" height="24" width="24" /></g>
@@ -52,7 +52,7 @@
 
 @if (IsVisibleEnterModalWindow)
 {
-    <EnterModalWindow Visible="IsVisibleEnterModalWindow" ChangeVisible="ModalEnterWindowParam" />
+    <Login Visible="IsVisibleEnterModalWindow" />
 }
 
 @code {
