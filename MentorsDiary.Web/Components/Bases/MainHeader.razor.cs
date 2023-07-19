@@ -4,6 +4,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace MentorsDiary.Web.Components.Bases;
 
+/// <summary>
+/// Class MainHeader.
+/// Implements the <see cref="ComponentBase" />
+/// </summary>
+/// <seealso cref="ComponentBase" />
 public partial class MainHeader
 {
     /// <summary>
@@ -13,14 +18,12 @@ public partial class MainHeader
     [Inject]
     private AuthenticationService AuthenticationService { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the navigation manager.
+    /// </summary>
+    /// <value>The navigation manager.</value>
     [Inject] 
     private NavigationManager NavigationManager { get; set; } = null!;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether this instance is visible modal.
-    /// </summary>
-    /// <value><c>true</c> if this instance is visible modal; otherwise, <c>false</c>.</value>
-    private bool IsVisibleEnterModalWindow { get; set; }
 
     /// <summary>
     /// Gets the current user.
@@ -28,13 +31,17 @@ public partial class MainHeader
     /// <value>The current user.</value>
     private User CurrentUser => (User)AuthenticationService?.AuthorizedUser!;
 
+    /// <summary>
+    /// Navigates to login window.
+    /// </summary>
     public void NavigateToLoginWindow()
     {
         NavigationManager.NavigateTo("/login");
-
-        StateHasChanged();
     }
 
+    /// <summary>
+    /// Navigates to home.
+    /// </summary>
     private void NavigateToHome()
     {
         NavigationManager.NavigateTo("/");

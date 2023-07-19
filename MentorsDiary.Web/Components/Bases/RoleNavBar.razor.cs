@@ -50,63 +50,68 @@ public partial class RoleNavBar
     /// <summary>
     /// Sets the style for groups.
     /// </summary>
-    private async Task SetStyleForGroups()
+    private void SetStyleForGroups()
     {
         StyleNavBarForGroups = "nav-item nav-item-in";
         StyleNavBarForCurator = "nav-item";
         StyleNavBarForStats = "nav-item";
+
         StateHasChanged();
     }
 
     /// <summary>
     /// Sets the style for curator.
     /// </summary>
-    private async Task SetStyleForCurator()
+    private void SetStyleForCurator()
     {
         StyleNavBarForCurator = "nav-item nav-item-in";
         StyleNavBarForGroups = "nav-item";
         StyleNavBarForStats = "nav-item";
         StyleNavBarForMero = "nav-item";
         StyleNavBarForDeputyDirector = "nav-item";
+
         StateHasChanged();
     }
 
     /// <summary>
     /// Sets the style for stats.
     /// </summary>
-    private async Task SetStyleForStats()
+    private void SetStyleForStats()
     {
         StyleNavBarForStats = "nav-item nav-item-in";
         StyleNavBarForCurator = "nav-item";
         StyleNavBarForGroups = "nav-item";
         StyleNavBarForMero = "nav-item";
         StyleNavBarForDeputyDirector = "nav-item";
+
         StateHasChanged();
     }
 
     /// <summary>
     /// Sets the style for mero.
     /// </summary>
-    private async Task SetStyleForMero()
+    private void SetStyleForMero()
     {
         StyleNavBarForMero = "nav-item nav-item-in";
         StyleNavBarForGroups = "nav-item";
         StyleNavBarForStats = "nav-item";
         StyleNavBarForDeputyDirector = "nav-item";
         StyleNavBarForCurator = "nav-item";
+
         StateHasChanged();
     }
 
     /// <summary>
     /// Sets the style for deputy director.
     /// </summary>
-    private async Task SetStyleForDeputyDirector()
+    private void SetStyleForDeputyDirector()
     {
         StyleNavBarForDeputyDirector = "nav-item nav-item-in";
         StyleNavBarForCurator = "nav-item";
         StyleNavBarForGroups = "nav-item";
         StyleNavBarForMero = "nav-item";
         StyleNavBarForStats = "nav-item";
+
         StateHasChanged();
     }
 }
