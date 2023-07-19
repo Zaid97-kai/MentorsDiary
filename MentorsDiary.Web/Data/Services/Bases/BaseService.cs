@@ -20,7 +20,7 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity
     /// Gets the base path.
     /// </summary>
     /// <value>The base path.</value>
-    protected virtual string BasePath => nameof(TEntity).ToLower();
+    protected virtual string BasePath => typeof(TEntity).Name.ToLower();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BaseService{TEntity}" /> class.

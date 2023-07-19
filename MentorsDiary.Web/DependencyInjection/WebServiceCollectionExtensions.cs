@@ -36,7 +36,7 @@ public static class WebServiceCollectionExtensions
 
         serviceCollection.AddTransient(_ => new HttpClient
         {
-            BaseAddress = new Uri("https://localhost:7033")
+            BaseAddress = new Uri("https://localhost:7269")
         });
         
         return serviceCollection;
