@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DataSeeders\**" />
     <Compile Remove="EntityTypeConfigurations\**" />
-    <EmbeddedResource Remove="DataSeeders\**" />
     <EmbeddedResource Remove="EntityTypeConfigurations\**" />
-    <None Remove="DataSeeders\**" />
     <None Remove="EntityTypeConfigurations\**" />
   </ItemGroup>
 

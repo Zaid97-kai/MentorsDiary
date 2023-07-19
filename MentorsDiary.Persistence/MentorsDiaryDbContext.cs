@@ -7,6 +7,7 @@ using MentorsDiary.Application.Entities.Groups.Domains;
 using MentorsDiary.Application.Entities.Parents.Domains;
 using MentorsDiary.Application.Entities.Students.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
+using MentorsDiary.Persistence.DataSeeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
@@ -54,7 +55,8 @@ public class MentorsDiaryDbContext : DbContext, IMentorsDiaryContext
     /// </para></remarks>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
+        modelBuilder = DataSeederUser.SeedData(modelBuilder);
+        modelBuilder = DataSeederDivision.SeedData(modelBuilder);
     }
 
     /// <summary>
