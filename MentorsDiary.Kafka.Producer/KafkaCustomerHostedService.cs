@@ -1,14 +1,16 @@
 ﻿using System.Text;
 using Kafka.Public;
 using Kafka.Public.Loggers;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-namespace MentorsDiary.API.Services;
+namespace MentorsDiary.Kafka.Producer;
 
 public class KafkaCustomerHostedService : IHostedService
 {
     private readonly ILogger<KafkaCustomerHostedService> _logger;
 
-    private readonly ClusterClient _cluster;
+    private ClusterClient _cluster;
 
     public KafkaCustomerHostedService(ILogger<KafkaCustomerHostedService> logger)
     {
@@ -21,7 +23,7 @@ public class KafkaCustomerHostedService : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _cluster.ConsumeFromLatest("division");
+        _cluster.ConsumeFromLatest("kafka-topic-name");
         _cluster.MessageReceived += record =>
         {
             _logger.LogInformation($"Received: {Encoding.UTF8.GetString(record.Value as byte[] ?? Array.Empty<byte>())}");

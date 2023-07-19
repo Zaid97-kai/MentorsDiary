@@ -10,12 +10,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MentorsDiary.Application\MentorsDiary.Application.csproj" />
-    <ProjectReference Include="..\MentorsDiary.Kafka.Producer\MentorsDiary.Kafka.Producer.csproj" />
   </ItemGroup>
 
 </Project>
