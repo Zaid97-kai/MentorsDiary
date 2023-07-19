@@ -1,6 +1,6 @@
-﻿using HttpService.Bases;
-using MentorsDiary.Application.Bases.Interfaces.IHaves;
+﻿using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Extensions;
+using MentorsDiary.Web.Data.Services.Bases;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -13,8 +13,8 @@ namespace MentorsDiary.Web.Components.Searches;
 /// <typeparam name="TValue">The type of the t value.</typeparam>
 /// <typeparam name="TService">The type of the t service.</typeparam>
 /// <seealso cref="ComponentBase" />
-public partial class BodySearchBar<TValue, TService> 
-    where TValue : class, IHaveName, new() 
+public partial class BodySearchBar<TValue, TService>
+    where TValue : class, IHaveName, new()
     where TService : BaseService<TValue>
 {
     /// <summary>
@@ -62,13 +62,11 @@ public partial class BodySearchBar<TValue, TService>
     /// <returns>A Task representing the asynchronous operation.</returns>
     protected override async Task OnInitializedAsync()
     {
-        var ret = await Service?.PostAsync()!;
-        if (ret.Success)
-        {
-            Values = new List<TValue>();
-            Values?.Add(new TValue() { Name = "Все" });
-            Values?.AddRange(ret.Result.Items?.ToString().DeserializeObject<List<TValue>>() ?? new List<TValue>());
-        }
+        var ret = await Service?.GetAllAsync()!;
+
+        Values = new List<TValue>();
+        Values?.Add(new TValue() { Name = "Все" });
+        Values?.AddRange((ret ?? Array.Empty<TValue>()).ToList());
     }
 
     /// <summary>
@@ -103,7 +101,7 @@ public partial class BodySearchBar<TValue, TService>
     /// </summary>
     public async Task OnSearch()
     {
-        
+
     }
 
     /// <summary>
@@ -112,6 +110,6 @@ public partial class BodySearchBar<TValue, TService>
     /// <param name="e">The <see cref="KeyboardEventArgs" /> instance containing the event data.</param>
     private async Task OnEnter(KeyboardEventArgs e)
     {
-        
+
     }
 }

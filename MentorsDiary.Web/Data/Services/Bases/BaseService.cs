@@ -9,7 +9,8 @@ namespace MentorsDiary.Web.Data.Services.Bases;
 /// </summary>
 /// <typeparam name="TEntity">The type of the t entity.</typeparam>
 /// <seealso cref="IBaseService{TEntity}" />
-public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
+public abstract class BaseService<TEntity> : IBaseService<TEntity> 
+    where TEntity : class, new()
 {
     /// <summary>
     /// The HTTP client
