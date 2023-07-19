@@ -1,0 +1,73 @@
+﻿<AuthorizeView Roles="Administrator">
+    <Authorized>
+        <div class="collapse" id="navbarToggleExternalContent">
+            <ul class="nav nav-pills nav-fill bg-secondary bg-opacity-50">
+                <li class="@StyleNavBarForDeputyDirector" @onclick="SetStyleForDeputyDirector">
+                    <a class="nav-link text-white" href="/vdew">РАБОТА С ЗАМЕСТИТЕЛЕМ ДИРЕКТОРА ВР</a>
+                </li>
+                <li class="@StyleNavBarForCurator" @onclick="SetStyleForCurator">
+                    <a class="nav-link text-white" href="/curator">РАБОТА С КУРАТОРОМ</a>
+                </li>
+                <li class="@StyleNavBarForMero" @onclick="SetStyleForMero">
+                    <a class="nav-link text-white" href="/events" >РАБОТА С МЕРОПРИЯТИЯМИ</a>
+                </li>
+                <li class="@StyleNavBarForStats" @onclick="SetStyleForStats">
+                    <a class="nav-link text-white" href="/stats">СБОР СТАТИСТИКИ</a>
+                </li>
+            </ul>
+        </div>
+        <style>
+            .nav_button {
+                visibility: visible;
+            }
+        </style>
+    </Authorized>
+    <NotAuthorized/>
+</AuthorizeView>
+<AuthorizeView Roles="DeputyDirector">
+    <Authorized>
+        <div class="collapse" id="navbarToggleExternalContent">
+            <ul class="nav nav-pills nav-fill bg-secondary bg-opacity-50">
+                <li class="@StyleNavBarForGroups" @onclick="SetStyleForGroups">
+                    <a class="nav-link text-white" href="/groups">РАБОТА С ГРУППОЙ</a>
+                </li>
+                <li class="@StyleNavBarForCurator" @onclick="SetStyleForCurator">
+                    <a class="nav-link text-white" href="/curator">РАБОТА С КУРАТОРОМ</a>
+                </li>
+                <li class="@StyleNavBarForStats" @onclick="SetStyleForStats">
+                    <a class="nav-link text-white" href="/stats">СБОР СТАТИСТИКИ</a>
+                </li>
+            </ul>
+        </div>
+        <style>
+            .nav_button {
+                visibility: visible;
+            }
+        </style>
+    </Authorized>
+    <NotAuthorized/>
+</AuthorizeView>
+<AuthorizeView Roles="Curator">
+    <Authorized>
+        <div class="collapse" id="navbarToggleExternalContent">
+            <ul class="nav nav-pills nav-fill bg-secondary bg-opacity-50">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/stats">РАБОТА С ГРУППОЙ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/parents">РАБОТА С РОДИТЕЛЯМИ</a>
+                </li>
+            </ul>
+        </div>
+        <style>
+            .nav_button {
+                visibility: visible;
+            }
+        </style>
+    </Authorized>
+    <NotAuthorized/>
+</AuthorizeView>
+
+@code {
+
+}

@@ -1,4 +1,4 @@
-﻿namespace MentorsDiary.Web.Services.Bases;
+﻿namespace MentorsDiary.Web.Data.Services.Bases;
 
 /// <summary>
 /// Interface IBaseService
