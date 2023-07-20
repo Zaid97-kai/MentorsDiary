@@ -11,7 +11,8 @@ namespace MentorsDiary.Application.Entities.Bases.Repositories;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 /// <seealso cref="IBaseRepository{T}" />
-public abstract class BaseRepository<T> : IBaseRepository<T> where T : class, IHaveId
+public abstract class BaseRepository<T> : IBaseRepository<T> 
+    where T : class, IHaveId, IHaveName
 {
     /// <summary>
     /// The context
@@ -19,7 +20,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : class, IH
     protected readonly DbContext Context;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BaseRepository{T}"/> class.
+    /// Initializes a new instance of the <see cref="BaseRepository{T}" /> class.
     /// </summary>
     /// <param name="context">The context.</param>
     protected BaseRepository(DbContext context)
@@ -43,47 +44,17 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : class, IH
     /// <returns>Task&lt;System.Nullable&lt;IEnumerable&lt;T&gt;&gt;&gt;.</returns>
     public async Task<IEnumerable<T>?> GetAll()
     {
-        return await Context.Set<T>().ToListAsync()!;
+        return await Context.Set<T>().ToListAsync();
     }
 
     /// <summary>
     /// Gets all by filter.
     /// </summary>
-    /// <param name="filter">The filter.</param>
+    /// <param name="query">The query.</param>
     /// <returns>Task&lt;System.Nullable&lt;IEnumerable&lt;T&gt;&gt;&gt;.</returns>
-    public async Task<IEnumerable<T>?> GetAllByFilter(IDictionary<string, string?> filter)
+    public async Task<IEnumerable<T>?> GetAllByFilter(string query)
     {
-        Expression<Func<T, bool>> predicate = _ => true;
-
-        foreach (var property in filter)
-        {
-            switch (property.Value)
-            {
-                case null:
-                    continue;
-                case "0":
-                    continue;
-                case var propertyValueString when string.IsNullOrEmpty(propertyValueString):
-                    continue;
-                default:
-                    {
-                        Expression<Func<T, bool>> filterExpression =
-                            entity => string.Equals(entity
-                                .GetType()
-                                .GetProperties()
-                                .First(p => Equals(p.Name.Trim(), property.Key.Trim()))!
-                                .GetValue(entity)!
-                                .ToString(), property.Value, StringComparison.Ordinal);
-
-                        predicate = Expression.Lambda<Func<T, bool>>(
-                            Expression.AndAlso(predicate.Body,
-                                Expression.Invoke(filterExpression, predicate.Parameters)), predicate.Parameters[0]);
-                        break;
-                    }
-            }
-        }
-
-        return (Context.Set<T>().ToList() ?? new List<T>()).Where(predicate.Compile());
+        return await Context.Set<T>().Where(t => t.Name == query).ToListAsync();
     }
 
     /// <summary>

@@ -14,7 +14,7 @@ namespace MentorsDiary.Application.Entities.Students.Domains;
 /// <seealso cref="BaseUserCU" />
 /// <seealso cref="IHaveId" />
 /// <seealso cref="IHaveImage" />
-public class Student : BaseUserCU, IHaveId, IHaveImage
+public class Student : BaseUserCU, IHaveId, IHaveName, IHaveImage
 {
     /// <summary>
     /// Gets or sets the identifier.
@@ -26,7 +26,7 @@ public class Student : BaseUserCU, IHaveId, IHaveImage
     /// Gets or sets the name.
     /// </summary>
     /// <value>The name.</value>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Gets or sets the email.

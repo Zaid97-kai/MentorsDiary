@@ -23,6 +23,8 @@
             <GridCol Span="12">
                 <Search Placeholder="Введите текст для поиска"
                         OnChange="OnSearchItemChangedHandler"
+                        AllowClear="true"
+                        OnClear="OnClearChangedHandler"
                         EnterButton="true"
                         @bind-Value="@TxtValue">
                 </Search>

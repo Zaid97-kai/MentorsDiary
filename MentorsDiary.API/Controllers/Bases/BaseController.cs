@@ -13,7 +13,7 @@ namespace MentorsDiary.API.Controllers.Bases;
 /// <seealso cref="ControllerBase" />
 [Route("api/[controller]")]
 public class BaseController<TEntity, TRepository> : ControllerBase
-    where TEntity : class, IHaveId
+    where TEntity : class, IHaveId, IHaveName
     where TRepository : class, IBaseRepository<TEntity>
 {
     /// <summary>
@@ -46,8 +46,8 @@ public class BaseController<TEntity, TRepository> : ControllerBase
     /// </summary>
     /// <param name="query">The query.</param>
     /// <returns>System.Nullable&lt;IEnumerable&lt;TEntity&gt;&gt;.</returns>
-    [HttpGet("Filter")]
-    public async Task<IEnumerable<TEntity>?> GetAllByFilter([FromQuery] IDictionary<string, string?> query)
+    [HttpGet("Filter/{query}")]
+    public async Task<IEnumerable<TEntity>?> GetAllByFilter(string query)
     {
         var entities = await _repository.GetAllByFilter(query);
         return entities ?? null;

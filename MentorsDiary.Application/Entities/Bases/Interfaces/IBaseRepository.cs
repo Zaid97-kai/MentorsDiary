@@ -7,7 +7,8 @@ namespace MentorsDiary.Application.Entities.Bases.Interfaces;
 /// Interface IBaseRepository
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public interface IBaseRepository<T> where T : class, IHaveId
+public interface IBaseRepository<T> 
+    where T : class, IHaveId, IHaveName
 {
     /// <summary>
     /// Gets the by identifier.
@@ -25,9 +26,9 @@ public interface IBaseRepository<T> where T : class, IHaveId
     /// <summary>
     /// Gets all by filter.
     /// </summary>
-    /// <param name="filter">The filter.</param>
+    /// <param name="query">The query.</param>
     /// <returns>Task&lt;System.Nullable&lt;IEnumerable&lt;T&gt;&gt;&gt;.</returns>
-    Task<IEnumerable<T>?> GetAllByFilter(IDictionary<string, string?> filter);
+    Task<IEnumerable<T>?> GetAllByFilter(string query);
 
     /// <summary>
     /// Finds the specified expression.

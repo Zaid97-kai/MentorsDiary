@@ -56,6 +56,13 @@ public partial class BodySearchBar<TValue, TService>
     public string? TxtValue { get; set; }
 
     /// <summary>
+    /// Gets or sets the on clear changed handler.
+    /// </summary>
+    /// <value>The on clear changed handler.</value>
+    [Parameter]
+    public EventCallback OnClearChangedHandler { get; set; }
+
+    /// <summary>
     /// On initialized as an asynchronous operation.
     /// </summary>
     /// <returns>A Task representing the asynchronous operation.</returns>
