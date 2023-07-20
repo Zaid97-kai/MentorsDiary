@@ -114,8 +114,10 @@ public partial class GroupList
     /// Searches the list.
     /// </summary>
     /// <param name="query">The query.</param>
-    private async Task SearchList(string? query)
+    private async Task SearchList(string query)
     {
+        if (query != string.Empty)
+        {
             _isLoading = true;
             StateHasChanged();
 
@@ -123,14 +125,9 @@ public partial class GroupList
 
             _isLoading = false;
             StateHasChanged();
-    }
-
-    /// <summary>
-    /// Called when [clear search list].
-    /// </summary>
-    private async Task OnClearSearchList()
-    {
-        await GetListAsync();
+        }
+        else
+            await GetListAsync();
     }
 
     /// <summary>

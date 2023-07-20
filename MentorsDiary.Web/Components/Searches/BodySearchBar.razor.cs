@@ -53,14 +53,7 @@ public partial class BodySearchBar<TValue, TService>
     /// Gets or sets the text value.
     /// </summary>
     /// <value>The text value.</value>
-    public string? TxtValue { get; set; }
-
-    /// <summary>
-    /// Gets or sets the on clear changed handler.
-    /// </summary>
-    /// <value>The on clear changed handler.</value>
-    [Parameter]
-    public EventCallback OnClearChangedHandler { get; set; }
+    public string TxtValue { get; set; } = string.Empty;
 
     /// <summary>
     /// On initialized as an asynchronous operation.
@@ -117,5 +110,14 @@ public partial class BodySearchBar<TValue, TService>
     private async Task OnEnter(KeyboardEventArgs e)
     {
 
+    }
+
+    /// <summary>
+    /// Called when [press enter handler].
+    /// </summary>
+    private async Task OnPressEnterHandler()
+    {
+        if (OnSearchItemChangedHandler.HasDelegate)
+            await OnSearchItemChangedHandler.InvokeAsync(TxtValue);
     }
 }
