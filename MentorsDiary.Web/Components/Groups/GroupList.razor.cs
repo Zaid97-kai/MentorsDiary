@@ -113,10 +113,21 @@ public partial class GroupList
     /// <summary>
     /// Searches the list.
     /// </summary>
-    /// <param name="s">The s.</param>
-    private async Task SearchList(string? s)
+    /// <param name="query">The query.</param>
+    private async Task SearchList(string query)
     {
-        StateHasChanged();
+        if (query != string.Empty)
+        {
+            _isLoading = true;
+            StateHasChanged();
+
+            Groups = (await GroupService.GetAllByFilterAsync(query) ?? Array.Empty<Group>()).ToList();
+
+            _isLoading = false;
+            StateHasChanged();
+        }
+        else
+            await GetListAsync();
     }
 
     /// <summary>

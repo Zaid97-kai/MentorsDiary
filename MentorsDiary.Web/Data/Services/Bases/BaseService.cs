@@ -43,14 +43,13 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity>
     }
 
     /// <summary>
-    /// Get all by model as an asynchronous operation.
+    /// Get all by filter as an asynchronous operation.
     /// </summary>
-    /// <param name="filterModel">The filter model.</param>
+    /// <param name="query">The query.</param>
     /// <returns>A Task&lt;IEnumerable`1&gt; representing the asynchronous operation.</returns>
-    public virtual async Task<IEnumerable<TEntity>?> GetAllByFilterAsync(TEntity filterModel)
+    public virtual async Task<IEnumerable<TEntity>?> GetAllByFilterAsync(string query)
     {
-        var requestUri = QueryHelpers.AddQueryString($"api/{BasePath}/filter", filterModel.ToPropertyDictionary());
-        var result = await _httpClient?.GetFromJsonAsync<IEnumerable<TEntity>>(requestUri)!;
+        var result = await _httpClient?.GetFromJsonAsync<IEnumerable<TEntity>>($"api/{BasePath}/filter/{query}")!;
         return result;
     }
 

@@ -1,18 +1,12 @@
-﻿using MentorsDiary.Application.Bases.BaseUsers;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using MentorsDiary.Application.Bases.BaseUsers;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Events.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
 
 namespace MentorsDiary.Application.Entities.GroupEvents.Domains;
 
-/// <summary>
-/// Class GroupEvent.
-/// Implements the <see cref="BaseUserCU" />
-/// Implements the <see cref="IHaveId" />
-/// </summary>
-/// <seealso cref="BaseUserCU" />
-/// <seealso cref="IHaveId" />
-public class GroupEvent : BaseUserCU, IHaveId
+public class GroupEvent : BaseUserCU, IHaveId, IHaveName
 {
     /// <summary>
     /// Gets or sets the identifier.
@@ -49,4 +43,11 @@ public class GroupEvent : BaseUserCU, IHaveId
     /// </summary>
     /// <value>The event.</value>
     public virtual Event? Event { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
+    /// <value>The name.</value>
+    [NotMapped]
+    public string? Name { get; set; }
 }

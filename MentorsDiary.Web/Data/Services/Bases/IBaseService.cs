@@ -13,10 +13,11 @@ public interface IBaseService<TEntity> where TEntity : class
     Task<IEnumerable<TEntity>?> GetAllAsync();
 
     /// <summary>
-    /// Get all by model as an asynchronous operation.
+    /// Gets all by filter asynchronous.
     /// </summary>
+    /// <param name="query">The query.</param>
     /// <returns>Task&lt;System.Nullable&lt;IEnumerable&lt;TEntity&gt;&gt;&gt;.</returns>
-    Task<IEnumerable<TEntity>?> GetAllByFilterAsync(TEntity filterModel);
+    Task<IEnumerable<TEntity>?> GetAllByFilterAsync(string query);
 
     /// <summary>
     /// Gets the identifier asynchronous.
