@@ -134,10 +134,21 @@ public partial class CuratorList
     /// <summary>
     /// Searches the list.
     /// </summary>
-    /// <param name="s">The s.</param>
-    private async Task SearchList(string? s)
+    /// <param name="query">The query.</param>
+    private async Task SearchList(string? query)
     {
-        StateHasChanged();
+        if (query != string.Empty)
+        {
+            _isLoading = true;
+            StateHasChanged();
+
+            Curators = (await CuratorService.GetAllByFilterAsync(query!) ?? Array.Empty<Application.Entities.Curators.Domains.Curator>()).ToList();
+
+            _isLoading = false;
+            StateHasChanged();
+        }
+        else
+            await GetListAsync();
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
 ﻿using AntDesign;
-using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
@@ -110,10 +109,21 @@ public partial class DeputyDirectorList
     /// <summary>
     /// Searches the list.
     /// </summary>
-    /// <param name="s">The s.</param>
-    private async Task SearchList(string? s)
+    /// <param name="query">The query.</param>
+    private async Task SearchList(string? query)
     {
-        StateHasChanged();
+        if (query != string.Empty)
+        {
+            _isLoading = true;
+            StateHasChanged();
+                
+            Users = (await UserService.GetAllByFilterAsync(query!) ?? Array.Empty<User>()).Where(u => u.Role == EnumRoles.DeputyDirector).ToList();
+
+            _isLoading = false;
+            StateHasChanged();
+        }
+        else
+            await GetListAsync();
     }
 
     /// <summary>
