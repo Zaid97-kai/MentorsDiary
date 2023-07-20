@@ -1,0 +1,78 @@
+﻿@page "/curator"
+
+<AuthorizeView Roles="Administrator">
+    <Authorized>
+        <br />
+        <MentorsDiary.Web.Components.Displays.BoxCard>
+            <Body>
+                <MentorsDiary.Web.Components.Displays.PageTitle Title="Кураторы" Count="@Curators?.Count" Loading="_isLoading">
+
+                    <AntDesign.Button OnClickStopPropagation="true"
+                                      Class="mb-2"
+                                      Type="@ButtonType.Link"
+                                      Icon="plus"
+                                      Size="small"
+                                      OnClick="async () => await CreateCuratorAsync()">
+                        Добавить
+                    </AntDesign.Button>
+
+                    <BodySearchBar OnSelectedItemChangedHandler="UpdateList"
+                                   OnSearchItemChangedHandler="SearchList"
+                                   TValue="Division"
+                                   TService="DivisionService" />
+
+                </MentorsDiary.Web.Components.Displays.PageTitle>
+
+                @if (Curators != null)
+                {
+                    @foreach (var data in Curators)
+                    {
+                        <MentorsDiary.Web.Components.Displays.BoxCard>
+                            <Body>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="text-label">Имя</div>
+                                        <div>@data.User?.Name</div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="text-label">Подразделение</div>
+                                        <div>@data.User?.Division?.Name</div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="text-label">Телефон</div>
+                                        <div>@data.User?.Phone</div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="text-label">Электронная почта</div>
+                                        <div>@data.User?.Email</div>
+                                    </div>
+                                </div>
+                            </Body>
+                            <ActionTemplate>
+                                <Space Size="@("2")">
+                                    <SpaceItem>
+                                        <AntDesign.Button OnClickStopPropagation="true" Danger
+                                                          Type="@ButtonType.Link"
+                                                          Size="small" OnClick="async () => await RemoveAsync(data)">
+                                            <Icon Type="@IconType.Outline.Delete" />
+                                        </AntDesign.Button>
+                                    </SpaceItem>
+                                    <SpaceItem>
+                                        <AntDesign.Button OnClickStopPropagation="true"
+                                                          Type="@ButtonType.Link"
+                                                          Size="small" OnClick="() => UpdateAsync(data)">
+                                            <Icon Type="@IconType.Outline.Edit" />
+                                        </AntDesign.Button>
+                                    </SpaceItem>
+                                </Space>
+                            </ActionTemplate>
+                        </MentorsDiary.Web.Components.Displays.BoxCard>
+                    }
+                }
+            </Body>
+        </MentorsDiary.Web.Components.Displays.BoxCard>
+    </Authorized>
+    <NotAuthorized>
+        Доступ ограничен.
+    </NotAuthorized>
+</AuthorizeView>

@@ -116,3 +116,21 @@ li:hover {
 .box-card.is-hover-shadow .box-card-actions:has(.ant-btn-loading) {
     visibility: visible;
 }
+
+.text-label {
+    color: #888;
+    color: #737373;
+}
+
+.text-label-gray {
+    color: #888;
+}
+
+.text-label-sm {
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.text-muted-sm {
+    font-size: 13px;
+}
