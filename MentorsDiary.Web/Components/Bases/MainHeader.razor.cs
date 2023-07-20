@@ -29,7 +29,7 @@ public partial class MainHeader
     /// Gets the current user.
     /// </summary>
     /// <value>The current user.</value>
-    private User CurrentUser => (User)AuthenticationService?.AuthorizedUser!;
+    private User CurrentUser => (User)AuthenticationService.AuthorizedUser!;
 
     /// <summary>
     /// Navigates to login window.

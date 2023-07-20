@@ -1,5 +1,4 @@
-﻿using HttpService.Services;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace MentorsDiary.Web.Components.Bases;
 
@@ -11,50 +10,53 @@ namespace MentorsDiary.Web.Components.Bases;
 public partial class RoleNavBar
 {
     /// <summary>
-    /// Gets or sets the service.
+    /// The nav item style
     /// </summary>
-    /// <value>The service.</value>
-    [Inject]
-    private AuthenticationService? Service { get; set; }
+    private const string NavItemStyle = "nav-item";
+
+    /// <summary>
+    /// The nav item in style
+    /// </summary>
+    private const string NavItemInStyle = "nav-item-in";
 
     /// <summary>
     /// Gets or sets the style nav bar for groups.
     /// </summary>
     /// <value>The style nav bar for groups.</value>
-    private string? StyleNavBarForGroups { get; set; } = "nav-item";
+    private string? StyleNavBarForGroups { get; set; } = NavItemStyle;
 
     /// <summary>
     /// Gets or sets the style nav bar for curator.
     /// </summary>
     /// <value>The style nav bar for curator.</value>
-    private string? StyleNavBarForCurator { get; set; } = "nav-item";
+    private string? StyleNavBarForCurator { get; set; } = NavItemStyle;
 
     /// <summary>
     /// Gets or sets the style nav bar for stats.
     /// </summary>
     /// <value>The style nav bar for stats.</value>
-    private string? StyleNavBarForStats { get; set; } = "nav-item";
+    private string? StyleNavBarForStats { get; set; } = NavItemStyle;
 
     /// <summary>
-    /// Gets or sets the style nav bar for mero.
+    /// Gets or sets the style nav bar for events.
     /// </summary>
-    /// <value>The style nav bar for mero.</value>
-    private string? StyleNavBarForMero { get; set; } = "nav-item";
+    /// <value>The style nav bar for events.</value>
+    private string? StyleNavBarForEvents { get; set; } = NavItemStyle;
 
     /// <summary>
     /// Gets or sets the style nav bar for deputy director.
     /// </summary>
     /// <value>The style nav bar for deputy director.</value>
-    private string? StyleNavBarForDeputyDirector { get; set; } = "nav-item";
+    private string? StyleNavBarForDeputyDirector { get; set; } = NavItemStyle;
 
     /// <summary>
     /// Sets the style for groups.
     /// </summary>
     private void SetStyleForGroups()
     {
-        StyleNavBarForGroups = "nav-item nav-item-in";
-        StyleNavBarForCurator = "nav-item";
-        StyleNavBarForStats = "nav-item";
+        StyleNavBarForGroups = $"{NavItemStyle} {NavItemInStyle}";
+        StyleNavBarForCurator = $"{NavItemStyle}";
+        StyleNavBarForStats = $"{NavItemStyle}";
 
         StateHasChanged();
     }
@@ -64,11 +66,11 @@ public partial class RoleNavBar
     /// </summary>
     private void SetStyleForCurator()
     {
-        StyleNavBarForCurator = "nav-item nav-item-in";
-        StyleNavBarForGroups = "nav-item";
-        StyleNavBarForStats = "nav-item";
-        StyleNavBarForMero = "nav-item";
-        StyleNavBarForDeputyDirector = "nav-item";
+        StyleNavBarForCurator = $"{NavItemStyle} {NavItemInStyle}";
+        StyleNavBarForGroups = $"{NavItemStyle}";
+        StyleNavBarForStats = $"{NavItemStyle}";
+        StyleNavBarForEvents = $"{NavItemStyle}";
+        StyleNavBarForDeputyDirector = $"{NavItemStyle}";
 
         StateHasChanged();
     }
@@ -78,25 +80,25 @@ public partial class RoleNavBar
     /// </summary>
     private void SetStyleForStats()
     {
-        StyleNavBarForStats = "nav-item nav-item-in";
-        StyleNavBarForCurator = "nav-item";
-        StyleNavBarForGroups = "nav-item";
-        StyleNavBarForMero = "nav-item";
-        StyleNavBarForDeputyDirector = "nav-item";
+        StyleNavBarForStats = $"{NavItemStyle} {NavItemInStyle}";
+        StyleNavBarForCurator = $"{NavItemStyle}";
+        StyleNavBarForGroups = $"{NavItemStyle}";
+        StyleNavBarForEvents = $"{NavItemStyle}";
+        StyleNavBarForDeputyDirector = $"{NavItemStyle}";
 
         StateHasChanged();
     }
 
     /// <summary>
-    /// Sets the style for mero.
+    /// Sets the style for events.
     /// </summary>
-    private void SetStyleForMero()
+    private void SetStyleForEvents()
     {
-        StyleNavBarForMero = "nav-item nav-item-in";
-        StyleNavBarForGroups = "nav-item";
-        StyleNavBarForStats = "nav-item";
-        StyleNavBarForDeputyDirector = "nav-item";
-        StyleNavBarForCurator = "nav-item";
+        StyleNavBarForEvents = $"{NavItemStyle} {NavItemInStyle}";
+        StyleNavBarForGroups = $"{NavItemStyle}";
+        StyleNavBarForStats = $"{NavItemStyle}";
+        StyleNavBarForDeputyDirector = $"{NavItemStyle}";
+        StyleNavBarForCurator = $"{NavItemStyle}";
 
         StateHasChanged();
     }
@@ -106,11 +108,11 @@ public partial class RoleNavBar
     /// </summary>
     private void SetStyleForDeputyDirector()
     {
-        StyleNavBarForDeputyDirector = "nav-item nav-item-in";
-        StyleNavBarForCurator = "nav-item";
-        StyleNavBarForGroups = "nav-item";
-        StyleNavBarForMero = "nav-item";
-        StyleNavBarForStats = "nav-item";
+        StyleNavBarForDeputyDirector = $"{NavItemStyle} {NavItemInStyle}";
+        StyleNavBarForCurator = $"{NavItemStyle}";
+        StyleNavBarForGroups = $"{NavItemStyle}";
+        StyleNavBarForEvents = $"{NavItemStyle}";
+        StyleNavBarForStats = $"{NavItemStyle}";
 
         StateHasChanged();
     }
