@@ -123,8 +123,8 @@ public partial class GroupList
                         ColumnName = "DivisionId",
                         FilterOption = EnumFilterOptions.Contains,
                         FilterValue = division.Id.ToString()
-                    }).Result.Content.ReadAsStringAsync();
-                Groups = JsonConvert.DeserializeObject<List<Group>>(result);
+                    });
+                Groups = JsonConvert.DeserializeObject<List<Group>>(await result.Content.ReadAsStringAsync());
             }
 
             _isLoading = false;

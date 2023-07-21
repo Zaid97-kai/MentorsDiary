@@ -1,5 +1,6 @@
 ﻿using AntDesign;
 using MentorsDiary.Application.Bases.Enums;
+using MentorsDiary.Application.Entities.Bases.Filters;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
@@ -128,7 +129,48 @@ public partial class CuratorList
     /// <param name="division">The division.</param>
     private async Task UpdateList(Division? division)
     {
-        StateHasChanged();
+        if (division != null)
+        {
+            _isLoading = true;
+
+            StateHasChanged();
+
+            await GetListAsync();
+            
+            if (division.Name != null)
+            {
+                var result = await UserService.GetAllByFilterAsync(
+                    new FilterParams()
+                    {
+                        ColumnName = "DivisionId",
+                        FilterOption = EnumFilterOptions.Contains,
+                        FilterValue = division.Id.ToString()
+                    });
+                Users = JsonConvert.DeserializeObject<List<User>>(await result.Content.ReadAsStringAsync());
+            }
+
+            for (var index = Curators!.Count - 1; index >= 0; index--)
+            {
+                var flag = true;
+                for (var i = 0; i < Users!.Count; i++)
+                {
+                    if (Curators[index].UserId == Users[i].Id)
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag)
+                {
+                    Curators.RemoveAt(index);
+                }
+            }
+
+            _isLoading = false;
+            StateHasChanged();
+        }
+        else
+            await GetListAsync();
     }
 
     /// <summary>
