@@ -2,6 +2,7 @@
 using MentorsDiary.Application.Entities.Bases.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using MentorsDiary.Application.Entities.Bases.Filters;
 
 namespace MentorsDiary.Application.Entities.Bases.Repositories;
 
@@ -11,7 +12,7 @@ namespace MentorsDiary.Application.Entities.Bases.Repositories;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 /// <seealso cref="IBaseRepository{T}" />
-public abstract class BaseRepository<T> : IBaseRepository<T> 
+public abstract class BaseRepository<T> : IBaseRepository<T>
     where T : class, IHaveId, IHaveName
 {
     /// <summary>
@@ -54,7 +55,20 @@ public abstract class BaseRepository<T> : IBaseRepository<T>
     /// <returns>Task&lt;System.Nullable&lt;IEnumerable&lt;T&gt;&gt;&gt;.</returns>
     public async Task<IEnumerable<T>?> GetAllByFilter(string query)
     {
-        return await Context.Set<T>().Where(t => t.Name == query).ToListAsync();
+        return await Context.Set<T>()
+            .Where(t => t.Name == query)
+            .ToListAsync();
+    }
+
+    /// <summary>
+    /// Gets all by filter.
+    /// </summary>
+    /// <param name="query">The query.</param>
+    /// <returns>System.Nullable&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+    public async Task<IEnumerable<T>?> GetAllByFilter(FilterParams query)
+    {
+        var result = await Filter<T>.FilteredData(new List<FilterParams> { query }, await GetAll() ?? Array.Empty<T>());
+        return result;
     }
 
     /// <summary>

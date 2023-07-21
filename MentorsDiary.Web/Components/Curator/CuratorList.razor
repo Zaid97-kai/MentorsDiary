@@ -27,6 +27,9 @@
                 {
                     @foreach (var data in Curators)
                     {
+                        @if(data == null)
+                            continue;
+
                         <MentorsDiary.Web.Components.Displays.BoxCard>
                             <Body>
                                 <div class="row">
