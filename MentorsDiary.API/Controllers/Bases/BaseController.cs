@@ -1,4 +1,5 @@
 ﻿using MentorsDiary.Application.Bases.Interfaces.IHaves;
+using MentorsDiary.Application.Entities.Bases.Filters;
 using MentorsDiary.Application.Entities.Bases.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ public class BaseController<TEntity, TRepository> : ControllerBase
     private readonly TRepository _repository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BaseController{TEntity, TRepository}"/> class.
+    /// Initializes a new instance of the <see cref="BaseController{TEntity, TRepository}" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
     public BaseController(TRepository repository)
@@ -48,6 +49,18 @@ public class BaseController<TEntity, TRepository> : ControllerBase
     /// <returns>System.Nullable&lt;IEnumerable&lt;TEntity&gt;&gt;.</returns>
     [HttpGet("Filter/{query}")]
     public async Task<IEnumerable<TEntity>?> GetAllByFilter(string query)
+    {
+        var entities = await _repository.GetAllByFilter(query);
+        return entities ?? null;
+    }
+
+    /// <summary>
+    /// Gets all by filter.
+    /// </summary>
+    /// <param name="query">The query.</param>
+    /// <returns>System.Nullable&lt;IEnumerable&lt;TEntity&gt;&gt;.</returns>
+    [HttpPost("Filter")]
+    public async Task<IEnumerable<TEntity>?> GetAllByFilter([FromBody] FilterParams query)
     {
         var entities = await _repository.GetAllByFilter(query);
         return entities ?? null;

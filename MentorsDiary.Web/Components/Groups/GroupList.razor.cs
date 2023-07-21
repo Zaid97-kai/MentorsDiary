@@ -1,9 +1,12 @@
 ﻿using AntDesign;
+using MentorsDiary.Application.Bases.Enums;
+using MentorsDiary.Application.Entities.Bases.Filters;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MentorsDiary.Web.Components.Groups;
 
@@ -107,7 +110,28 @@ public partial class GroupList
     /// <param name="division">The division.</param>
     private async Task UpdateList(Division? division)
     {
-        StateHasChanged();
+        if (division != null)
+        {
+            _isLoading = true;
+            StateHasChanged();
+
+            if (division.Name != null)
+            {
+                var result = await GroupService.GetAllByFilterAsync(
+                    new FilterParams()
+                    {
+                        ColumnName = "DivisionId",
+                        FilterOption = EnumFilterOptions.Contains,
+                        FilterValue = division.Id.ToString()
+                    }).Result.Content.ReadAsStringAsync();
+                Groups = JsonConvert.DeserializeObject<List<Group>>(result);
+            }
+
+            _isLoading = false;
+            StateHasChanged();
+        }
+        else
+            await GetListAsync();
     }
 
     /// <summary>

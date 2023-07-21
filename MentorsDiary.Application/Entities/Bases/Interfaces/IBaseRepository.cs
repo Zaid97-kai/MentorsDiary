@@ -1,4 +1,5 @@
 ﻿using MentorsDiary.Application.Bases.Interfaces.IHaves;
+using MentorsDiary.Application.Entities.Bases.Filters;
 using System.Linq.Expressions;
 
 namespace MentorsDiary.Application.Entities.Bases.Interfaces;
@@ -29,6 +30,13 @@ public interface IBaseRepository<T>
     /// <param name="query">The query.</param>
     /// <returns>Task&lt;System.Nullable&lt;IEnumerable&lt;T&gt;&gt;&gt;.</returns>
     Task<IEnumerable<T>?> GetAllByFilter(string query);
+
+    /// <summary>
+    /// Gets all by filter.
+    /// </summary>
+    /// <param name="query">The query.</param>
+    /// <returns>Task&lt;System.Nullable&lt;IEnumerable&lt;T&gt;&gt;&gt;.</returns>
+    Task<IEnumerable<T>?> GetAllByFilter(FilterParams query);
 
     /// <summary>
     /// Finds the specified expression.

@@ -142,7 +142,8 @@ public partial class CuratorList
             _isLoading = true;
             StateHasChanged();
 
-            Curators = (await CuratorService.GetAllByFilterAsync(query!) ?? Array.Empty<Application.Entities.Curators.Domains.Curator>()).ToList();
+            Curators = (await CuratorService.GetAllByFilterAsync(query!) ??
+                        Array.Empty<Application.Entities.Curators.Domains.Curator>()).ToList();
 
             _isLoading = false;
             StateHasChanged();

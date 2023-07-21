@@ -1,5 +1,4 @@
-﻿using MentorsDiary.Web.Utilities;
-using Microsoft.AspNetCore.WebUtilities;
+﻿using MentorsDiary.Application.Entities.Bases.Filters;
 
 namespace MentorsDiary.Web.Data.Services.Bases;
 
@@ -50,6 +49,17 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity>
     public virtual async Task<IEnumerable<TEntity>?> GetAllByFilterAsync(string query)
     {
         var result = await _httpClient?.GetFromJsonAsync<IEnumerable<TEntity>>($"api/{BasePath}/filter/{query}")!;
+        return result;
+    }
+
+    /// <summary>
+    /// Get all by filter as an asynchronous operation.
+    /// </summary>
+    /// <param name="query">The query.</param>
+    /// <returns>A Task&lt;HttpResponseMessage&gt; representing the asynchronous operation.</returns>
+    public virtual async Task<HttpResponseMessage> GetAllByFilterAsync(FilterParams query)
+    {
+        var result = await _httpClient?.PostAsJsonAsync($"api/{BasePath}/filter", query)!;
         return result;
     }
 
