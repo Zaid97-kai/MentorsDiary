@@ -1,0 +1,41 @@
+﻿@page "/student/{StudentId:int}/{GroupId:int}"
+
+<br />
+
+<div class="container-fluid">
+    <Card Title=@("Добавление студента")>
+        <Form Model="@_student">
+            <Row Gutter="24">
+                <GridCol Span="24">
+                    <FormItem Label="ФИО">
+                        <Input @bind-Value="@context.Name" />
+                    </FormItem>
+                    <FormItem Label="Телефон">
+                        <Input @bind-Value="@context.Phone" />
+                    </FormItem>
+                    <FormItem Label="Email">
+                        <Input @bind-Value="@context.Email" />
+                    </FormItem>
+                    <FormItem Label="Адрес">
+                        <Input @bind-Value="@context.Address" />
+                    </FormItem>
+                    <FormItem Label="Дата рождения">
+                        <DatePicker @bind-Value="@context.BirthDate" TValue="DateTime?" Picker="@DatePickerType.Date" />
+                    </FormItem>
+                    <FormItem>
+                        <AntDesign.Button OnClick="() => NavigationManager.NavigateTo(NavigateToUri)" Type="AntDesign.ButtonType.Primary">
+                            Назад
+                        </AntDesign.Button>
+                        <AntDesign.Button OnClick="SaveAsync" Type="AntDesign.ButtonType.Primary" HtmlType="submit">
+                            Сохранить
+                        </AntDesign.Button>
+                    </FormItem>
+                </GridCol>
+            </Row>
+        </Form>
+    </Card>
+</div>
+
+@code {
+
+}

@@ -82,7 +82,7 @@ public partial class GroupItem
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
-    private string NavigateToUri => "group";
+    private static string NavigateToUri => "group";
 
     #endregion
 

@@ -180,4 +180,13 @@ public partial class GroupList
     {
         NavigationManager.NavigateTo($"{NavigateToUri}/{group.Id}");
     }
+
+    /// <summary>
+    /// Shows the group page asynchronous.
+    /// </summary>
+    /// <param name="group">The group.</param>
+    private void ShowGroupPageAsync(Group group)
+    {
+        NavigationManager.NavigateTo($"{NavigateToUri}-page/{group.Id}");
+    }
 }
