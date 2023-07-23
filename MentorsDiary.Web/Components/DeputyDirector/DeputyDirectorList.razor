@@ -3,8 +3,7 @@
 <AuthorizeView Roles="Administrator">
     <Authorized>
         <br />
-        <MentorsDiary.Web.Components.Displays.BoxCard>
-            <Body>
+        <div class="border border-primary border-1 rounded-2 p-2">
             <MentorsDiary.Web.Components.Displays.PageTitle Title="Заместители директоров" Count="@Users?.Count" Loading="_isLoading">
 
                 <AntDesign.Button OnClickStopPropagation="true"
@@ -19,7 +18,7 @@
                 <BodySearchBar OnSelectedItemChangedHandler="UpdateList"
                                OnSearchItemChangedHandler="SearchList"
                                TValue="Division"
-                               TService="DivisionService"/>
+                               TService="DivisionService" />
 
             </MentorsDiary.Web.Components.Displays.PageTitle>
 
@@ -29,24 +28,24 @@
                 {
                     <MentorsDiary.Web.Components.Displays.BoxCard>
                         <Body>
-                        <div class="row">
-                            <div class="col">
-                                <div class="text-label">Имя</div>
-                                <div>@data.Name</div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="text-label">Имя</div>
+                                    <div>@data.Name</div>
+                                </div>
+                                <div class="col">
+                                    <div class="text-label">Подразделение</div>
+                                    <div>@data.Division?.Name</div>
+                                </div>
+                                <div class="col">
+                                    <div class="text-label">Телефон</div>
+                                    <div>@data.Phone</div>
+                                </div>
+                                <div class="col">
+                                    <div class="text-label">Электронная почта</div>
+                                    <div>@data.Email</div>
+                                </div>
                             </div>
-                            <div class="col">
-                                <div class="text-label">Подразделение</div>
-                                <div>@data.Division?.Name</div>
-                            </div>
-                            <div class="col">
-                                <div class="text-label">Телефон</div>
-                                <div>@data.Phone</div>
-                            </div>
-                            <div class="col">
-                                <div class="text-label">Электронная почта</div>
-                                <div>@data.Email</div>
-                            </div>
-                        </div>
                         </Body>
                         <ActionTemplate>
                             <Space Size="@("2")">
@@ -54,14 +53,14 @@
                                     <AntDesign.Button OnClickStopPropagation="true" Danger
                                                       Type="@ButtonType.Link"
                                                       Size="small" OnClick="async () => await RemoveAsync(data)">
-                                        <Icon Type="@IconType.Outline.Delete"/>
+                                        <Icon Type="@IconType.Outline.Delete" />
                                     </AntDesign.Button>
                                 </SpaceItem>
                                 <SpaceItem>
                                     <AntDesign.Button OnClickStopPropagation="true"
                                                       Type="@ButtonType.Link"
                                                       Size="small" OnClick="() => UpdateAsync(data)">
-                                        <Icon Type="@IconType.Outline.Edit"/>
+                                        <Icon Type="@IconType.Outline.Edit" />
                                     </AntDesign.Button>
                                 </SpaceItem>
                             </Space>
@@ -69,8 +68,7 @@
                     </MentorsDiary.Web.Components.Displays.BoxCard>
                 }
             }
-            </Body>
-        </MentorsDiary.Web.Components.Displays.BoxCard>
+        </div>
     </Authorized>
     <NotAuthorized>
         Доступ ограничен.

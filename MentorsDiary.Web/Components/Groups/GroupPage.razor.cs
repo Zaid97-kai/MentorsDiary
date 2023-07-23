@@ -113,19 +113,14 @@ public partial class GroupPage
     /// <value>The group events.</value>
     private List<GroupEvent>? GroupEvents { get; set; } = new();
 
+    private bool _studentDataVisible;
+
     /// <summary>
     /// The is loading
     /// </summary>
     private bool _isLoading;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GroupPage"/> class.
-    /// </summary>
-    /// <param name="currentGroup">The current group.</param>
-    public GroupPage(Group currentGroup)
-    {
-        CurrentGroup = currentGroup;
-    }
+    private Student? _selectedStudent = new();
 
     /// <summary>
     /// Create student as an asynchronous operation.
@@ -164,7 +159,7 @@ public partial class GroupPage
     /// <returns>A Task representing the asynchronous operation.</returns>
     protected override async Task OnInitializedAsync()
     {
-        CurrentGroup = await GroupService.GetIdAsync(GroupId);
+        CurrentGroup = (await GroupService.GetIdAsync(GroupId))!;
 
         await GetListAsync();
     }
@@ -312,25 +307,20 @@ public partial class GroupPage
 
         await GetListAsync();
     }
-
-    /// <summary>
-    /// Update student as an asynchronous operation.
-    /// </summary>
-    /// <param name="student">The student.</param>
-    /// <returns>A Task representing the asynchronous operation.</returns>
-    private async Task UpdateStudentAsync(IHaveId student)
+    
+    private void UpdateStudentAsync(IHaveId student)
     {
         NavigationManager.NavigateTo($"student/{student.Id}/{GroupId}");
     }
-
-    /// <summary>
-    /// Shows the student page asynchronous.
-    /// </summary>
-    /// <param name="student">The student.</param>
-    /// <returns>Task.</returns>
-    /// <exception cref="System.NotImplementedException"></exception>
-    private Task ShowStudentPageAsync(Student student)
+    
+    private void ShowStudentPageAsync(Student student)
     {
-        throw new NotImplementedException();
+        _selectedStudent = student;
+
+        StateHasChanged();
+
+        _studentDataVisible = !_studentDataVisible;
+
+        StateHasChanged();
     }
 }
