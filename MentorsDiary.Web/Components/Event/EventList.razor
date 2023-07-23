@@ -1,17 +1,17 @@
-﻿@page "/events"
+﻿@page "/event"
 
 <AuthorizeView Roles="Administrator">
     <Authorized>
         <br />
         <div class="border border-primary border-1 rounded-2 p-2">
-            <MentorsDiary.Web.Components.Displays.PageTitle Title="Заместители директоров" Count="@Events?.Count" Loading="_isLoading">
+            <MentorsDiary.Web.Components.Displays.PageTitle Title="События" Count="@Events?.Count" Loading="_isLoading">
 
                 <AntDesign.Button OnClickStopPropagation="true"
                                   Class="mb-2"
                                   Type="@ButtonType.Link"
                                   Icon="plus"
                                   Size="small"
-                                  OnClick="async () => await CreateDeputyDirectorAsync()">
+                                  OnClick="async () => await CreateEventAsync()">
                     Добавить
                 </AntDesign.Button>
                 
@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col">
                                     <div class="text-label">Дата проведения</div>
-                                    <div>@data.DateEvent</div>
+                                    <div>@data.DateEvent?.ToString("D")</div>
                                 </div>
                             </div>
                         </Body>

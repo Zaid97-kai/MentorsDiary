@@ -1,6 +1,6 @@
 ﻿@page "/curator"
 
-<AuthorizeView Roles="Administrator">
+<AuthorizeView Roles="Administrator, DeputyDirector">
     <Authorized>
         <br />
         <div class="border border-primary border-1 rounded-2 p-2">
@@ -31,24 +31,24 @@
 
                     <MentorsDiary.Web.Components.Displays.BoxCard>
                         <Body>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="text-label">Имя</div>
-                                    <div>@data.User?.Name</div>
-                                </div>
-                                <div class="col">
-                                    <div class="text-label">Подразделение</div>
-                                    <div>@data.User?.Division?.Name</div>
-                                </div>
-                                <div class="col">
-                                    <div class="text-label">Телефон</div>
-                                    <div>@data.User?.Phone</div>
-                                </div>
-                                <div class="col">
-                                    <div class="text-label">Электронная почта</div>
-                                    <div>@data.User?.Email</div>
-                                </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="text-label">Имя</div>
+                                <div>@data.User?.Name</div>
                             </div>
+                            <div class="col">
+                                <div class="text-label">Подразделение</div>
+                                <div>@data.User?.Division?.Name</div>
+                            </div>
+                            <div class="col">
+                                <div class="text-label">Телефон</div>
+                                <div>@data.User?.Phone</div>
+                            </div>
+                            <div class="col">
+                                <div class="text-label">Электронная почта</div>
+                                <div>@data.User?.Email</div>
+                            </div>
+                        </div>
                         </Body>
                         <ActionTemplate>
                             <Space Size="@("2")">

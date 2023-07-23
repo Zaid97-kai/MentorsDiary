@@ -1,8 +1,6 @@
 ﻿using AntDesign;
 using HttpService.Services;
-using MentorsDiary.Application.Bases.Enums;
-using MentorsDiary.Application.Entities.Bases.Filters;
-using MentorsDiary.Application.Entities.Divisions.Domains;
+using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
@@ -75,6 +73,12 @@ public partial class EventList
     private string NavigateToUri => "event";
 
     /// <summary>
+    /// Gets the selected date time.
+    /// </summary>
+    /// <value>The selected date time.</value>
+    public DateTime?[] SelectedDateTime { get; private set; }
+
+    /// <summary>
     /// On initialized as an asynchronous operation.
     /// </summary>
     /// <returns>A Task representing the asynchronous operation.</returns>
@@ -94,10 +98,10 @@ public partial class EventList
     }
 
     /// <summary>
-    /// Create deputy director as an asynchronous operation.
+    /// Create event as an asynchronous operation.
     /// </summary>
     /// <returns>A Task representing the asynchronous operation.</returns>
-    public async Task CreateDeputyDirectorAsync()
+    public async Task CreateEventAsync()
     {
         IsCreateLoading = true;
         StateHasChanged();
@@ -134,7 +138,12 @@ public partial class EventList
         else
             await GetListAsync();
     }
-    
+
+    /// <summary>
+    /// Remove as an asynchronous operation.
+    /// </summary>
+    /// <param name="event">The event.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     private async Task RemoveAsync(Application.Entities.Events.Domains.Event @event)
     {
         var response = await EventService.DeleteAsync(@event.Id);
@@ -147,19 +156,38 @@ public partial class EventList
 
         StateHasChanged();
     }
-    
-    private void UpdateAsync(Application.Entities.Events.Domains.Event @event)
+
+    /// <summary>
+    /// Updates the asynchronous.
+    /// </summary>
+    /// <param name="event">The event.</param>
+    private void UpdateAsync(IHaveId @event)
     {
         NavigationManager.NavigateTo($"{NavigateToUri}/{@event.Id}");
     }
 
-    private Task UpdateList()
+    /// <summary>
+    /// Updates the list.
+    /// </summary>
+    /// <param name="dateTimeRange">The <see cref="DateRangeChangedEventArgs" /> instance containing the event data.</param>
+    private async Task UpdateList(DateRangeChangedEventArgs? dateTimeRange)
     {
-        throw new NotImplementedException();
+        SelectedDateTime = dateTimeRange?.Dates!;
+
+        await GetListAsync();
+        if (SelectedDateTime[0] != null && SelectedDateTime[1] != null)
+        {
+            Events = Events?.Where(d => d.DateEvent > SelectedDateTime[0] && d.DateEvent < SelectedDateTime[1]).ToList();
+        }
+
+        StateHasChanged();
     }
 
-    private Task UpdateListAfterClearDatePicker()
+    /// <summary>
+    /// Updates the list after clear date picker.
+    /// </summary>
+    private async Task UpdateListAfterClearDatePicker()
     {
-        throw new NotImplementedException();
+        await GetListAsync();
     }
 }

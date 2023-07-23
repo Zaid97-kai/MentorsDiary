@@ -1,5 +1,7 @@
 ﻿using AntDesign;
+using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
+using MentorsDiary.Application.Entities.Curators.Domains;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
@@ -58,14 +60,27 @@ public partial class CuratorItem
     [Inject]
     private MessageService MessageService { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the authentication service.
+    /// </summary>
+    /// <value>The authentication service.</value>
+    [Inject]
+    private AuthenticationService AuthenticationService { get; set; } = null!;
+
     #endregion
 
     #region PROPERTIES
+    
+    /// <summary>
+    /// Gets the current user.
+    /// </summary>
+    /// <value>The current user.</value>
+    private User CurrentUser => (User)AuthenticationService.AuthorizedUser!;
 
     /// <summary>
     /// The curator
     /// </summary>
-    private Application.Entities.Curators.Domains.Curator? _curator = new() { User = new User() { Division = new Division() } };
+    private Application.Entities.Curators.Domains.Curator? _curator = new() { User = new User { Division = new Division() } };
 
     /// <summary>
     /// The divisions
@@ -114,6 +129,7 @@ public partial class CuratorItem
         {
             if (_curator.User != null)
             {
+                _curator.Name = _curator.User.Name;
                 _curator.User.Role = EnumRoles.Curator;
                 _curator.User.Division = null;
             }
