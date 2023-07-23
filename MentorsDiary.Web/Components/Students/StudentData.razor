@@ -1,0 +1,36 @@
+﻿<Modal Title="@("Просмотр студента")"
+       Visible="@Visible"
+       OnCancel="CloseStudentPage"
+       OkButtonProps="new ButtonProps(){ Disabled = Visible, Ghost = true}">
+    <div class="container-fluid">
+        <Form Model="@Student">
+            <Paragraph Copyable>
+                <Row Gutter="24">
+                    <GridCol Span="24">
+                        <FormItem Label="ФИО" Style="margin-bottom: 0.3em">
+                            <Text>@context.Name</Text>
+                        </FormItem>
+                        <FormItem Label="Дата рождения" Style="margin-bottom: 0.3em">
+                            <Text>@context.BirthDate?.ToString("d")</Text>
+                        </FormItem>
+                        <FormItem Label="Подразделение" Style="margin-bottom: 0.3em">
+                            <Text>@context.Group.Division?.Name</Text>
+                        </FormItem>
+                        <FormItem Label="Группа" Style="margin-bottom: 0.3em">
+                            <Text>@context.Group?.Name</Text>
+                        </FormItem>
+                        <FormItem Label="Телефон" Style="margin-bottom: 0.3em">
+                            <Text>@context.Phone</Text>
+                        </FormItem>
+                        <FormItem Label="Адрес" Style="margin-bottom: 0.3em">
+                            <Text>@context.Address</Text>
+                        </FormItem>
+                        <FormItem Label="Email" Style="margin-bottom: 0.3em">
+                            <Text>@context.Email</Text>
+                        </FormItem>
+                    </GridCol>
+                </Row>
+            </Paragraph>
+        </Form>
+    </div>
+</Modal>

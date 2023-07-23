@@ -38,7 +38,7 @@
                                             </div>
                                             <div class="col">
                                                 <div class="text-label">Дата рождения</div>
-                                                <div>@student.BirthDate.ToString()</div>
+                                                <div>@student.BirthDate?.ToString("d")</div>
                                             </div>
                                             <div class="col">
                                                 <div class="text-label">Адрес</div>
@@ -136,3 +136,5 @@
         }
     </div>
 </div>
+
+<StudentData @bind-Student="_selectedStudent" @bind-Visible="_studentDataVisible" />
