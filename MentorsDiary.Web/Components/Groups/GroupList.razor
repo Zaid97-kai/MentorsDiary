@@ -1,6 +1,6 @@
 ﻿@page "/group"
 
-<AuthorizeView Roles="Administrator">
+<AuthorizeView Roles="Administrator, DeputyDirector">
     <Authorized>
         <br />
         <div class="border border-primary border-1 rounded-2 p-2">
@@ -21,7 +21,7 @@
                     </AntDesign.Button>
 
                     <BodySearchBar OnSelectedItemChangedHandler="UpdateList"
-                                   OnSearchItemChangedHandler="SearchList"
+                                   OnSearchItemChangedHandler="SearchList!"
                                    TValue="Division"
                                    TService="DivisionService">
 

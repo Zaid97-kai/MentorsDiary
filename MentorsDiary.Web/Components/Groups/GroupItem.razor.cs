@@ -1,6 +1,9 @@
 ﻿using AntDesign;
+using HttpService.Services;
+using MentorsDiary.Application.Bases.Enums;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
+using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
 
@@ -55,11 +58,24 @@ public partial class GroupItem
     /// </summary>
     /// <value>The message service.</value>
     [Inject]
-    private MessageService MessageService { get; set; } = null!;
+    private IMessageService MessageService { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the authentication service.
+    /// </summary>
+    /// <value>The authentication service.</value>
+    [Inject]
+    private AuthenticationService AuthenticationService { get; set; } = null!;
 
     #endregion
 
     #region PROPERTIES
+
+    /// <summary>
+    /// Gets the current user.
+    /// </summary>
+    /// <value>The current user.</value>
+    private User CurrentUser => (User)AuthenticationService.AuthorizedUser!;
 
     /// <summary>
     /// The deputy director
@@ -92,10 +108,30 @@ public partial class GroupItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     protected override async Task OnInitializedAsync()
     {
-        Divisions = (await DivisionService.GetAllAsync() ?? Array.Empty<Division>()).ToList();
-        Curators = (await CuratorService.GetAllAsync() ?? Array.Empty<Application.Entities.Curators.Domains.Curator>()).ToList();
+        await GetListAsync();
 
         _group = await GroupService.GetIdAsync(GroupId);
+    }
+
+    /// <summary>
+    /// Get list as an asynchronous operation.
+    /// </summary>
+    /// <returns>A Task representing the asynchronous operation.</returns>
+    private async Task GetListAsync()
+    {
+        switch (CurrentUser.Role)
+        {
+            case EnumRoles.Administrator:
+                Divisions = (await DivisionService.GetAllAsync() ?? Array.Empty<Division>()).ToList();
+                Curators = (await CuratorService.GetAllAsync() ??
+                            Array.Empty<Application.Entities.Curators.Domains.Curator>()).ToList();
+                break;
+            case EnumRoles.DeputyDirector:
+                Curators = (await CuratorService.GetAllAsync() ??
+                            Array.Empty<Application.Entities.Curators.Domains.Curator>())
+                    .Where(c => c.User?.DivisionId == CurrentUser.DivisionId).ToList();
+                break;
+        }
     }
 
     /// <summary>
@@ -107,6 +143,12 @@ public partial class GroupItem
         if (_group != null)
         {
             _group.Division = null;
+            _group.Curator = null;
+
+            if (CurrentUser.Role == EnumRoles.DeputyDirector)
+            {
+                _group.DivisionId = CurrentUser.DivisionId;
+            }
 
             var response = await GroupService.UpdateAsync(_group);
 

@@ -1,54 +1,46 @@
-﻿@page "/curator"
+﻿@page "/event"
 
-<AuthorizeView Roles="Administrator, DeputyDirector">
+<AuthorizeView Roles="Administrator">
     <Authorized>
         <br />
         <div class="border border-primary border-1 rounded-2 p-2">
-            <MentorsDiary.Web.Components.Displays.PageTitle Title="Кураторы" Count="@Curators?.Count" Loading="_isLoading">
+            <MentorsDiary.Web.Components.Displays.PageTitle Title="События" Count="@Events?.Count" Loading="_isLoading">
 
                 <AntDesign.Button OnClickStopPropagation="true"
                                   Class="mb-2"
                                   Type="@ButtonType.Link"
                                   Icon="plus"
                                   Size="small"
-                                  OnClick="async () => await CreateCuratorAsync()">
+                                  OnClick="async () => await CreateEventAsync()">
                     Добавить
                 </AntDesign.Button>
-
-                <BodySearchBar OnSelectedItemChangedHandler="UpdateList"
-                               OnSearchItemChangedHandler="SearchList"
-                               TValue="Division"
-                               TService="DivisionService" />
+                
+                <BodySearchBarRangeDate OnSelectedItemChangedHandler="UpdateList"
+                                        OnClearHandler="UpdateListAfterClearDatePicker"
+                                        OnSearchItemChangedHandler="SearchList" />
 
             </MentorsDiary.Web.Components.Displays.PageTitle>
 
-            @if (Curators != null)
+            @if (Events != null)
             {
-                @foreach (var data in Curators)
+                @foreach (var data in Events)
                 {
-                    @if (data == null)
-                        continue;
-
                     <MentorsDiary.Web.Components.Displays.BoxCard>
                         <Body>
-                        <div class="row">
-                            <div class="col">
-                                <div class="text-label">Имя</div>
-                                <div>@data.User?.Name</div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="text-label">Наименование</div>
+                                    <div>@data.Name</div>
+                                </div>
+                                <div class="col">
+                                    <div class="text-label">Описание</div>
+                                    <div>@data.Comment</div>
+                                </div>
+                                <div class="col">
+                                    <div class="text-label">Дата проведения</div>
+                                    <div>@data.DateEvent?.ToString("D")</div>
+                                </div>
                             </div>
-                            <div class="col">
-                                <div class="text-label">Подразделение</div>
-                                <div>@data.User?.Division?.Name</div>
-                            </div>
-                            <div class="col">
-                                <div class="text-label">Телефон</div>
-                                <div>@data.User?.Phone</div>
-                            </div>
-                            <div class="col">
-                                <div class="text-label">Электронная почта</div>
-                                <div>@data.User?.Email</div>
-                            </div>
-                        </div>
                         </Body>
                         <ActionTemplate>
                             <Space Size="@("2")">

@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
 using MentorsDiary.Application.Entities.Bases.Filters;
 using MentorsDiary.Application.Entities.Divisions.Domains;
@@ -45,6 +46,19 @@ public partial class CuratorList
     private IMessageService MessageService { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the authentication service.
+    /// </summary>
+    /// <value>The authentication service.</value>
+    [Inject]
+    private AuthenticationService AuthenticationService { get; set; } = null!;
+
+    /// <summary>
+    /// Gets the current user.
+    /// </summary>
+    /// <value>The current user.</value>
+    private User CurrentUser => (User)AuthenticationService.AuthorizedUser!;
+
+    /// <summary>
     /// The is loading
     /// </summary>
     private bool _isLoading;
@@ -80,8 +94,6 @@ public partial class CuratorList
     protected override async Task OnInitializedAsync()
     {
         await GetListAsync();
-
-        StateHasChanged();
     }
 
     /// <summary>
@@ -90,10 +102,28 @@ public partial class CuratorList
     /// <returns>A Task representing the asynchronous operation.</returns>
     private async Task GetListAsync()
     {
-        Users = (await UserService.GetAllAsync() ?? Array.Empty<User>()).Where(u => u.Role == EnumRoles.Curator)
-            .ToList();
+        _isLoading = true;
+        StateHasChanged();
 
-        Curators = (await CuratorService.GetAllAsync() ?? Array.Empty<Application.Entities.Curators.Domains.Curator>()).ToList();
+        switch (CurrentUser.Role)
+        {
+            case EnumRoles.Administrator:
+                Users = (await UserService.GetAllAsync() ?? Array.Empty<User>()).Where(u => u.Role == EnumRoles.Curator).ToList();
+
+                Curators = (await CuratorService.GetAllAsync() ??
+                            Array.Empty<Application.Entities.Curators.Domains.Curator>()).Where(c => Users.Any(u => u.Id == c.UserId)).ToList();
+                break;
+            case EnumRoles.DeputyDirector:
+                Users = (await UserService.GetAllAsync() ?? Array.Empty<User>()).Where(u => u.Role == EnumRoles.Curator && u.DivisionId == CurrentUser.DivisionId)
+                    .ToList();
+
+                Curators = (await CuratorService.GetAllAsync() ??
+                            Array.Empty<Application.Entities.Curators.Domains.Curator>()).Where(c => Users.Any(u => u.Id == c.UserId)).ToList();
+                break;
+        }
+
+        _isLoading = false;
+        StateHasChanged();
     }
 
     /// <summary>
@@ -105,13 +135,36 @@ public partial class CuratorList
         IsCreateLoading = true;
         StateHasChanged();
 
-        var responseUserCreate = await UserService.CreateAsync(new User());
+        var responseUserCreate = new HttpResponseMessage();
+
+        switch (CurrentUser.Role)
+        {
+            case EnumRoles.Administrator:
+                responseUserCreate = await UserService.CreateAsync(new User
+                {
+                    DateCreated = DateTime.Now,
+                    UserCreated = CurrentUser.Name
+                });
+                break;
+            case EnumRoles.DeputyDirector:
+                responseUserCreate = await UserService.CreateAsync(new User
+                {
+                    DivisionId = CurrentUser.DivisionId,
+                    DateCreated = DateTime.Now,
+                    UserCreated = CurrentUser.Name
+                });
+                break;
+        }
+
         var deserializeObject = JsonConvert.DeserializeObject<User>(await responseUserCreate.Content.ReadAsStringAsync());
 
         if (deserializeObject != null)
         {
             var responseCuratorCreate =
-                await CuratorService.CreateAsync(new Application.Entities.Curators.Domains.Curator() { UserId = deserializeObject.Id });
+                await CuratorService.CreateAsync(new Application.Entities.Curators.Domains.Curator
+                {
+                    UserId = deserializeObject.Id
+                });
 
             if (responseUserCreate.IsSuccessStatusCode && responseCuratorCreate.IsSuccessStatusCode)
                 NavigationManager.NavigateTo(

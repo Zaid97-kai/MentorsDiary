@@ -1,8 +1,10 @@
 ﻿using AntDesign;
+using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
 using MentorsDiary.Application.Entities.Bases.Filters;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
+using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
@@ -37,6 +39,19 @@ public partial class GroupList
     /// <value>The message service.</value>
     [Inject]
     private IMessageService MessageService { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets the authentication service.
+    /// </summary>
+    /// <value>The authentication service.</value>
+    [Inject]
+    private AuthenticationService AuthenticationService { get; set; } = null!;
+
+    /// <summary>
+    /// Gets the current user.
+    /// </summary>
+    /// <value>The current user.</value>
+    private User CurrentUser => (User)AuthenticationService.AuthorizedUser!;
 
     /// <summary>
     /// The is loading
@@ -68,7 +83,6 @@ public partial class GroupList
     protected override async Task OnInitializedAsync()
     {
         await GetListAsync();
-        StateHasChanged();
     }
 
     /// <summary>
@@ -80,7 +94,24 @@ public partial class GroupList
         _isLoading = true;
         StateHasChanged();
 
-        Groups = (await GroupService.GetAllAsync() ?? Array.Empty<Group>()).ToList();
+        switch (CurrentUser.Role)
+        {
+            case EnumRoles.Administrator:
+                Groups = (await GroupService.GetAllAsync() ?? Array.Empty<Group>()).ToList();
+                break;
+            case EnumRoles.DeputyDirector:
+            {
+                var result = await GroupService.GetAllByFilterAsync(
+                    new FilterParams
+                    {
+                        ColumnName = "DivisionId",
+                        FilterOption = EnumFilterOptions.Contains,
+                        FilterValue = CurrentUser.DivisionId.ToString()!
+                    });
+                Groups = JsonConvert.DeserializeObject<List<Group>>(await result.Content.ReadAsStringAsync());
+                break;
+            }
+        }
 
         _isLoading = false;
         StateHasChanged();
@@ -94,7 +125,27 @@ public partial class GroupList
     {
         IsCreateLoading = true;
         StateHasChanged();
-        var response = await GroupService.CreateAsync(new Group());
+
+        var response = new HttpResponseMessage();
+
+        switch (CurrentUser.Role)
+        {
+            case EnumRoles.Administrator:
+                response = await GroupService.CreateAsync(new Group
+                {
+                    DateCreated = DateTime.Now,
+                    UserCreated = CurrentUser.Name
+                });
+                break;
+            case EnumRoles.DeputyDirector:
+                response = await GroupService.CreateAsync(new Group
+                {
+                    DivisionId = CurrentUser.DivisionId,
+                    DateCreated = DateTime.Now,
+                    UserCreated = CurrentUser.Name
+                });
+                break;
+        }
 
         if (response.IsSuccessStatusCode)
             NavigationManager.NavigateTo($"{NavigateToUri}/{JsonConvert.DeserializeObject<Group>(await response.Content.ReadAsStringAsync())!.Id}");

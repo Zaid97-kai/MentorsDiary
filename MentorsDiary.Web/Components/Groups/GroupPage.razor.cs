@@ -113,6 +113,9 @@ public partial class GroupPage
     /// <value>The group events.</value>
     private List<GroupEvent>? GroupEvents { get; set; } = new();
 
+    /// <summary>
+    /// The student data visible
+    /// </summary>
     private bool _studentDataVisible;
 
     /// <summary>
@@ -120,6 +123,9 @@ public partial class GroupPage
     /// </summary>
     private bool _isLoading;
 
+    /// <summary>
+    /// The selected student
+    /// </summary>
     private Student? _selectedStudent = new();
 
     /// <summary>
@@ -134,7 +140,9 @@ public partial class GroupPage
         var response = await StudentService.CreateAsync(new Student
         {
             Name = "Имя", 
-            GroupId = GroupId
+            GroupId = GroupId,
+            DateCreated = DateTime.Now,
+            UserCreated = CurrentUser.Name
         });
 
         if (response.IsSuccessStatusCode)
@@ -307,12 +315,20 @@ public partial class GroupPage
 
         await GetListAsync();
     }
-    
+
+    /// <summary>
+    /// Updates the student asynchronous.
+    /// </summary>
+    /// <param name="student">The student.</param>
     private void UpdateStudentAsync(IHaveId student)
     {
         NavigationManager.NavigateTo($"student/{student.Id}/{GroupId}");
     }
-    
+
+    /// <summary>
+    /// Shows the student page asynchronous.
+    /// </summary>
+    /// <param name="student">The student.</param>
     private void ShowStudentPageAsync(Student student)
     {
         _selectedStudent = student;
