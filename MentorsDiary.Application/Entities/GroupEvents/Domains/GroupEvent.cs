@@ -3,9 +3,19 @@ using MentorsDiary.Application.Bases.BaseUsers;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Events.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
+using MentorsDiary.Application.Entities.Students.Domains;
 
 namespace MentorsDiary.Application.Entities.GroupEvents.Domains;
 
+/// <summary>
+/// Class GroupEvent.
+/// Implements the <see cref="BaseUserCU" />
+/// Implements the <see cref="IHaveId" />
+/// Implements the <see cref="IHaveName" />
+/// </summary>
+/// <seealso cref="BaseUserCU" />
+/// <seealso cref="IHaveId" />
+/// <seealso cref="IHaveName" />
 public class GroupEvent : BaseUserCU, IHaveId, IHaveName
 {
     /// <summary>
@@ -43,6 +53,12 @@ public class GroupEvent : BaseUserCU, IHaveId, IHaveName
     /// </summary>
     /// <value>The event.</value>
     public virtual Event? Event { get; set; }
+
+    /// <summary>
+    /// Gets or sets the students.
+    /// </summary>
+    /// <value>The students.</value>
+    public virtual List<Student>? Students { get; set; }
 
     /// <summary>
     /// Gets or sets the name.

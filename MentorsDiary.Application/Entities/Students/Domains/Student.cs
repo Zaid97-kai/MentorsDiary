@@ -1,5 +1,6 @@
 using MentorsDiary.Application.Bases.BaseUsers;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
+using MentorsDiary.Application.Entities.GroupEvents.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
 using MentorsDiary.Application.Entities.Parents.Domains;
 
@@ -69,6 +70,12 @@ public class Student : BaseUserCU, IHaveId, IHaveName, IHaveImage
     /// </summary>
     /// <value>The parent.</value>
     public virtual List<Parent>? Parent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the group events.
+    /// </summary>
+    /// <value>The group events.</value>
+    public virtual List<GroupEvent>? GroupEvents { get; set; }
 
     /// <summary>
     /// Gets or sets the image path.
