@@ -1,11 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using MentorsDiary.Application.Bases.BaseUsers;
+﻿using MentorsDiary.Application.Bases.BaseUsers;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Events.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
+using MentorsDiary.Application.Entities.Students.Domains;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MentorsDiary.Application.Entities.GroupEvents.Domains;
 
+/// <summary>
+/// Class GroupEvent.
+/// Implements the <see cref="BaseUserCU" />
+/// Implements the <see cref="IHaveId" />
+/// Implements the <see cref="IHaveName" />
+/// </summary>
+/// <seealso cref="BaseUserCU" />
+/// <seealso cref="IHaveId" />
+/// <seealso cref="IHaveName" />
 public class GroupEvent : BaseUserCU, IHaveId, IHaveName
 {
     /// <summary>
@@ -13,6 +23,13 @@ public class GroupEvent : BaseUserCU, IHaveId, IHaveName
     /// </summary>
     /// <value>The identifier.</value>
     public int Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
+    /// <value>The name.</value>
+    [NotMapped]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Gets or sets the count participants.
@@ -45,9 +62,8 @@ public class GroupEvent : BaseUserCU, IHaveId, IHaveName
     public virtual Event? Event { get; set; }
 
     /// <summary>
-    /// Gets or sets the name.
+    /// Gets or sets the students.
     /// </summary>
-    /// <value>The name.</value>
-    [NotMapped]
-    public string? Name { get; set; }
+    /// <value>The students.</value>
+    public virtual List<Student>? Students { get; set; }
 }

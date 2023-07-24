@@ -93,7 +93,7 @@ public partial class GroupPage
     /// Gets the current group.
     /// </summary>
     /// <value>The current group.</value>
-    private Group CurrentGroup { get; set; }
+    private Group CurrentGroup { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the current user.
@@ -105,13 +105,13 @@ public partial class GroupPage
     /// The users
     /// </summary>
     /// <value>The students.</value>
-    private List<Student>? Students { get; set; } = new();
+    private List<Student> Students { get; set; } = new();
 
     /// <summary>
     /// The group events
     /// </summary>
     /// <value>The group events.</value>
-    private List<GroupEvent>? GroupEvents { get; set; } = new();
+    private List<GroupEvent> GroupEvents { get; set; } = new();
 
     /// <summary>
     /// The student data visible
@@ -152,13 +152,25 @@ public partial class GroupPage
 
         _isLoading = false;
     }
-
-    /// <summary>
-    /// Shows the modal add event window.
-    /// </summary>
-    public void ShowModalAddEventWindow()
+    
+    public async void CreateGroupEventAsync()
     {
-        NavigationManager.NavigateTo("/group-event/create");
+        _isLoading = true;
+
+        StateHasChanged();
+        var response = await GroupEventService.CreateAsync(new GroupEvent
+        {
+            GroupId = GroupId,
+            DateCreated = DateTime.Now,
+            UserCreated = CurrentUser.Name
+        });
+
+        if (response.IsSuccessStatusCode)
+            NavigationManager.NavigateTo($"group-event/{JsonConvert.DeserializeObject<GroupEvent>(await response.Content.ReadAsStringAsync())!.Id}/{GroupId}");
+        else
+            await MessageService.Error(response.ReasonPhrase);
+
+        _isLoading = false;
     }
 
     /// <summary>
@@ -338,5 +350,29 @@ public partial class GroupPage
         _studentDataVisible = !_studentDataVisible;
 
         StateHasChanged();
+    }
+
+    private async Task RemoveGroupEventAsync(GroupEvent groupEvent)
+    {
+        _isLoading = true;
+        StateHasChanged();
+
+        var response = await GroupEventService.DeleteAsync(groupEvent.Id);
+        if (response.IsSuccessStatusCode)
+            await MessageService.Success($"Событие {groupEvent.Name} успешно удалено.");
+        else
+            await MessageService.Error(response.ReasonPhrase);
+
+        await GetListAsync();
+    }
+
+    private void UpdateGroupEventAsync(IHaveId groupEvent)
+    {
+        NavigationManager.NavigateTo($"group-event/{groupEvent.Id}/{GroupId}");
+    }
+
+    private Task ShowGroupEventPageAsync(GroupEvent groupEvent)
+    {
+        throw new NotImplementedException();
     }
 }

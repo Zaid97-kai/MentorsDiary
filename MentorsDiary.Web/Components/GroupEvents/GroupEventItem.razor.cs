@@ -1,0 +1,182 @@
+﻿using AntDesign;
+using MentorsDiary.Application.Entities.GroupEvents.Domains;
+using MentorsDiary.Application.Entities.Students.Domains;
+using MentorsDiary.Web.Data.Services;
+using Microsoft.AspNetCore.Components;
+
+namespace MentorsDiary.Web.Components.GroupEvents;
+
+/// <summary>
+/// Class GroupEventItem.
+/// Implements the <see cref="ComponentBase" />
+/// </summary>
+/// <seealso cref="ComponentBase" />
+public partial class GroupEventItem
+{
+    /// <summary>
+    /// Gets or sets the group event identifier.
+    /// </summary>
+    /// <value>The group event identifier.</value>
+    [Parameter]
+    public int GroupEventId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the group identifier.
+    /// </summary>
+    /// <value>The group identifier.</value>
+    [Parameter]
+    public int GroupId { get; set; }
+
+    #region INJECTIONS
+
+    /// <summary>
+    /// Gets or sets the navigation manager.
+    /// </summary>
+    /// <value>The navigation manager.</value>
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the group event service.
+    /// </summary>
+    /// <value>The group event service.</value>
+    [Inject]
+    public GroupEventService GroupEventService { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the event service.
+    /// </summary>
+    /// <value>The event service.</value>
+    [Inject]
+    private EventService EventService { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the message service.
+    /// </summary>
+    /// <value>The message service.</value>
+    [Inject]
+    private IMessageService MessageService { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the student service.
+    /// </summary>
+    /// <value>The student service.</value>
+    [Inject]
+    private StudentService StudentService { get; set; } = null!;
+
+    #endregion
+
+    #region PROPERTIES
+
+    /// <summary>
+    /// The student
+    /// </summary>
+    private GroupEvent? _groupEvent = new();
+
+    /// <summary>
+    /// Gets or sets the events.
+    /// </summary>
+    /// <value>The events.</value>
+    private IEnumerable<Application.Entities.Events.Domains.Event> Events { get; set; } = new List<Application.Entities.Events.Domains.Event>();
+
+    /// <summary>
+    /// Gets or sets the students.
+    /// </summary>
+    /// <value>The students.</value>
+    private IEnumerable<Student> Students { get; set; } = new List<Student>();
+
+    /// <summary>
+    /// The is loading
+    /// </summary>
+    private bool _isLoading;
+
+    /// <summary>
+    /// Gets or sets the selected students identifier.
+    /// </summary>
+    /// <value>The selected students identifier.</value>
+    private IEnumerable<int> SelectedStudentsId { get; set; } = new List<int>();
+
+    /// <summary>
+    /// Gets or sets the selected students identifier list.
+    /// </summary>
+    /// <value>The selected students identifier list.</value>
+    private List<int> SelectedStudentsIdList { get; set; } = new();
+
+    /// <summary>
+    /// Gets the navigate to URI.
+    /// </summary>
+    /// <value>The navigate to URI.</value>
+    private string NavigateToUri => $"/group-page/{GroupId}";
+
+    #endregion
+
+    /// <summary>
+    /// On initialized as an asynchronous operation.
+    /// </summary>
+    /// <returns>A Task representing the asynchronous operation.</returns>
+    protected override async Task OnInitializedAsync()
+    {
+        _groupEvent = await GroupEventService.GetIdAsync(GroupEventId);
+
+        await GetListAsync();
+    }
+
+    /// <summary>
+    /// Get list as an asynchronous operation.
+    /// </summary>
+    /// <returns>A Task representing the asynchronous operation.</returns>
+    private async Task GetListAsync()
+    {
+        _isLoading = true;
+        StateHasChanged();
+
+        Events = (await EventService.GetAllAsync() ?? Array.Empty<Application.Entities.Events.Domains.Event>()).ToList();
+        Students = (await StudentService.GetAllAsync() ?? Array.Empty<Student>()).Where(s => s.GroupId == GroupId);
+
+        if (_groupEvent?.Students != null)
+            SelectedStudentsIdList.AddRange(_groupEvent?.Students.Select(s => s.Id) ?? Array.Empty<int>());
+
+        SelectedStudentsId = SelectedStudentsIdList.AsEnumerable();
+
+        _isLoading = false;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Save as an asynchronous operation.
+    /// </summary>
+    /// <returns>A Task representing the asynchronous operation.</returns>
+    private async Task SaveAsync()
+    {
+        if (_groupEvent != null)
+        {
+            _groupEvent.Event = null;
+            _groupEvent.GroupId = GroupId;
+
+            var response = await GroupEventService.UpdateAsync(_groupEvent);
+
+            var students = (await StudentService.GetAllAsync() ?? Array.Empty<Student>()).ToList()
+                .Where(c => SelectedStudentsId.Any(s => s == c.Id)).ToList();
+
+            var responseGroupEventStudent = await GroupEventService.AddStudentsInGroupEvent(new GroupEventStudent()
+            { Id = GroupEventId, Students = students });
+
+            if (response.IsSuccessStatusCode && responseGroupEventStudent.IsSuccessStatusCode)
+                await MessageService.Success($"Событие {_groupEvent.Name} успешно добавлено");
+            else
+                await MessageService.Error(response.ReasonPhrase);
+        }
+
+        NavigationManager.NavigateTo(NavigateToUri);
+    }
+
+    /// <summary>
+    /// Called when [selected items changed handler].
+    /// </summary>
+    /// <param name="students">The students.</param>
+    private void OnSelectedItemsChangedHandler(IEnumerable<Student> students)
+    {
+        if (_groupEvent != null)
+            _groupEvent.CountParticipants = students.Count();
+    }
+}
