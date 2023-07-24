@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using MentorsDiary.Application.Bases.BaseUsers;
+﻿using MentorsDiary.Application.Bases.BaseUsers;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Events.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
 using MentorsDiary.Application.Entities.Students.Domains;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MentorsDiary.Application.Entities.GroupEvents.Domains;
 
@@ -23,6 +23,13 @@ public class GroupEvent : BaseUserCU, IHaveId, IHaveName
     /// </summary>
     /// <value>The identifier.</value>
     public int Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
+    /// <value>The name.</value>
+    [NotMapped]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Gets or sets the count participants.
@@ -59,11 +66,4 @@ public class GroupEvent : BaseUserCU, IHaveId, IHaveName
     /// </summary>
     /// <value>The students.</value>
     public virtual List<Student>? Students { get; set; }
-
-    /// <summary>
-    /// Gets or sets the name.
-    /// </summary>
-    /// <value>The name.</value>
-    [NotMapped]
-    public string? Name { get; set; }
 }

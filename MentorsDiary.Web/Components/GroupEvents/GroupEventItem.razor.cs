@@ -47,7 +47,7 @@ public partial class GroupEventItem
     /// Gets or sets the event service.
     /// </summary>
     /// <value>The event service.</value>
-    [Inject] 
+    [Inject]
     private EventService EventService { get; set; } = null!;
 
     /// <summary>
@@ -61,7 +61,7 @@ public partial class GroupEventItem
     /// Gets or sets the student service.
     /// </summary>
     /// <value>The student service.</value>
-    [Inject] 
+    [Inject]
     private StudentService StudentService { get; set; } = null!;
 
     #endregion
@@ -77,19 +77,13 @@ public partial class GroupEventItem
     /// Gets or sets the events.
     /// </summary>
     /// <value>The events.</value>
-    private List<Application.Entities.Events.Domains.Event> Events { get; set; } = new();
+    private IEnumerable<Application.Entities.Events.Domains.Event> Events { get; set; } = new List<Application.Entities.Events.Domains.Event>();
 
     /// <summary>
     /// Gets or sets the students.
     /// </summary>
     /// <value>The students.</value>
-    private List<Student> Students { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the transfer students.
-    /// </summary>
-    /// <value>The transfer students.</value>
-    private List<TransferItem> TransferStudents { get; set; } = new();
+    private IEnumerable<Student> Students { get; set; } = new List<Student>();
 
     /// <summary>
     /// The is loading
@@ -97,25 +91,16 @@ public partial class GroupEventItem
     private bool _isLoading;
 
     /// <summary>
-    /// The titles
+    /// Gets or sets the selected students identifier.
     /// </summary>
-    private readonly string[] _titles = { "Все", "Участники" };
+    /// <value>The selected students identifier.</value>
+    private IEnumerable<int> SelectedStudentsId { get; set; } = new List<int>();
 
     /// <summary>
-    /// The target keys
+    /// Gets or sets the selected students identifier list.
     /// </summary>
-    private IEnumerable<string?> _targetKeys;
-
-    /// <summary>
-    /// The selected keys
-    /// </summary>
-    private IEnumerable<string> _selectedKeys = new List<string>();
-
-    /// <summary>
-    /// Gets or sets the selected students.
-    /// </summary>
-    /// <value>The selected students.</value>
-    private List<Student?> SelectedStudents { get; set; }
+    /// <value>The selected students identifier list.</value>
+    private List<int> SelectedStudentsIdList { get; set; } = new();
 
     /// <summary>
     /// Gets the navigate to URI.
@@ -144,12 +129,14 @@ public partial class GroupEventItem
     {
         _isLoading = true;
         StateHasChanged();
-        
-        Events = (await EventService.GetAllAsync() ?? Array.Empty<Application.Entities.Events.Domains.Event>()).ToList();
-        Students = (await StudentService.GetAllAsync() ?? Array.Empty<Student>()).Where(s => s.GroupId == GroupId).ToList();
 
-        TransferStudents = Students.Select(s => new TransferItem { Key = s.Id.ToString(), Title = s.Name, Description = s.Name }).ToList();
-        _targetKeys = Students.Select(s => s.Name);
+        Events = (await EventService.GetAllAsync() ?? Array.Empty<Application.Entities.Events.Domains.Event>()).ToList();
+        Students = (await StudentService.GetAllAsync() ?? Array.Empty<Student>()).Where(s => s.GroupId == GroupId);
+
+        if (_groupEvent?.Students != null)
+            SelectedStudentsIdList.AddRange(_groupEvent?.Students.Select(s => s.Id) ?? Array.Empty<int>());
+
+        SelectedStudentsId = SelectedStudentsIdList.AsEnumerable();
 
         _isLoading = false;
         StateHasChanged();
@@ -168,7 +155,13 @@ public partial class GroupEventItem
 
             var response = await GroupEventService.UpdateAsync(_groupEvent);
 
-            if (response.IsSuccessStatusCode)
+            var students = (await StudentService.GetAllAsync() ?? Array.Empty<Student>()).ToList()
+                .Where(c => SelectedStudentsId.Any(s => s == c.Id)).ToList();
+
+            var responseGroupEventStudent = await GroupEventService.AddStudentsInGroupEvent(new GroupEventStudent()
+            { Id = GroupEventId, Students = students });
+
+            if (response.IsSuccessStatusCode && responseGroupEventStudent.IsSuccessStatusCode)
                 await MessageService.Success($"Событие {_groupEvent.Name} успешно добавлено");
             else
                 await MessageService.Error(response.ReasonPhrase);
@@ -178,16 +171,12 @@ public partial class GroupEventItem
     }
 
     /// <summary>
-    /// Called when [change].
+    /// Called when [selected items changed handler].
     /// </summary>
-    /// <param name="e">The e.</param>
-    private async Task OnChange(TransferChangeArgs e)
+    /// <param name="students">The students.</param>
+    private void OnSelectedItemsChangedHandler(IEnumerable<Student> students)
     {
-        SelectedStudents = new List<Student>()!;
-
-        foreach (var key in e.MoveKeys)
-        {
-            SelectedStudents.Add(await StudentService.GetIdAsync(Convert.ToInt32(key)));
-        }
+        if (_groupEvent != null)
+            _groupEvent.CountParticipants = students.Count();
     }
 }

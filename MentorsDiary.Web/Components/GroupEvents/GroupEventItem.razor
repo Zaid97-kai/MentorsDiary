@@ -1,5 +1,6 @@
 ﻿@page "/group-event/{GroupEventId:int}/{GroupId:int}"
 @using MentorsDiary.Application.Entities.Events.Domains
+@using MentorsDiary.Application.Entities.Students.Domains
 
 <br />
 
@@ -19,16 +20,21 @@
                                 IgnoreItemChanges="false">
                         </Select>
                     </FormItem>
-                    <FormItem>
-                        <Transfer DataSource="TransferStudents"
-                                  TargetKeys="_targetKeys"
-                                  SelectedKeys="_selectedKeys"
-                                  Titles="_titles"
-                                  OnChange="OnChange">
-                        </Transfer>
+                    <FormItem Label="Участники мероприятия">
+                        <Select Mode="multiple"
+                                DataSource="@Students"
+                                @bind-Values="@SelectedStudentsId"
+                                LabelName="@nameof(Student.Name)"
+                                ValueName="@nameof(Student.Id)"
+                                TItemValue="int"
+                                TItem="Student"
+                                OnSelectedItemsChanged="OnSelectedItemsChangedHandler"
+                                EnableSearch
+                                EnableVirtualization>
+                        </Select>
                     </FormItem>
                     <FormItem Label="Число участников">
-                        <span>@_selectedKeys.Count()</span>
+                        <span>@SelectedStudentsId.Count()</span>
                     </FormItem>
                     <FormItem>
                         <AntDesign.Button OnClick="() => NavigationManager.NavigateTo(NavigateToUri)" Type="AntDesign.ButtonType.Primary">

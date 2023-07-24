@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using MentorsDiary.Application.Bases.BaseUsers;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.GroupEvents.Domains;
@@ -75,6 +76,7 @@ public class Student : BaseUserCU, IHaveId, IHaveName, IHaveImage
     /// Gets or sets the group events.
     /// </summary>
     /// <value>The group events.</value>
+    [JsonIgnore]
     public virtual List<GroupEvent>? GroupEvents { get; set; }
 
     /// <summary>
