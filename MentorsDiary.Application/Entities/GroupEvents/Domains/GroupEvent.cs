@@ -2,7 +2,6 @@
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Events.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
-using MentorsDiary.Application.Entities.Students.Domains;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MentorsDiary.Application.Entities.GroupEvents.Domains;
@@ -60,10 +59,4 @@ public class GroupEvent : BaseUserCU, IHaveId, IHaveName
     /// </summary>
     /// <value>The event.</value>
     public virtual Event? Event { get; set; }
-
-    /// <summary>
-    /// Gets or sets the students.
-    /// </summary>
-    /// <value>The students.</value>
-    public virtual List<Student>? Students { get; set; }
 }

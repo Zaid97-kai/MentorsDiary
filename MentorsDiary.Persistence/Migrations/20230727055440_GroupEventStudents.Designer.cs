@@ -4,6 +4,7 @@ using MentorsDiary.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MentorsDiary.Persistence.Migrations
 {
     [DbContext(typeof(MentorsDiaryDbContext))]
-    partial class MentorsDiaryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230727055440_GroupEventStudents")]
+    partial class GroupEventStudents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,19 +191,11 @@ namespace MentorsDiary.Persistence.Migrations
 
             modelBuilder.Entity("MentorsDiary.Application.Entities.GroupEvents.Domains.GroupEventStudent", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int>("GroupEventId")
                         .HasColumnType("int");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
-
-                    b.HasKey("Id");
 
                     b.HasIndex("GroupEventId");
 

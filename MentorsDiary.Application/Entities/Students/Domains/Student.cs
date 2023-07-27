@@ -73,13 +73,6 @@ public class Student : BaseUserCU, IHaveId, IHaveName, IHaveImage
     public virtual List<Parent>? Parent { get; set; }
 
     /// <summary>
-    /// Gets or sets the group events.
-    /// </summary>
-    /// <value>The group events.</value>
-    [JsonIgnore]
-    public virtual List<GroupEvent>? GroupEvents { get; set; }
-
-    /// <summary>
     /// Gets or sets the image path.
     /// </summary>
     /// <value>The image path.</value>

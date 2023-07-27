@@ -1,5 +1,6 @@
 ﻿using AntDesign;
 using MentorsDiary.Application.Entities.GroupEvents.Domains;
+using MentorsDiary.Application.Entities.GroupEventStudents.Domains;
 using MentorsDiary.Application.Entities.Students.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
@@ -64,6 +65,13 @@ public partial class GroupEventItem
     [Inject]
     private StudentService StudentService { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the group event student service.
+    /// </summary>
+    /// <value>The group event student service.</value>
+    [Inject]
+    private GroupEventStudentService GroupEventStudentService { get; set; } = null!;
+
     #endregion
 
     #region PROPERTIES
@@ -84,6 +92,12 @@ public partial class GroupEventItem
     /// </summary>
     /// <value>The students.</value>
     private IEnumerable<Student> Students { get; set; } = new List<Student>();
+
+    /// <summary>
+    /// Gets or sets the group event student.
+    /// </summary>
+    /// <value>The group event student.</value>
+    private IEnumerable<GroupEventStudent> GroupEventStudent { get; set; } = new List<GroupEventStudent>();
 
     /// <summary>
     /// The is loading
@@ -132,9 +146,13 @@ public partial class GroupEventItem
 
         Events = (await EventService.GetAllAsync() ?? Array.Empty<Application.Entities.Events.Domains.Event>()).ToList();
         Students = (await StudentService.GetAllAsync() ?? Array.Empty<Student>()).Where(s => s.GroupId == GroupId);
+        GroupEventStudent = (await GroupEventStudentService.GetAllAsync() ?? Array.Empty<GroupEventStudent>()).Where(s => s.GroupEventId == GroupEventId);
 
-        if (_groupEvent?.Students != null)
-            SelectedStudentsIdList.AddRange(_groupEvent?.Students.Select(s => s.Id) ?? Array.Empty<int>());
+        foreach (var groupEventStudent in GroupEventStudent)
+        {
+            if(groupEventStudent.GroupEventId == GroupEventId)
+                SelectedStudentsIdList.Add(groupEventStudent.StudentId);
+        }
 
         SelectedStudentsId = SelectedStudentsIdList.AsEnumerable();
 
@@ -158,8 +176,15 @@ public partial class GroupEventItem
             var students = (await StudentService.GetAllAsync() ?? Array.Empty<Student>()).ToList()
                 .Where(c => SelectedStudentsId.Any(s => s == c.Id)).ToList();
 
-            var responseGroupEventStudent = await GroupEventService.AddStudentsInGroupEvent(new GroupEventStudent()
-            { Id = GroupEventId, Students = students });
+            var studentsInGroupEvent = new List<GroupEventStudent>();
+            for (var index = 0; index < students.Count; index++)
+            {
+                studentsInGroupEvent.Add(new GroupEventStudent());
+                studentsInGroupEvent[index].GroupEventId = GroupEventId;
+                studentsInGroupEvent[index].StudentId = students[index].Id;
+            }
+
+            var responseGroupEventStudent = await GroupEventStudentService.AddStudentsInGroupEvent(studentsInGroupEvent);
 
             if (response.IsSuccessStatusCode && responseGroupEventStudent.IsSuccessStatusCode)
                 await MessageService.Success($"Событие {_groupEvent.Name} успешно добавлено");

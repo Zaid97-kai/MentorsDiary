@@ -8,6 +8,8 @@ using MentorsDiary.Application.Entities.Files.Interfaces;
 using MentorsDiary.Application.Entities.Files.Repositories;
 using MentorsDiary.Application.Entities.GroupEvents.Interfaces;
 using MentorsDiary.Application.Entities.GroupEvents.Repositories;
+using MentorsDiary.Application.Entities.GroupEventStudents.Interfaces;
+using MentorsDiary.Application.Entities.GroupEventStudents.Repositories;
 using MentorsDiary.Application.Entities.Groups.Interfaces;
 using MentorsDiary.Application.Entities.Groups.Repositories;
 using MentorsDiary.Application.Entities.Parents.Interfaces;
@@ -39,6 +41,7 @@ public static class ApplicationServiceCollectionExtensions
         serviceCollection.AddScoped<IEventRepository, EventRepository>();
         serviceCollection.AddScoped<IServiceFileRepository, FileRepository>();
         serviceCollection.AddScoped<IGroupEventRepository, GroupEventRepository>();
+        serviceCollection.AddScoped<IGroupEventStudentRepository, GroupEventStudentRepository>();
         serviceCollection.AddScoped<IGroupRepository, GroupRepository>();
         serviceCollection.AddScoped<IParentRepository, ParentRepository>();
         serviceCollection.AddScoped<IStudentRepository, StudentRepository>();
