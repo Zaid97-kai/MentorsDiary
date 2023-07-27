@@ -10,10 +10,4 @@ namespace MentorsDiary.Application.Entities.GroupEvents.Interfaces;
 /// <seealso cref="IBaseRepository{GroupEvent}" />
 public interface IGroupEventRepository : IBaseRepository<GroupEvent>
 {
-    /// <summary>
-    /// Adds the students in group event.
-    /// </summary>
-    /// <param name="students">The students.</param>
-    /// <returns>Task.</returns>
-    Task AddStudentsInGroupEvent(GroupEventStudent students);
 }

@@ -3,6 +3,7 @@ using MentorsDiary.Application.Entities.Curators.Domains;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Events.Domains;
 using MentorsDiary.Application.Entities.GroupEvents.Domains;
+using MentorsDiary.Application.Entities.GroupEventStudents.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
 using MentorsDiary.Application.Entities.Parents.Domains;
 using MentorsDiary.Application.Entities.Students.Domains;
@@ -28,7 +29,7 @@ public class MentorsDiaryDbContext : DbContext, IMentorsDiaryContext
     private readonly IServiceProvider _serviceProvider;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MentorsDiaryDbContext"/> class.
+    /// Initializes a new instance of the <see cref="MentorsDiaryDbContext" /> class.
     /// </summary>
     /// <param name="options">The options.</param>
     /// <param name="serviceProvider">The service provider.</param>
@@ -132,6 +133,12 @@ public class MentorsDiaryDbContext : DbContext, IMentorsDiaryContext
     /// </summary>
     /// <value>The users.</value>
     public DbSet<User> Users { get; set; }
+
+    /// <summary>
+    /// Gets or sets the group event student.
+    /// </summary>
+    /// <value>The group event student.</value>
+    public DbSet<GroupEventStudent> GroupEventStudents { get; set; }
 
     #endregion
 }

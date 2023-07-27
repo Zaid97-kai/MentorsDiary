@@ -26,6 +26,7 @@ public static class WebServiceCollectionExtensions
         serviceCollection.AddSingleton<GroupService>();
         serviceCollection.AddSingleton<ParentService>();
         serviceCollection.AddSingleton<GroupEventService>();
+        serviceCollection.AddSingleton<GroupEventStudentService>();
         serviceCollection.AddSingleton<EventService>();
         serviceCollection.AddSingleton<StudentService>();
 

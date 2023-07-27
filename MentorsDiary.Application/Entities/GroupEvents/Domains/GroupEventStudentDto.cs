@@ -1,11 +1,12 @@
-﻿using MentorsDiary.Application.Entities.Students.Domains;
+﻿using MentorsDiary.Application.Entities.GroupEventStudents.Domains;
+using MentorsDiary.Application.Entities.Students.Domains;
 
 namespace MentorsDiary.Application.Entities.GroupEvents.Domains;
 
 /// <summary>
-/// Class GroupEventStudent.
+/// Class GroupEventStudentDto.
 /// </summary>
-public class GroupEventStudent
+public class GroupEventStudentDto
 {
     /// <summary>
     /// Gets or sets the identifier.
@@ -17,5 +18,5 @@ public class GroupEventStudent
     /// Gets or sets the students.
     /// </summary>
     /// <value>The students.</value>
-    public List<Student> Students { get; set; }
+    public List<GroupEventStudent> Students { get; set; }
 }
