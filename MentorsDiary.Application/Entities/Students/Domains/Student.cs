@@ -63,7 +63,7 @@ public class Student : BaseUserCU, IHaveId, IHaveName, IHaveImage
     /// Gets or sets the group.
     /// </summary>
     /// <value>The group.</value>
-    public virtual Group Group { get; set; }
+    public virtual Group Group { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the parent.

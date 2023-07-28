@@ -35,7 +35,7 @@ public partial class DeputyDirectorItem
     /// </summary>
     /// <value>The user service.</value>
     [Inject]
-    public UserService UserService { get; set; } = null!;
+    private UserService UserService { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the division service.
@@ -70,19 +70,18 @@ public partial class DeputyDirectorItem
     /// Gets or sets the selected division.
     /// </summary>
     /// <value>The selected division.</value>
-    private string? SelectedDivisionItem { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the selected division.
-    /// </summary>
-    /// <value>The selected division.</value>
     private Division? SelectedDivision { get; set; } = new();
-    
+
     /// <summary>
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
     private string NavigateToUri => "deputydirector";
+
+    /// <summary>
+    /// The is loading
+    /// </summary>
+    private bool _isLoading;
 
     #endregion
 
@@ -92,9 +91,23 @@ public partial class DeputyDirectorItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     protected override async Task OnInitializedAsync()
     {
-        Divisions = (await DivisionService.GetAllAsync() ?? Array.Empty<Division>()).ToList();
+        await GetListAsync();
+    }
 
+    /// <summary>
+    /// Get list as an asynchronous operation.
+    /// </summary>
+    /// <returns>A Task representing the asynchronous operation.</returns>
+    private async Task GetListAsync()
+    {
+        _isLoading = true;
+        StateHasChanged();
+
+        Divisions = (await DivisionService.GetAllAsync() ?? Array.Empty<Division>()).ToList();
         _deputyDirector = await UserService.GetIdAsync(DeputyDirectorId);
+
+        _isLoading = false;
+        StateHasChanged();
     }
 
     /// <summary>
@@ -103,6 +116,9 @@ public partial class DeputyDirectorItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     private async Task SaveAsync()
     {
+        _isLoading = true;
+        StateHasChanged();
+
         if (_deputyDirector != null)
         {
             _deputyDirector.Role = EnumRoles.DeputyDirector;
@@ -116,16 +132,19 @@ public partial class DeputyDirectorItem
                 await MessageService.Error(response.ReasonPhrase);
         }
 
+        _isLoading = false;
+        StateHasChanged();
+
         NavigationManager.NavigateTo("/deputydirector");
     }
 
     /// <summary>
     /// Called when [selected item changed handler].
     /// </summary>
-    /// <param name="value">The value.</param>
-    private void OnSelectedItemChangedHandler(Division value)
+    /// <param name="division">The value.</param>
+    private void OnSelectedItemChangedHandler(Division division)
     {
-        SelectedDivision = value;
+        SelectedDivision = division;
         StateHasChanged();
     }
 }

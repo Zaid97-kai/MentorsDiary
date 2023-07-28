@@ -37,14 +37,14 @@ public partial class GroupItem
     /// </summary>
     /// <value>The user service.</value>
     [Inject]
-    public GroupService GroupService { get; set; } = null!;
+    private GroupService GroupService { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the curator service.
     /// </summary>
     /// <value>The curator service.</value>
     [Inject]
-    public CuratorService CuratorService { get; set; } = null!;
+    private CuratorService CuratorService { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the division service.
@@ -100,6 +100,11 @@ public partial class GroupItem
     /// <value>The navigate to URI.</value>
     private static string NavigateToUri => "group";
 
+    /// <summary>
+    /// The is loading
+    /// </summary>
+    private bool _isLoading;
+
     #endregion
 
     /// <summary>
@@ -109,8 +114,6 @@ public partial class GroupItem
     protected override async Task OnInitializedAsync()
     {
         await GetListAsync();
-
-        _group = await GroupService.GetIdAsync(GroupId);
     }
 
     /// <summary>
@@ -119,6 +122,9 @@ public partial class GroupItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     private async Task GetListAsync()
     {
+        _isLoading = true;
+        StateHasChanged();
+
         switch (CurrentUser.Role)
         {
             case EnumRoles.Administrator:
@@ -132,6 +138,11 @@ public partial class GroupItem
                     .Where(c => c.User?.DivisionId == CurrentUser.DivisionId).ToList();
                 break;
         }
+
+        _isLoading = true;
+        StateHasChanged();
+
+        _group = await GroupService.GetIdAsync(GroupId);
     }
 
     /// <summary>
@@ -140,15 +151,16 @@ public partial class GroupItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     private async Task SaveAsync()
     {
+        _isLoading = true;
+        StateHasChanged();
+
         if (_group != null)
         {
             _group.Division = null;
             _group.Curator = null;
 
             if (CurrentUser.Role == EnumRoles.DeputyDirector)
-            {
                 _group.DivisionId = CurrentUser.DivisionId;
-            }
 
             var response = await GroupService.UpdateAsync(_group);
 
@@ -157,6 +169,9 @@ public partial class GroupItem
             else
                 await MessageService.Error(response.ReasonPhrase);
         }
+
+        _isLoading = false;
+        StateHasChanged();
 
         NavigationManager.NavigateTo("/group");
     }

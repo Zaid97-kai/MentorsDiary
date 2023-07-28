@@ -120,7 +120,7 @@ public class WebsiteAuthenticator : AuthenticationStateProvider
     /// </summary>
     /// <param name="user">The user.</param>
     /// <returns>A Task&lt;ClaimsIdentity&gt; representing the asynchronous operation.</returns>
-    private static async Task<ClaimsIdentity> CreateIdentityFromUserAsync(User user)
+    private static Task<ClaimsIdentity> CreateIdentityFromUserAsync(User user)
     {
         var result = new ClaimsIdentity(new Claim[]
         {
@@ -129,7 +129,7 @@ public class WebsiteAuthenticator : AuthenticationStateProvider
             new (ClaimTypes.Role, user.Role.ToString() ?? string.Empty),
         }, "WebsiteAuthenticator");
 
-        return result;
+        return Task.FromResult(result);
     }
 
     /// <summary>

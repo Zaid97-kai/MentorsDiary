@@ -13,7 +13,7 @@ namespace MentorsDiary.Web.Components.Searches;
 /// <typeparam name="TService">The type of the t service.</typeparam>
 /// <seealso cref="ComponentBase" />
 public partial class BodySearchBar<TValue, TService>
-    where TValue : class, IHaveName, new()
+    where TValue : class, IHaveId, IHaveName, new()
     where TService : BaseService<TValue>
 {
     /// <summary>
@@ -64,7 +64,11 @@ public partial class BodySearchBar<TValue, TService>
         var ret = await Service?.GetAllAsync()!;
 
         Values = new List<TValue>();
-        Values?.Add(new TValue() { Name = "Все" });
+        Values?.Add(new TValue
+        {
+            Id = -1, 
+            Name = "Все"
+        });
         Values?.AddRange((ret ?? Array.Empty<TValue>()).ToList());
     }
 
@@ -93,23 +97,6 @@ public partial class BodySearchBar<TValue, TService>
     private void OnSearch(string obj)
     {
         Console.WriteLine($"search: {obj}");
-    }
-
-    /// <summary>
-    /// Called when [search].
-    /// </summary>
-    public async Task OnSearch()
-    {
-
-    }
-
-    /// <summary>
-    /// Handles the <see cref="E:Enter" /> event.
-    /// </summary>
-    /// <param name="e">The <see cref="KeyboardEventArgs" /> instance containing the event data.</param>
-    private async Task OnEnter(KeyboardEventArgs e)
-    {
-
     }
 
     /// <summary>

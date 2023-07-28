@@ -79,7 +79,7 @@ public class Filter<T>
     /// <param name="filterColumn">The filter column.</param>
     /// <param name="filterValue">The filter value.</param>
     /// <returns>IEnumerable&lt;T&gt;.</returns>
-    private static async Task<IEnumerable<T>> FilterData(EnumFilterOptions filterOption, IEnumerable<T> data, PropertyInfo filterColumn, string filterValue)
+    private static Task<IEnumerable<T>> FilterData(EnumFilterOptions filterOption, IEnumerable<T> data, PropertyInfo filterColumn, string filterValue)
     {
         int outValue;
         DateTime dateValue;
@@ -201,6 +201,6 @@ public class Filter<T>
                 break;
                 #endregion
         }
-        return data;
+        return Task.FromResult(data);
     }
 }
