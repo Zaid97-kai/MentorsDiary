@@ -90,11 +90,4 @@ public class User : BaseUserCU, IHaveId, IHaveName, IHaveImage, IBaseUser
     /// </summary>
     /// <value>The division.</value>
     public virtual Division? Division { get; set; }
-
-    /// <summary>
-    /// Gets or sets the curators.
-    /// </summary>
-    /// <value>The curators.</value>
-    [JsonIgnore]
-    public virtual List<Curator>? Curators { get; set; }
 }
