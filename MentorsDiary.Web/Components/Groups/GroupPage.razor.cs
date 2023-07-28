@@ -1,11 +1,12 @@
 ﻿using AntDesign;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
 using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Bases.Filters;
 using MentorsDiary.Application.Entities.GroupEvents.Domains;
+using MentorsDiary.Application.Entities.Parents.Domains;
+using MentorsDiary.Application.Entities.ParentStudents.Domains;
 using MentorsDiary.Application.Entities.Students.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
@@ -47,13 +48,6 @@ public partial class GroupPage
     private IJSRuntime Js { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the event service.
-    /// </summary>
-    /// <value>The event service.</value>
-    [Inject]
-    private EventService EventService { get; set; } = null!;
-
-    /// <summary>
     /// Gets or sets the authentication service.
     /// </summary>
     /// <value>The authentication service.</value>
@@ -66,6 +60,20 @@ public partial class GroupPage
     /// <value>The student service.</value>
     [Inject]
     private StudentService StudentService { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the parent service.
+    /// </summary>
+    /// <value>The parent service.</value>
+    [Inject]
+    private ParentService ParentService { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the parent student service.
+    /// </summary>
+    /// <value>The parent student service.</value>
+    [Inject]
+    private ParentStudentService ParentStudentService { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the group service.
@@ -135,29 +143,47 @@ public partial class GroupPage
     public async void CreateStudentAsync()
     {
         _isLoading = true;
-
         StateHasChanged();
-        var response = await StudentService.CreateAsync(new Student
+
+        var responseCreateStudent = await StudentService.CreateAsync(new Student
         {
-            Name = "Имя", 
+            Name = "Имя",
             GroupId = GroupId,
             DateCreated = DateTime.Now,
             UserCreated = CurrentUser.Name
         });
 
-        if (response.IsSuccessStatusCode)
-            NavigationManager.NavigateTo($"student/{JsonConvert.DeserializeObject<Student>(await response.Content.ReadAsStringAsync())!.Id}/{GroupId}");
+        var createdStudent = JsonConvert.DeserializeObject<Student>(await responseCreateStudent.Content.ReadAsStringAsync());
+
+        var mother = new Parent();
+        var father = new Parent();
+
+        var responseCreateParentMother = await ParentService.CreateAsync(mother);
+        var responseCreateParentFather = await ParentService.CreateAsync(father);
+
+        var createdParentMother = JsonConvert.DeserializeObject<Parent>(await responseCreateParentMother.Content.ReadAsStringAsync());
+        var createdParentFather = JsonConvert.DeserializeObject<Parent>(await responseCreateParentFather.Content.ReadAsStringAsync());
+
+        await ParentStudentService.CreateAsync(new ParentStudent { ParentId = createdParentMother.Id, StudentId = createdStudent.Id });
+        await ParentStudentService.CreateAsync(new ParentStudent { ParentId = createdParentFather.Id, StudentId = createdStudent.Id });
+
+        if (responseCreateStudent.IsSuccessStatusCode)
+            NavigationManager.NavigateTo($"student/{createdStudent.Id}/{GroupId}");
         else
-            await MessageService.Error(response.ReasonPhrase);
+            await MessageService.Error(responseCreateStudent.ReasonPhrase);
 
         _isLoading = false;
     }
-    
+
+    /// <summary>
+    /// Create group event as an asynchronous operation.
+    /// </summary>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     public async void CreateGroupEventAsync()
     {
         _isLoading = true;
-
         StateHasChanged();
+
         var response = await GroupEventService.CreateAsync(new GroupEvent
         {
             GroupId = GroupId,
@@ -352,6 +378,11 @@ public partial class GroupPage
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Remove group event as an asynchronous operation.
+    /// </summary>
+    /// <param name="groupEvent">The group event.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     private async Task RemoveGroupEventAsync(GroupEvent groupEvent)
     {
         _isLoading = true;
@@ -366,11 +397,21 @@ public partial class GroupPage
         await GetListAsync();
     }
 
+    /// <summary>
+    /// Updates the group event asynchronous.
+    /// </summary>
+    /// <param name="groupEvent">The group event.</param>
     private void UpdateGroupEventAsync(IHaveId groupEvent)
     {
         NavigationManager.NavigateTo($"group-event/{groupEvent.Id}/{GroupId}");
     }
 
+    /// <summary>
+    /// Shows the group event page asynchronous.
+    /// </summary>
+    /// <param name="groupEvent">The group event.</param>
+    /// <returns>Task.</returns>
+    /// <exception cref="System.NotImplementedException"></exception>
     private Task ShowGroupEventPageAsync(GroupEvent groupEvent)
     {
         throw new NotImplementedException();

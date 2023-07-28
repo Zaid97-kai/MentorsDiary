@@ -14,6 +14,8 @@ using MentorsDiary.Application.Entities.Groups.Interfaces;
 using MentorsDiary.Application.Entities.Groups.Repositories;
 using MentorsDiary.Application.Entities.Parents.Interfaces;
 using MentorsDiary.Application.Entities.Parents.Repositories;
+using MentorsDiary.Application.Entities.ParentStudents.Interfaces;
+using MentorsDiary.Application.Entities.ParentStudents.Repositories;
 using MentorsDiary.Application.Entities.Students.Interfaces;
 using MentorsDiary.Application.Entities.Students.Repositories;
 using MentorsDiary.Application.Entities.Users.Interfaces;
@@ -44,6 +46,7 @@ public static class ApplicationServiceCollectionExtensions
         serviceCollection.AddScoped<IGroupEventStudentRepository, GroupEventStudentRepository>();
         serviceCollection.AddScoped<IGroupRepository, GroupRepository>();
         serviceCollection.AddScoped<IParentRepository, ParentRepository>();
+        serviceCollection.AddScoped<IParentStudentRepository, ParentStudentRepository>();
         serviceCollection.AddScoped<IStudentRepository, StudentRepository>();
         serviceCollection.AddScoped<IUserRepository, UserRepository>();
 

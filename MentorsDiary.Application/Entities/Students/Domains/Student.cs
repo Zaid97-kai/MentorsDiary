@@ -1,9 +1,8 @@
 using System.Text.Json.Serialization;
 using MentorsDiary.Application.Bases.BaseUsers;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
-using MentorsDiary.Application.Entities.GroupEvents.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
-using MentorsDiary.Application.Entities.Parents.Domains;
+using MentorsDiary.Application.Entities.ParentStudents.Domains;
 
 namespace MentorsDiary.Application.Entities.Students.Domains;
 
@@ -70,7 +69,8 @@ public class Student : BaseUserCU, IHaveId, IHaveName, IHaveImage
     /// Gets or sets the parent.
     /// </summary>
     /// <value>The parent.</value>
-    public virtual List<Parent>? Parent { get; set; }
+    [JsonIgnore]
+    public virtual List<ParentStudent>? ParentStudents { get; set; }
 
     /// <summary>
     /// Gets or sets the image path.

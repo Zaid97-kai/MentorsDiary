@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using MentorsDiary.Application.Bases.BaseUsers;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
-using MentorsDiary.Application.Entities.Students.Domains;
+using MentorsDiary.Application.Entities.ParentStudents.Domains;
 
 namespace MentorsDiary.Application.Entities.Parents.Domains;
 
@@ -51,5 +51,5 @@ public class Parent : BaseUserCU, IHaveId, IHaveName
     /// </summary>
     /// <value>The childrens.</value>
     [JsonIgnore]
-    public virtual List<Student>? Childrens { get; set; }
+    public virtual List<ParentStudent>? ParentStudents { get; set; }
 }

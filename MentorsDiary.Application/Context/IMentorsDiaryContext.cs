@@ -5,6 +5,7 @@ using MentorsDiary.Application.Entities.GroupEvents.Domains;
 using MentorsDiary.Application.Entities.GroupEventStudents.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
 using MentorsDiary.Application.Entities.Parents.Domains;
+using MentorsDiary.Application.Entities.ParentStudents.Domains;
 using MentorsDiary.Application.Entities.Students.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
 using Microsoft.EntityFrameworkCore;
@@ -71,6 +72,12 @@ public interface IMentorsDiaryContext
     /// </summary>
     /// <value>The group event student.</value>
     public DbSet<GroupEventStudent> GroupEventStudents { get; set; }
+
+    /// <summary>
+    /// Gets or sets the parent students.
+    /// </summary>
+    /// <value>The parent students.</value>
+    public DbSet<ParentStudent> ParentStudents { get; set; }
 
     #endregion
 }
