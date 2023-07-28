@@ -2,7 +2,6 @@
 using MentorsDiary.Application.Entities.Bases.Repositories;
 using MentorsDiary.Application.Entities.GroupEventStudents.Domains;
 using MentorsDiary.Application.Entities.GroupEventStudents.Interfaces;
-using MentorsDiary.Application.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace MentorsDiary.Application.Entities.GroupEventStudents.Repositories;
@@ -22,7 +21,7 @@ public class GroupEventStudentRepository : BaseRepository<GroupEventStudent>, IG
     private readonly IMentorsDiaryContext _context;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GroupEventStudentRepository"/> class.
+    /// Initializes a new instance of the <see cref="GroupEventStudentRepository" /> class.
     /// </summary>
     /// <param name="context">The context.</param>
     public GroupEventStudentRepository(IMentorsDiaryContext context) : base((DbContext)context)
@@ -34,16 +33,30 @@ public class GroupEventStudentRepository : BaseRepository<GroupEventStudent>, IG
     /// Adds the students in group event.
     /// </summary>
     /// <param name="groupEventStudents">The group event students.</param>
-    public async Task AddStudentsInGroupEvent(List<GroupEventStudent> groupEventStudents)
+    /// <returns>Task.</returns>
+    public async Task AddStudentsInGroupEvent(IEnumerable<GroupEventStudent> groupEventStudents)
     {
-        var eventStudents = _context.GroupEventStudents.Where(g => g.GroupEventId == groupEventStudents.First().GroupEventId);
-        if(eventStudents != null)
+        await RemovingUnnecessaryStudents(groupEventStudents);
+
+        if(groupEventStudents.FirstOrDefault()?.StudentId != 0)
+        {
+            await _context.GroupEventStudents.AddRangeAsync(groupEventStudents);
+            await Context.SaveChangesAsync();
+        }
+    }
+
+    /// <summary>
+    /// Removings the unnecessary students.
+    /// </summary>
+    /// <param name="groupEventStudents">The group event students.</param>
+    private async Task RemovingUnnecessaryStudents(IEnumerable<GroupEventStudent> groupEventStudents)
+    {
+        var eventStudents =
+            _context.GroupEventStudents.Where(g => g.GroupEventId == groupEventStudents.First().GroupEventId);
+        if (eventStudents != null)
         {
             _context.GroupEventStudents.RemoveRange(eventStudents);
             await Context.SaveChangesAsync();
         }
-        
-        await _context.GroupEventStudents.AddRangeAsync(groupEventStudents);
-        await Context.SaveChangesAsync();
     }
 }
