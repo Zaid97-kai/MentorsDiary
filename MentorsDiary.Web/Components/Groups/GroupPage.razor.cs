@@ -99,7 +99,7 @@ public partial class GroupPage
     /// Gets or sets the current user.
     /// </summary>
     /// <value>The current user.</value>
-    private User CurrentUser => (User)AuthenticationService?.AuthorizedUser!;
+    private User CurrentUser => (User)AuthenticationService.AuthorizedUser!;
 
     /// <summary>
     /// The users

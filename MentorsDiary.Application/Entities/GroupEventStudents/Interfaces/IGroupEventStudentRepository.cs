@@ -15,5 +15,5 @@ public interface IGroupEventStudentRepository : IBaseRepository<GroupEventStuden
     /// </summary>
     /// <param name="groupEventStudents">The group event students.</param>
     /// <returns>Task.</returns>
-    Task AddStudentsInGroupEvent(List<GroupEventStudent> groupEventStudents);
+    Task AddStudentsInGroupEvent(IEnumerable<GroupEventStudent> groupEventStudents);
 }

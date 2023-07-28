@@ -42,7 +42,7 @@ public partial class GroupEventItem
     /// </summary>
     /// <value>The group event service.</value>
     [Inject]
-    public GroupEventService GroupEventService { get; set; } = null!;
+    private GroupEventService GroupEventService { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the event service.
@@ -184,10 +184,17 @@ public partial class GroupEventItem
                 studentsInGroupEvent[index].StudentId = students[index].Id;
             }
 
-            var responseGroupEventStudent = await GroupEventStudentService.AddStudentsInGroupEvent(studentsInGroupEvent);
+            HttpResponseMessage responseGroupEventStudent;
+            if (studentsInGroupEvent.Count == 0)
+            {
+                studentsInGroupEvent.Add(new GroupEventStudent { GroupEventId = GroupEventId });
+                responseGroupEventStudent = await GroupEventStudentService.AddStudentsInGroupEvent(studentsInGroupEvent);
+            }
+            else
+                responseGroupEventStudent = await GroupEventStudentService.AddStudentsInGroupEvent(studentsInGroupEvent);
 
             if (response.IsSuccessStatusCode && responseGroupEventStudent.IsSuccessStatusCode)
-                await MessageService.Success($"Событие {_groupEvent.Name} успешно добавлено");
+                await MessageService.Success($"Событие {_groupEvent.Name} успешно добавлено.");
             else
                 await MessageService.Error(response.ReasonPhrase);
         }
