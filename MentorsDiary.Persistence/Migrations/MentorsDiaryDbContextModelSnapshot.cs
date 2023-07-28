@@ -57,7 +57,7 @@ namespace MentorsDiary.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Curators");
+                    b.ToTable("Curators", (string)null);
                 });
 
             modelBuilder.Entity("MentorsDiary.Application.Entities.Divisions.Domains.Division", b =>
@@ -87,7 +87,7 @@ namespace MentorsDiary.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Divisions");
+                    b.ToTable("Divisions", (string)null);
 
                     b.HasData(
                         new
@@ -143,7 +143,7 @@ namespace MentorsDiary.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("MentorsDiary.Application.Entities.GroupEvents.Domains.GroupEvent", b =>
@@ -183,7 +183,7 @@ namespace MentorsDiary.Persistence.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("GroupEvents");
+                    b.ToTable("GroupEvents", (string)null);
                 });
 
             modelBuilder.Entity("MentorsDiary.Application.Entities.GroupEvents.Domains.GroupEventStudent", b =>
@@ -206,7 +206,7 @@ namespace MentorsDiary.Persistence.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("GroupEventStudents");
+                    b.ToTable("GroupEventStudents", (string)null);
                 });
 
             modelBuilder.Entity("MentorsDiary.Application.Entities.Groups.Domains.Group", b =>
@@ -246,7 +246,7 @@ namespace MentorsDiary.Persistence.Migrations
 
                     b.HasIndex("DivisionId");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("MentorsDiary.Application.Entities.Parents.Domains.Parent", b =>
@@ -285,7 +285,7 @@ namespace MentorsDiary.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Parents");
+                    b.ToTable("Parents", (string)null);
                 });
 
             modelBuilder.Entity("MentorsDiary.Application.Entities.Students.Domains.Student", b =>
@@ -335,7 +335,7 @@ namespace MentorsDiary.Persistence.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("MentorsDiary.Application.Entities.Users.Domains.User", b =>
@@ -391,7 +391,7 @@ namespace MentorsDiary.Persistence.Migrations
 
                     b.HasIndex("DivisionId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
@@ -472,7 +472,7 @@ namespace MentorsDiary.Persistence.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("ParentStudent");
+                    b.ToTable("ParentStudent", (string)null);
                 });
 
             modelBuilder.Entity("MentorsDiary.Application.Entities.Curators.Domains.Curator", b =>

@@ -8,7 +8,6 @@ using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MentorsDiary.Web.Components.Groups;
 
@@ -27,6 +26,13 @@ public partial class GroupList
     private GroupService GroupService { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the curator service.
+    /// </summary>
+    /// <value>The curator service.</value>
+    [Inject]
+    private CuratorService CuratorService { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets the navigation manager.
     /// </summary>
     /// <value>The navigation manager.</value>
@@ -39,7 +45,7 @@ public partial class GroupList
     /// <value>The message service.</value>
     [Inject]
     private IMessageService MessageService { get; set; } = null!;
-    
+
     /// <summary>
     /// Gets or sets the authentication service.
     /// </summary>
@@ -62,19 +68,13 @@ public partial class GroupList
     /// Gets or sets the groups.
     /// </summary>
     /// <value>The groups.</value>
-    private List<Group>? Groups { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether this instance is create loading.
-    /// </summary>
-    /// <value><c>true</c> if this instance is create loading; otherwise, <c>false</c>.</value>
-    private bool IsCreateLoading { get; set; }
+    private List<Group>? Groups { get; set; } = new();
 
     /// <summary>
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
-    private string NavigateToUri => "group";
+    private static string NavigateToUri => "group";
 
     /// <summary>
     /// On initialized as an asynchronous operation.
@@ -111,6 +111,19 @@ public partial class GroupList
                 Groups = JsonConvert.DeserializeObject<List<Group>>(await result.Content.ReadAsStringAsync());
                 break;
             }
+            case EnumRoles.Curator:
+            {
+                var curator = (await CuratorService.GetAllAsync() ?? Array.Empty<Application.Entities.Curators.Domains.Curator>()).FirstOrDefault(c => c.UserId == CurrentUser.Id);
+                var result = await GroupService.GetAllByFilterAsync(
+                    new FilterParams
+                    {
+                        ColumnName = "CuratorId",
+                        FilterOption = EnumFilterOptions.Contains,
+                        FilterValue = curator?.Id.ToString()!
+                    });
+                Groups = JsonConvert.DeserializeObject<List<Group>>(await result.Content.ReadAsStringAsync());
+                break;
+            }
         }
 
         _isLoading = false;
@@ -123,7 +136,7 @@ public partial class GroupList
     /// <returns>A Task representing the asynchronous operation.</returns>
     public async Task CreateGroupAsync()
     {
-        IsCreateLoading = true;
+        _isLoading = true;
         StateHasChanged();
 
         var response = new HttpResponseMessage();
@@ -152,7 +165,7 @@ public partial class GroupList
         else
             await MessageService.Error(response.ReasonPhrase);
 
-        IsCreateLoading = false;
+        _isLoading = false;
     }
 
     /// <summary>
