@@ -1,36 +1,61 @@
-﻿<Modal Title="@("Просмотр студента")"
-       Visible="@Visible"
-       OnCancel="CloseStudentPage"
-       OkButtonProps="new ButtonProps(){ Disabled = Visible, Ghost = true}">
-    <div class="container-fluid">
-        <Form Model="@Student">
-            <Paragraph Copyable>
-                <Row Gutter="24">
-                    <GridCol Span="24">
-                        <FormItem Label="ФИО" Style="margin-bottom: 0.3em">
-                            <Text>@context.Name</Text>
-                        </FormItem>
-                        <FormItem Label="Дата рождения" Style="margin-bottom: 0.3em">
-                            <Text>@context.BirthDate?.ToString("d")</Text>
-                        </FormItem>
-                        <FormItem Label="Подразделение" Style="margin-bottom: 0.3em">
-                            <Text>@context.Group.Division?.Name</Text>
-                        </FormItem>
-                        <FormItem Label="Группа" Style="margin-bottom: 0.3em">
-                            <Text>@context.Group?.Name</Text>
-                        </FormItem>
-                        <FormItem Label="Телефон" Style="margin-bottom: 0.3em">
-                            <Text>@context.Phone</Text>
-                        </FormItem>
-                        <FormItem Label="Адрес" Style="margin-bottom: 0.3em">
-                            <Text>@context.Address</Text>
-                        </FormItem>
-                        <FormItem Label="Email" Style="margin-bottom: 0.3em">
-                            <Text>@context.Email</Text>
-                        </FormItem>
-                    </GridCol>
-                </Row>
-            </Paragraph>
-        </Form>
-    </div>
-</Modal>
+﻿<Drawer Width="640" Title="@("Просмотр студента")"
+        Visible="@Visible"
+        OnClose="CloseStudentPage">
+    <Loading Spinning="_isLoading">
+        <div class="container-fluid">
+            <Form Model="@Student">
+                <Paragraph Copyable>
+                    <Row Gutter="24">
+                        <GridCol Span="24">
+                            <FormItem Label="ФИО" Style="margin-bottom: 0.3em">
+                                <Text>@context.Name</Text>
+                            </FormItem>
+                            <FormItem Label="Дата рождения" Style="margin-bottom: 0.3em">
+                                <Text>@context.BirthDate?.ToString("d")</Text>
+                            </FormItem>
+                            @if (context.Group != null)
+                            {
+                                <FormItem Label="Подразделение" Style="margin-bottom: 0.3em">
+                                    <Text>@context.Group.Division?.Name</Text>
+                                </FormItem>
+                                <FormItem Label="Группа" Style="margin-bottom: 0.3em">
+                                    <Text>@context.Group?.Name</Text>
+                                </FormItem>
+                            }
+                            <FormItem Label="Телефон" Style="margin-bottom: 0.3em">
+                                <Text>@context.Phone</Text>
+                            </FormItem>
+                            <FormItem Label="Адрес" Style="margin-bottom: 0.3em">
+                                <Text>@context.Address</Text>
+                            </FormItem>
+                            <FormItem Label="Email" Style="margin-bottom: 0.3em">
+                                <Text>@context.Email</Text>
+                            </FormItem>
+                            @if (_parents.Count > 1)
+                            {
+                                <FormItem Label="ФИО матери" Style="margin-bottom: 0.3em">
+                                    <Text>@_parents[0]!.Name</Text>
+                                </FormItem>
+                                <FormItem Label="Телефон матери" Style="margin-bottom: 0.3em" >
+                                    <Text>@_parents[0]!.Phone</Text>
+                                </FormItem>
+                                <FormItem Label="Сведения о месте работы матери" Style="margin-bottom: 0.3em">
+                                    <Text>@_parents[0]!.WorkName</Text>
+                                </FormItem>
+                                <FormItem Label="ФИО отца" Style="margin-bottom: 0.3em">
+                                    <Text>@_parents[1]!.Name</Text>
+                                </FormItem>
+                                <FormItem Label="Телефон отца" Style="margin-bottom: 0.3em">
+                                    <Text>@_parents[1]!.Phone</Text>
+                                </FormItem>
+                                <FormItem Label="Сведения о месте работы отца" Style="margin-bottom: 0.3em">
+                                    <Text>@_parents[1]!.WorkName</Text>
+                                </FormItem>
+                            }
+                        </GridCol>
+                    </Row>
+                </Paragraph>
+            </Form>
+        </div>
+    </Loading>
+</Drawer>
