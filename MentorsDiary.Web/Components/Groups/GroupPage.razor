@@ -165,6 +165,9 @@
             </GridRow>
         </div>
     </div>
-
-    <StudentData @bind-Student="_selectedStudent" @bind-Visible="_studentDataVisible" />
+    
+    @if (_studentDataVisible)
+    {
+        <StudentData @bind-Student="_selectedStudent" @bind-Visible="_studentDataVisible"/>
+    }
 </Loading>

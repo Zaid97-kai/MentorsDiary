@@ -228,11 +228,11 @@ public partial class GroupPage
 
         var responseMessageStudent = await StudentService.GetAllByFilterAsync(filterParams);
         if (responseMessageStudent != null)
-            Students = JsonConvert.DeserializeObject<List<Student>>(await responseMessageStudent.Content.ReadAsStringAsync());
+            Students = JsonConvert.DeserializeObject<List<Student>>(await responseMessageStudent.Content.ReadAsStringAsync()) ?? new List<Student>();
 
         var responseMessageGroupEvent = await GroupEventService.GetAllByFilterAsync(filterParams);
         if (responseMessageGroupEvent != null)
-            GroupEvents = JsonConvert.DeserializeObject<List<GroupEvent>>(await responseMessageGroupEvent.Content.ReadAsStringAsync());
+            GroupEvents = JsonConvert.DeserializeObject<List<GroupEvent>>(await responseMessageGroupEvent.Content.ReadAsStringAsync()) ?? new List<GroupEvent>();
 
         _isLoading = false;
         StateHasChanged();
@@ -370,11 +370,9 @@ public partial class GroupPage
     private void ShowStudentPageAsync(Student student)
     {
         _selectedStudent = student;
-
         StateHasChanged();
 
         _studentDataVisible = !_studentDataVisible;
-
         StateHasChanged();
     }
 
