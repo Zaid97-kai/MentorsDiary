@@ -1,6 +1,7 @@
 ﻿using AntDesign;
 using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
+using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Bases.Filters;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
@@ -43,7 +44,7 @@ public partial class CuratorList
     /// </summary>
     /// <value>The message service.</value>
     [Inject]
-    private IMessageService MessageService { get; set; } = null!;
+    private MessageService MessageService { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the authentication service.
@@ -74,12 +75,6 @@ public partial class CuratorList
     /// </summary>
     /// <value>The curators.</value>
     private List<Application.Entities.Curators.Domains.Curator>? Curators { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether this instance is create loading.
-    /// </summary>
-    /// <value><c>true</c> if this instance is create loading; otherwise, <c>false</c>.</value>
-    private bool IsCreateLoading { get; set; }
 
     /// <summary>
     /// Gets the navigate to URI.
@@ -132,7 +127,7 @@ public partial class CuratorList
     /// <returns>A Task representing the asynchronous operation.</returns>
     public async Task CreateCuratorAsync()
     {
-        IsCreateLoading = true;
+        _isLoading = true;
         StateHasChanged();
 
         var responseUserCreate = new HttpResponseMessage();
@@ -173,7 +168,7 @@ public partial class CuratorList
                 await MessageService.Error($"{responseUserCreate.ReasonPhrase}\n{responseCuratorCreate.ReasonPhrase}");
         }
 
-        IsCreateLoading = false;
+        _isLoading = false;
     }
 
     /// <summary>
@@ -184,12 +179,11 @@ public partial class CuratorList
     {
         if (division != null)
         {
-            _isLoading = true;
+            await GetListAsync();
 
+            _isLoading = true;
             StateHasChanged();
 
-            await GetListAsync();
-            
             if (division.Name != null)
             {
                 var result = await UserService.GetAllByFilterAsync(
@@ -271,7 +265,7 @@ public partial class CuratorList
     /// Updates the asynchronous.
     /// </summary>
     /// <param name="curator">The curator.</param>
-    private void UpdateAsync(Application.Entities.Curators.Domains.Curator curator)
+    private void UpdateAsync(IHaveId curator)
     {
         NavigationManager.NavigateTo($"{NavigateToUri}/{curator.Id}");
     }

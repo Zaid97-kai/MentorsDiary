@@ -61,12 +61,6 @@ public partial class EventList
     private List<Application.Entities.Events.Domains.Event>? Events { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether this instance is create loading.
-    /// </summary>
-    /// <value><c>true</c> if this instance is create loading; otherwise, <c>false</c>.</value>
-    private bool IsCreateLoading { get; set; }
-
-    /// <summary>
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
@@ -76,7 +70,7 @@ public partial class EventList
     /// Gets the selected date time.
     /// </summary>
     /// <value>The selected date time.</value>
-    public DateTime?[] SelectedDateTime { get; private set; }
+    public DateTime?[]? SelectedDateTime { get; private set; }
 
     /// <summary>
     /// On initialized as an asynchronous operation.
@@ -94,7 +88,13 @@ public partial class EventList
     /// <returns>A Task representing the asynchronous operation.</returns>
     private async Task GetListAsync()
     {
+        _isLoading = true;
+        StateHasChanged();
+
         Events = (await EventService.GetAllAsync() ?? Array.Empty<Application.Entities.Events.Domains.Event>()).ToList();
+
+        _isLoading = false;
+        StateHasChanged();
     }
 
     /// <summary>
@@ -103,7 +103,7 @@ public partial class EventList
     /// <returns>A Task representing the asynchronous operation.</returns>
     public async Task CreateEventAsync()
     {
-        IsCreateLoading = true;
+        _isLoading = true;
         StateHasChanged();
         var response = await EventService.CreateAsync(new Application.Entities.Events.Domains.Event()
         {
@@ -116,7 +116,7 @@ public partial class EventList
         else
             await MessageService.Error(response.ReasonPhrase);
 
-        IsCreateLoading = false;
+        _isLoading = false;
     }
 
     /// <summary>
