@@ -1,7 +1,6 @@
 ﻿using AntDesign;
 using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
-using MentorsDiary.Application.Entities.Curators.Domains;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
@@ -70,7 +69,7 @@ public partial class CuratorItem
     #endregion
 
     #region PROPERTIES
-    
+
     /// <summary>
     /// Gets the current user.
     /// </summary>
@@ -92,12 +91,6 @@ public partial class CuratorItem
     /// Gets or sets the selected division.
     /// </summary>
     /// <value>The selected division.</value>
-    private string? SelectedDivisionItem { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the selected division.
-    /// </summary>
-    /// <value>The selected division.</value>
     private Division? SelectedDivision { get; set; } = new();
 
     /// <summary>
@@ -105,6 +98,11 @@ public partial class CuratorItem
     /// </summary>
     /// <value>The navigate to URI.</value>
     private string NavigateToUri => "curator";
+
+    /// <summary>
+    /// The is loading
+    /// </summary>
+    private bool _isLoading;
 
     #endregion
 
@@ -114,9 +112,23 @@ public partial class CuratorItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     protected override async Task OnInitializedAsync()
     {
-        Divisions = (await DivisionService.GetAllAsync() ?? Array.Empty<Division>()).ToList();
+        await GetListAsync();
+    }
 
+    /// <summary>
+    /// Get list as an asynchronous operation.
+    /// </summary>
+    /// <returns>A Task representing the asynchronous operation.</returns>
+    private async Task GetListAsync()
+    {
+        _isLoading = true;
+        StateHasChanged();
+
+        Divisions = (await DivisionService.GetAllAsync() ?? Array.Empty<Division>()).ToList();
         _curator = await CuratorService.GetIdAsync(CuratorId);
+
+        _isLoading = false;
+        StateHasChanged();
     }
 
     /// <summary>
@@ -125,6 +137,9 @@ public partial class CuratorItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     private async Task SaveAsync()
     {
+        _isLoading = true;
+        StateHasChanged();
+
         if (_curator != null)
         {
             if (_curator.User != null)
@@ -145,6 +160,9 @@ public partial class CuratorItem
                     await MessageService.Error($"{responseUpdateCurator.ReasonPhrase}\n{responseUpdateUser.ReasonPhrase}");
             }
         }
+
+        _isLoading = false;
+        StateHasChanged();
 
         NavigationManager.NavigateTo("/curator");
     }

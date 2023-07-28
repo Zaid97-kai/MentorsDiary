@@ -15,6 +15,8 @@ namespace MentorsDiary.Web.Components.Event;
 /// <seealso cref="ComponentBase" />
 public partial class EventList
 {
+    #region INJECTIONS
+
     /// <summary>
     /// Gets or sets the event service.
     /// </summary>
@@ -42,6 +44,8 @@ public partial class EventList
     /// <value>The authentication service.</value>
     [Inject]
     private AuthenticationService AuthenticationService { get; set; } = null!;
+
+    #endregion
 
     /// <summary>
     /// Gets the current user.
@@ -79,7 +83,6 @@ public partial class EventList
     protected override async Task OnInitializedAsync()
     {
         await GetListAsync();
-        StateHasChanged();
     }
 
     /// <summary>
@@ -105,6 +108,7 @@ public partial class EventList
     {
         _isLoading = true;
         StateHasChanged();
+
         var response = await EventService.CreateAsync(new Application.Entities.Events.Domains.Event()
         {
             DateCreated = DateTime.Now,
@@ -147,6 +151,7 @@ public partial class EventList
     private async Task RemoveAsync(Application.Entities.Events.Domains.Event @event)
     {
         var response = await EventService.DeleteAsync(@event.Id);
+
         if (response.IsSuccessStatusCode)
             await MessageService.Success($"Событие {@event.Name} успешно удалено.");
         else
@@ -175,11 +180,13 @@ public partial class EventList
         SelectedDateTime = dateTimeRange?.Dates!;
 
         await GetListAsync();
-        if (SelectedDateTime[0] != null && SelectedDateTime[1] != null)
-        {
-            Events = Events?.Where(d => d.DateEvent > SelectedDateTime[0] && d.DateEvent < SelectedDateTime[1]).ToList();
-        }
 
+        _isLoading = true;
+
+        if (SelectedDateTime[0] != null && SelectedDateTime[1] != null)
+            Events = Events?.Where(d => d.DateEvent > SelectedDateTime[0] && d.DateEvent < SelectedDateTime[1]).ToList();
+
+        _isLoading = false;
         StateHasChanged();
     }
 

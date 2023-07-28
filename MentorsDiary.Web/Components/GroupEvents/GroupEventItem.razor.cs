@@ -56,7 +56,7 @@ public partial class GroupEventItem
     /// </summary>
     /// <value>The message service.</value>
     [Inject]
-    private IMessageService MessageService { get; set; } = null!;
+    private MessageService MessageService { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the student service.
@@ -130,8 +130,6 @@ public partial class GroupEventItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     protected override async Task OnInitializedAsync()
     {
-        _groupEvent = await GroupEventService.GetIdAsync(GroupEventId);
-
         await GetListAsync();
     }
 
@@ -143,6 +141,8 @@ public partial class GroupEventItem
     {
         _isLoading = true;
         StateHasChanged();
+
+        _groupEvent = await GroupEventService.GetIdAsync(GroupEventId);
 
         Events = (await EventService.GetAllAsync() ?? Array.Empty<Application.Entities.Events.Domains.Event>()).ToList();
         Students = (await StudentService.GetAllAsync() ?? Array.Empty<Student>()).Where(s => s.GroupId == GroupId);

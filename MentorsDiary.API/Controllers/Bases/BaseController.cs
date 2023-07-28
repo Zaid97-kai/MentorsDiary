@@ -62,6 +62,9 @@ public class BaseController<TEntity, TRepository> : ControllerBase
     [HttpPost("Filter")]
     public async Task<IEnumerable<TEntity>?> GetAllByFilter([FromBody] FilterParams query)
     {
+        if (query.FilterValue == "-1")
+            return await _repository.GetAll();
+
         var entities = await _repository.GetAllByFilter(query);
         return entities ?? null;
     }

@@ -24,11 +24,12 @@
     private string ShadowClass => $"is-hover-shadow";
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment ChildContent { get; set; } = null!;
 
     [Parameter]
-    public RenderFragment Body { get; set; }
+    public RenderFragment Body { get; set; } = null!;
 
     [Parameter]
-    public RenderFragment ActionTemplate { get; set; }
+    public RenderFragment ActionTemplate { get; set; } = null!;
+
 }

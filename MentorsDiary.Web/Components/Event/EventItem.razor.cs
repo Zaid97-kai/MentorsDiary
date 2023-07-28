@@ -51,16 +51,15 @@ public partial class EventItem
     private Application.Entities.Events.Domains.Event? _event = new();
 
     /// <summary>
-    /// Gets or sets the events.
-    /// </summary>
-    /// <value>The events.</value>
-    private List<Application.Entities.Events.Domains.Event>? Events { get; set; } = new();
-
-    /// <summary>
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
     private static string NavigateToUri => "event";
+
+    /// <summary>
+    /// The is loading
+    /// </summary>
+    private bool _isLoading;
 
     #endregion
 
@@ -70,7 +69,22 @@ public partial class EventItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     protected override async Task OnInitializedAsync()
     {
+        await GetItemAsync();
+    }
+
+    /// <summary>
+    /// Get item as an asynchronous operation.
+    /// </summary>
+    /// <returns>A Task representing the asynchronous operation.</returns>
+    private async Task GetItemAsync()
+    {
+        _isLoading = true;
+        StateHasChanged();
+
         _event = await EventService.GetIdAsync(EventId);
+
+        _isLoading = false;
+        StateHasChanged();
     }
 
     /// <summary>
@@ -79,6 +93,9 @@ public partial class EventItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     private async Task SaveAsync()
     {
+        _isLoading = true;
+        StateHasChanged();
+
         if (_event != null)
         {
             var response = await EventService.UpdateAsync(_event);
@@ -88,6 +105,9 @@ public partial class EventItem
             else
                 await MessageService.Error(response.ReasonPhrase);
         }
+
+        _isLoading = false;
+        StateHasChanged();
 
         NavigationManager.NavigateTo(NavigateToUri);
     }

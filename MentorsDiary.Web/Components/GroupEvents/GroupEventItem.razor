@@ -1,6 +1,4 @@
 ﻿@page "/group-event/{GroupEventId:int}/{GroupId:int}"
-@using MentorsDiary.Application.Entities.Events.Domains
-@using MentorsDiary.Application.Entities.Students.Domains
 
 <br />
 
@@ -15,7 +13,7 @@
                                     DataSource="@Events"
                                     TItem="Event"
                                     TItemValue="int?"
-                            @bind-Value="@context.EventId"
+                                    @bind-Value="@context.EventId"
                                     LabelName="@nameof(Event.Name)"
                                     ValueName="@nameof(Event.Id)"
                                     IgnoreItemChanges="false">
@@ -24,7 +22,7 @@
                         <FormItem Label="Участники мероприятия">
                             <Select Mode="multiple"
                                     DataSource="@Students"
-                            @bind-Values="@SelectedStudentsId"
+                                    @bind-Values="@SelectedStudentsId"
                                     LabelName="@nameof(Student.Name)"
                                     ValueName="@nameof(Student.Id)"
                                     TItemValue="int"
