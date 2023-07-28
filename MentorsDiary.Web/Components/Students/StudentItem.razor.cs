@@ -1,7 +1,12 @@
 ﻿using AntDesign;
+using MentorsDiary.Application.Bases.Enums;
+using MentorsDiary.Application.Entities.Bases.Filters;
+using MentorsDiary.Application.Entities.Parents.Domains;
+using MentorsDiary.Application.Entities.ParentStudents.Domains;
 using MentorsDiary.Application.Entities.Students.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 
 namespace MentorsDiary.Web.Components.Students;
 
@@ -12,6 +17,8 @@ namespace MentorsDiary.Web.Components.Students;
 /// <seealso cref="ComponentBase" />
 public partial class StudentItem
 {
+    #region PARAMETERS
+
     /// <summary>
     /// Gets or sets the student identifier.
     /// </summary>
@@ -25,6 +32,8 @@ public partial class StudentItem
     /// <value>The group identifier.</value>
     [Parameter]
     public int GroupId { get; set; }
+
+    #endregion
 
     #region INJECTIONS
 
@@ -49,6 +58,20 @@ public partial class StudentItem
     [Inject]
     private MessageService MessageService { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the parent student service.
+    /// </summary>
+    /// <value>The parent student service.</value>
+    [Inject]
+    private ParentStudentService ParentStudentService { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the parent service.
+    /// </summary>
+    /// <value>The parent service.</value>
+    [Inject]
+    private ParentService ParentService { get; set; } = null!;
+
     #endregion
 
     #region PROPERTIES
@@ -59,11 +82,19 @@ public partial class StudentItem
     private Student? _student = new();
 
     /// <summary>
+    /// The parents
+    /// </summary>
+    private List<Parent?> _parents = new();
+
+    /// <summary>
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
     private string NavigateToUri => $"/group-page/{GroupId}";
 
+    /// <summary>
+    /// The is loading
+    /// </summary>
     private bool _isLoading;
 
     #endregion
@@ -74,7 +105,30 @@ public partial class StudentItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     protected override async Task OnInitializedAsync()
     {
+        await GetItemAsync();
+    }
+
+    /// <summary>
+    /// Get item as an asynchronous operation.
+    /// </summary>
+    /// <returns>A Task representing the asynchronous operation.</returns>
+    private async Task GetItemAsync()
+    {
+        _isLoading = true;
+        StateHasChanged();
+
         _student = await StudentService.GetIdAsync(StudentId);
+
+        _parents = JsonConvert.DeserializeObject<List<ParentStudent>>(await (await ParentStudentService.GetAllByFilterAsync(
+            new FilterParams()
+            {
+                ColumnName = "StudentId",
+                FilterOption = EnumFilterOptions.Contains,
+                FilterValue = _student?.Id.ToString()!
+            })).Content.ReadAsStringAsync())!.Select(s => s.Parent).ToList();
+
+        _isLoading = false;
+        StateHasChanged();
     }
 
     /// <summary>
@@ -90,12 +144,16 @@ public partial class StudentItem
         {
             _student.GroupId = GroupId;
 
-            var response = await StudentService.UpdateAsync(_student);
+            var responseUpdateStudent = await StudentService.UpdateAsync(_student);
 
-            if (response.IsSuccessStatusCode)
-                await MessageService.Success($"Студент {_student.Name} успешно добавлен");
+            var responseUpdateMother = await ParentService.UpdateAsync(_parents[0]!);
+            var responseUpdateFather = await ParentService.UpdateAsync(_parents[1]!);
+
+            if (responseUpdateStudent.IsSuccessStatusCode && responseUpdateMother.IsSuccessStatusCode &&
+                responseUpdateFather.IsSuccessStatusCode)
+                await MessageService.Success($"Студент {_student.Name} успешно добавлен.");
             else
-                await MessageService.Error(response.ReasonPhrase);
+                await MessageService.Error(responseUpdateStudent.ReasonPhrase);
         }
 
         _isLoading = false;
