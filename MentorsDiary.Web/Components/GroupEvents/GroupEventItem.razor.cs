@@ -166,6 +166,9 @@ public partial class GroupEventItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     private async Task SaveAsync()
     {
+        _isLoading = true;
+        StateHasChanged();
+
         if (_groupEvent != null)
         {
             _groupEvent.Event = null;
@@ -198,6 +201,9 @@ public partial class GroupEventItem
             else
                 await MessageService.Error(response.ReasonPhrase);
         }
+
+        _isLoading = false;
+        StateHasChanged();
 
         NavigationManager.NavigateTo(NavigateToUri);
     }

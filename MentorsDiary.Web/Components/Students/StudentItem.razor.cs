@@ -64,6 +64,8 @@ public partial class StudentItem
     /// <value>The navigate to URI.</value>
     private string NavigateToUri => $"/group-page/{GroupId}";
 
+    private bool _isLoading;
+
     #endregion
 
     /// <summary>
@@ -81,6 +83,9 @@ public partial class StudentItem
     /// <returns>A Task representing the asynchronous operation.</returns>
     private async Task SaveAsync()
     {
+        _isLoading = true;
+        StateHasChanged();
+
         if (_student != null)
         {
             _student.GroupId = GroupId;
@@ -92,6 +97,9 @@ public partial class StudentItem
             else
                 await MessageService.Error(response.ReasonPhrase);
         }
+
+        _isLoading = false;
+        StateHasChanged();
 
         NavigationManager.NavigateTo(NavigateToUri);
     }

@@ -1,10 +1,14 @@
 ﻿using AntDesign;
 using MentorsDiary.Web.Data.Authentication;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
 
 namespace MentorsDiary.Web.Components.Account;
 
+/// <summary>
+/// Class Login.
+/// Implements the <see cref="ComponentBase" />
+/// </summary>
+/// <seealso cref="ComponentBase" />
 public partial class Login
 {
     #region PARAMETERS
@@ -55,9 +59,20 @@ public partial class Login
     /// </summary>
     /// <value>The login form model.</value>
     private LoginFormModel LoginFormModel { get; set; } = new();
-    
+
+    /// <summary>
+    /// The is loading
+    /// </summary>
+    private bool _isLoading;
+
+    /// <summary>
+    /// Tries the login.
+    /// </summary>
     private async void TryLogin()
     {
+        _isLoading = true;
+        StateHasChanged();
+
         var result = await WebsiteAuthenticator.LoginAsync(LoginFormModel);
         if (result)
         {
@@ -69,9 +84,13 @@ public partial class Login
             await MessageService.Error("Ошибка входа")!;
         }
 
+        _isLoading = false;
         StateHasChanged();
     }
-    
+
+    /// <summary>
+    /// Tries the logout.
+    /// </summary>
     private async void TryLogout()
     {
         await WebsiteAuthenticator?.LogoutAsync()!;
