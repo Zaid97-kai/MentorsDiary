@@ -1,15 +1,19 @@
 ﻿using MentorsDiary.API.Controllers.Bases;
+using MentorsDiary.Application.Account;
 using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Application.Entities.Users.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace MentorsDiary.API.Controllers;
 
 /// <summary>
 /// Class UserController.
-/// Implements the <see cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Users.Domains.User, MentorsDiary.Application.Entities.Users.Interfaces.IUserRepository}" />
+/// Implements the <see cref="IUserRepository" />
 /// </summary>
-/// <seealso cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Users.Domains.User, MentorsDiary.Application.Entities.Users.Interfaces.IUserRepository}" />
+/// <seealso cref="IUserRepository" />
 public class UserController : BaseController<User, IUserRepository>
 {
     /// <summary>
@@ -18,13 +22,56 @@ public class UserController : BaseController<User, IUserRepository>
     private readonly IWebHostEnvironment _env;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="UserController"/> class.
+    /// The repository
+    /// </summary>
+    private readonly IUserRepository _repository;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserController" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
     /// <param name="env">The env.</param>
     public UserController(IUserRepository repository, IWebHostEnvironment env) : base(repository)
     {
+        _repository = repository;
         _env = env;
+    }
+
+    /// <summary>
+    /// Logins the specified user.
+    /// </summary>
+    /// <param name="user">The user.</param>
+    /// <returns>IResult.</returns>
+    [HttpPost("Login")]
+    public async Task<IResult> Login([FromBody] User user)
+    {
+        var users = await _repository.GetAll();
+        var person = users!.FirstOrDefault(p => p.Name == user.Name && p.Password == user.Password);
+        
+        if (person is null) 
+            return Results.Unauthorized();
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, person.Name ?? string.Empty),
+            new Claim(ClaimTypes.Role, person.Role.ToString() ?? string.Empty)
+        };
+        
+        var jwt = new JwtSecurityToken(
+            issuer: AuthOptions.ISSUER,
+            audience: AuthOptions.AUDIENCE,
+            claims: claims,
+            expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
+            signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+        var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+        
+        var response = new AuthResponse
+        {
+            Code = encodedJwt,
+            Message = person.Id
+        };
+
+        return Results.Json(response);
     }
 
     /// <summary>

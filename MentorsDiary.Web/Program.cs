@@ -1,4 +1,7 @@
+using MentorsDiary.Application.Account;
 using MentorsDiary.Web.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MentorsDiary.Web;
 
@@ -20,8 +23,29 @@ public class Program
         builder.Services.AddAntDesign();
         builder.Services.AddWebCollection();
 
+        builder.Services.AddAuthorization();
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = AuthOptions.ISSUER,
+                    ValidateAudience = true,
+                    ValidAudience = AuthOptions.AUDIENCE,
+                    ValidateLifetime = true,
+                    IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                    ValidateIssuerSigningKey = true
+                };
+            });
+
         var app = builder.Build();
-        
+
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Error");
