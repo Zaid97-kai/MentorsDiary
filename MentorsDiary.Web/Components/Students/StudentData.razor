@@ -1,12 +1,31 @@
-﻿<Drawer Width="640" Title="@("Просмотр студента")"
-        Visible="@Visible"
-        OnClose="CloseStudentPage">
-    <Loading Spinning="_isLoading">
-        <div class="container-fluid">
-            <Form Model="@Student">
-                <Paragraph Copyable>
-                    <Row Gutter="24">
-                        <GridCol Span="24">
+﻿<!-- Содержимое модального окна -->
+<div id="modal-block">
+    <a class="close-block" href="#close-block">X</a>
+    <h3>Lorem ipsum</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</div>
+    @*<div class="BlueCardStudent">
+        <div class="WhiteCard">
+            <div><img class="CardPhoto" src="C:\Users\Егор\OneDrive\Рабочий стол\фото 34.png" /></div>
+            <div>
+                <p class="CardTitle">СТУДЕНЧЕСКИЙ БИЛЕТ</p>
+                <div><p class="CardText1">ФИО:</p></div>
+                <div><p class="CardText">Дата рождения:</p></div>
+                <div><p class="CardText">Подразделение:</p></div>
+                <div><p class="CardText">Группа:</p></div>
+                <div><p class="CardText">Телефон:</p></div>
+                <div><p class="CardText">Адрес:</p></div>
+                <div><p class="CardText">Email:</p></div>
+
+                <img class="Print" src="C:\Users\Егор\OneDrive\Рабочий стол\печать кит.png" />
+            </div>
+        </div>
+    </div>*@
+                            
+
+                            @*<FormItem Style="margin-bottom: 0.3em">
+                                <Image Src="https://sun9-73.userapi.com/impg/iElTBEs1SbnCJMUB8LQLSoBNETm81rZzH9rR1g/ToSXZ4gvFwM.jpg?size=2560x1707&quality=95&sign=72e94de33285ccbb1e8e6d7257bffb88&type=album"></Image>
+                            </FormItem>
                             <FormItem Label="ФИО" Style="margin-bottom: 0.3em">
                                 <Text>@context.Name</Text>
                             </FormItem>
@@ -51,11 +70,6 @@
                                 <FormItem Label="Сведения о месте работы отца" Style="margin-bottom: 0.3em">
                                     <Text>@_parents[1]!.WorkName</Text>
                                 </FormItem>
-                            }
-                        </GridCol>
-                    </Row>
-                </Paragraph>
-            </Form>
-        </div>
-    </Loading>
-</Drawer>
+                            }*@
+                       
+
