@@ -1,8 +1,20 @@
-﻿<div id="modal-block">
+﻿<div id="modal-block">  
+    <div class="BackWhite">
+
+        <div class="VisibleData">
+            <div>
+                <p>Просмотр студента</p>
+            </div>
+
+            <div class="CloseX" OnClick="() => NavigationManager.NavigateTo(BaseUri, true)">
+                <p>X</p>
+            </div>
+        </div>
+
     <div class="BlueCardStudent">
         <div class="WhiteCard">
             <div>
-                <img src="~/Image.png" alt="" />
+                <img class="CardPhoto" src="C:\Users\Егор\OneDrive\Рабочий стол\печать кит.png" alt="" />
             </div>
             <div>
                 <p class="CardTitle">СТУДЕНЧЕСКИЙ БИЛЕТ</p>
@@ -27,13 +39,35 @@
                 <div>
                     <p class="CardText">Email:</p>
                 </div>
-                    
-                <div>
-                    <Icon Type="close" Theme="outline" OnClick="() => NavigationManager.NavigateTo(BaseUri, true)" />
-                </div>
 
                 <img class="Print" src="C:\Users\Егор\OneDrive\Рабочий стол\печать кит.png" alt=""/>
             </div>
         </div>
     </div>
+
+        <div class="BlueCardParents">
+            <div class="WhiteCardParents">
+                <div class="CardTitleParent"><p>СВЕДЕНИЯ О РОДИТЕЛЯХ</p></div>
+
+                <div class="MotherCard">
+                    <div class="MotherColumn1"><div class="MotherTitle"><p>МАТЬ</p></div></div>
+                    <div class="MotherColumn2">
+                        <p class="MotherInfo1">ФИО:</p>
+                        <p class="MotherInfo">Телефон:</p>
+                        <p class="MotherInfo MotherInfo3">Место работы:</p>
+                    </div>
+                </div>
+
+                <div class="FatherCard">
+                    <div class="FatherColumn1"><div class="FatherTitle"><p>ОТЕЦ</p></div></div>
+                    <div class="FatherColumn2">
+                        <p class="FatherInfo1">ФИО:</p>
+                        <p class="FatherInfo">Телефон:</p>
+                        <p class="FatherInfo FatherInfo3">Место работы:</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
 </div>
