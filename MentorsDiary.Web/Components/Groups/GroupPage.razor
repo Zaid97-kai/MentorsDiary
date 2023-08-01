@@ -165,9 +165,10 @@
             </GridRow>
         </div>
     </div>
-    
-    @if (_studentDataVisible)
+
+    @if (_selectedStudent!.Id != 0)
     {
-        <StudentData @bind-Student="_selectedStudent" @bind-Visible="_studentDataVisible"/>
+        <StudentData @bind-Student="_selectedStudent" BaseUri="@BaseUri" />
     }
+
 </Loading>

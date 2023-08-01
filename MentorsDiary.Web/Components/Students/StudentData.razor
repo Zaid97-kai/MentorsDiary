@@ -1,75 +1,39 @@
-﻿<!-- Содержимое модального окна -->
-<div id="modal-block">
-    <a class="close-block" href="#close-block">X</a>
-    <h3>Lorem ipsum</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-</div>
-    @*<div class="BlueCardStudent">
+﻿<div id="modal-block">
+    <div class="BlueCardStudent">
         <div class="WhiteCard">
-            <div><img class="CardPhoto" src="C:\Users\Егор\OneDrive\Рабочий стол\фото 34.png" /></div>
+            <div>
+                <img src="~/Image.png" alt="" />
+            </div>
             <div>
                 <p class="CardTitle">СТУДЕНЧЕСКИЙ БИЛЕТ</p>
-                <div><p class="CardText1">ФИО:</p></div>
-                <div><p class="CardText">Дата рождения:</p></div>
-                <div><p class="CardText">Подразделение:</p></div>
-                <div><p class="CardText">Группа:</p></div>
-                <div><p class="CardText">Телефон:</p></div>
-                <div><p class="CardText">Адрес:</p></div>
-                <div><p class="CardText">Email:</p></div>
+                <div>
+                    <p class="CardText1">ФИО:</p>
+                </div>
+                <div>
+                    <p class="CardText">Дата рождения:</p>
+                </div>
+                <div>
+                    <p class="CardText">Подразделение:</p>
+                </div>
+                <div>
+                    <p class="CardText">Группа:</p>
+                </div>
+                <div>
+                    <p class="CardText">Телефон:</p>
+                </div>
+                <div>
+                    <p class="CardText">Адрес:</p>
+                </div>
+                <div>
+                    <p class="CardText">Email:</p>
+                </div>
+                    
+                <div>
+                    <Icon Type="close" Theme="outline" OnClick="() => NavigationManager.NavigateTo(BaseUri, true)" />
+                </div>
 
-                <img class="Print" src="C:\Users\Егор\OneDrive\Рабочий стол\печать кит.png" />
+                <img class="Print" src="C:\Users\Егор\OneDrive\Рабочий стол\печать кит.png" alt=""/>
             </div>
         </div>
-    </div>*@
-                            
-
-                            @*<FormItem Style="margin-bottom: 0.3em">
-                                <Image Src="https://sun9-73.userapi.com/impg/iElTBEs1SbnCJMUB8LQLSoBNETm81rZzH9rR1g/ToSXZ4gvFwM.jpg?size=2560x1707&quality=95&sign=72e94de33285ccbb1e8e6d7257bffb88&type=album"></Image>
-                            </FormItem>
-                            <FormItem Label="ФИО" Style="margin-bottom: 0.3em">
-                                <Text>@context.Name</Text>
-                            </FormItem>
-                            <FormItem Label="Дата рождения" Style="margin-bottom: 0.3em">
-                                <Text>@context.BirthDate?.ToString("d")</Text>
-                            </FormItem>
-                            @if (context.Group != null)
-                            {
-                                <FormItem Label="Подразделение" Style="margin-bottom: 0.3em">
-                                    <Text>@context.Group.Division?.Name</Text>
-                                </FormItem>
-                                <FormItem Label="Группа" Style="margin-bottom: 0.3em">
-                                    <Text>@context.Group?.Name</Text>
-                                </FormItem>
-                            }
-                            <FormItem Label="Телефон" Style="margin-bottom: 0.3em">
-                                <Text>@context.Phone</Text>
-                            </FormItem>
-                            <FormItem Label="Адрес" Style="margin-bottom: 0.3em">
-                                <Text>@context.Address</Text>
-                            </FormItem>
-                            <FormItem Label="Email" Style="margin-bottom: 0.3em">
-                                <Text>@context.Email</Text>
-                            </FormItem>
-                            @if (_parents.Count > 1)
-                            {
-                                <FormItem Label="ФИО матери" Style="margin-bottom: 0.3em">
-                                    <Text>@_parents[0]!.Name</Text>
-                                </FormItem>
-                                <FormItem Label="Телефон матери" Style="margin-bottom: 0.3em" >
-                                    <Text>@_parents[0]!.Phone</Text>
-                                </FormItem>
-                                <FormItem Label="Сведения о месте работы матери" Style="margin-bottom: 0.3em">
-                                    <Text>@_parents[0]!.WorkName</Text>
-                                </FormItem>
-                                <FormItem Label="ФИО отца" Style="margin-bottom: 0.3em">
-                                    <Text>@_parents[1]!.Name</Text>
-                                </FormItem>
-                                <FormItem Label="Телефон отца" Style="margin-bottom: 0.3em">
-                                    <Text>@_parents[1]!.Phone</Text>
-                                </FormItem>
-                                <FormItem Label="Сведения о месте работы отца" Style="margin-bottom: 0.3em">
-                                    <Text>@_parents[1]!.WorkName</Text>
-                                </FormItem>
-                            }*@
-                       
-
+    </div>
+</div>

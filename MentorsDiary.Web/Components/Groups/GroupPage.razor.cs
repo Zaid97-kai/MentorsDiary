@@ -137,6 +137,12 @@ public partial class GroupPage
     private Student? _selectedStudent = new();
 
     /// <summary>
+    /// Gets the base URI.
+    /// </summary>
+    /// <value>The base URI.</value>
+    private string BaseUri => $"https://localhost:7225/group-page/{GroupId}/#close-block";
+
+    /// <summary>
     /// Create student as an asynchronous operation.
     /// </summary>
     /// <returns>A Task representing the asynchronous operation.</returns>
@@ -370,10 +376,7 @@ public partial class GroupPage
     private void ShowStudentPageAsync(Student student)
     {
         _selectedStudent = student;
-        StateHasChanged();
-
-        _studentDataVisible = !_studentDataVisible;
-        StateHasChanged();
+        NavigationManager.NavigateTo($"https://localhost:7225/group-page/{GroupId}/#modal-block", true);
     }
 
     /// <summary>
@@ -413,5 +416,22 @@ public partial class GroupPage
     private Task ShowGroupEventPageAsync(GroupEvent groupEvent)
     {
         throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Method invoked after each time the component has been rendered.
+    /// </summary>
+    /// <param name="firstRender">Set to <c>true</c> if this is the first time <see cref="M:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRender(System.Boolean)" /> has been invoked
+    /// on this component instance; otherwise <c>false</c>.</param>
+    /// <remarks>The <see cref="M:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRender(System.Boolean)" /> and <see cref="M:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRenderAsync(System.Boolean)" /> lifecycle methods
+    /// are useful for performing interop, or interacting with values received from <c>@ref</c>.
+    /// Use the <paramref name="firstRender" /> parameter to ensure that initialization work is only performed
+    /// once.</remarks>
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender)
+            NavigationManager.NavigateTo(BaseUri);
+
+        base.OnAfterRender(firstRender);
     }
 }
