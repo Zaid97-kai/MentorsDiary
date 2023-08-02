@@ -68,7 +68,7 @@ public partial class StudentData
     /// <summary>
     /// The parents
     /// </summary>
-    private List<Parent?> _parents = new();
+    private List<Parent?> _parents;
 
     /// <summary>
     /// The is loading

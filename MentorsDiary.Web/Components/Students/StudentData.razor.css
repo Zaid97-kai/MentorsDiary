@@ -16,30 +16,27 @@
     left: 0;
 }
 
-.close-block {
-    float: right;
-    margin-top: 50px;
-    margin-right: 50px;
-    /*padding: .5em;*/
-    background-color: #fff;
-    /*color: #527c82;*/
-    color: red;
-    text-decoration: none;
-    font-size: 1em;
-    cursor: pointer;
-    box-sizing: border-box;
-    /*margin-top:1500px;*/
-}
-
+/* Фон модального окна */
 .BackWhite {
-    background-color: lightgray;
-    width: 740px;
+    background-color: #d0d0e0;
+    width: 650px;
     height: 100%;
-    /*margin-right:-650px;*/
     float: right;
     margin-right: -1480px;
 }
 
+/* Затемнение страницы вне модального окна */
+.Blackout {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 3;
+    position: absolute;
+    width: 100%;
+    height: 1140px;
+    margin-left: -90px;
+    margin-top: -1000px;
+}
+
+/* Заголовок модального окна "Просмотр студента" */
 .VisibleData {
     font-family: Montserrat Semibold;
     font-size: 20px;
@@ -47,25 +44,36 @@
     margin-left: 40px;
 }
 
-.CloseX {
+/* Кнопка "Х" для закрытия модального окна */
+.close-block {
     position: absolute;
     margin-top: -50px;
-    margin-left: 650px;
-    color: red;
+    margin-left: 570px;
+    color: #e40000;
     cursor: pointer;
 }
 
+/* Линия-разделитель */
+.Line {
+    width: 260px;
+    height: 3px;
+    background-color: black;
+    z-index: 2;
+    margin-top: -15px;
+}
+/* Синее обрамление студенческого билета */
 .BlueCardStudent {
     width: 565px;
     height: 310px;
     float: right;
     margin-right: 5px;
-    margin-top: 20px;
+    margin-top: 25px;
     border-radius: 10px 0px 0px 10px;
     background-color: darkblue;
     z-index: 1;
 }
 
+/* Белый фон внутри студенческого билета */
 .WhiteCard {
     background-color: honeydew;
     border-radius: 10px;
@@ -74,12 +82,14 @@
     height: 290px;
     margin: 10px 50px 10px 10px;
     display: grid;
-    grid-template-columns: 360px 590px; /* Размеры столбцов */
-    grid-template-rows: 630px 50px; /* Размеры строк */
+    grid-template-columns: 360px 590px;
+    grid-template-rows: 630px 50px;
     grid-gap: 40px;
 }
 
+/* Фото студента 3 на 4 */
 .CardPhoto {
+    object-fit: cover;
     margin: 25px 0px 0px 25px;
     width: 180px;
     height: 240px;
@@ -87,6 +97,7 @@
     grid-row: span 2;
 }
 
+/* Надпись "Студенческий билет" */
 .CardTitle {
     float: left;
     margin: 20px 0px 0px -170px;
@@ -95,6 +106,7 @@
     font-weight: bold;
 }
 
+/* Строка ФИО */
 .CardText1 {
     margin-left: -170px;
     margin-top: 60px;
@@ -103,6 +115,63 @@
     font-family: Montserrat SemiBold;
 }
 
+/* Данные студента ФИО */
+.DataStudent1 {
+    font-family: Montserrat;
+    font-size: 15px;
+    margin-left: -115px;
+    margin-top: -38px;
+}
+
+/* Данные студента Дата рождения */
+.DataStudent2 {
+    font-family: Montserrat;
+    font-size: 15px;
+    margin-left: -20px;
+    margin-top: -38px;
+}
+
+/* Данные студента Подразделение */
+.DataStudent3 {
+    font-family: Montserrat;
+    font-size: 15px;
+    margin-left: -15px;
+    margin-top: -38px;
+}
+
+/* Данные студента Группа */
+.DataStudent4 {
+    font-family: Montserrat;
+    font-size: 15px;
+    margin-left: -95px;
+    margin-top: -38px;
+}
+
+/* Данные студента Телефон */
+.DataStudent5 {
+    font-family: Montserrat;
+    font-size: 15px;
+    margin-left: -80px;
+    margin-top: -38px;
+}
+
+/* Данные студента Адрес */
+.DataStudent6 {
+    font-family: Montserrat;
+    font-size: 15px;
+    margin-left: -100px;
+    margin-top: -38px;
+}
+
+/* Данные студента Email */
+.DataStudent7 {
+    font-family: Montserrat;
+    font-size: 15px;
+    margin-left: -105px;
+    margin-top: -38px;
+}
+
+/* Строки с данными студента */
 .CardText {
     margin-left: -170px;
     margin-top: -7px;
@@ -112,12 +181,13 @@
     z-index: 2;
 }
 
+/* Печать подразделения (факультета) */
 .Print {
     transform: rotate(-30deg);
     width: 90px;
     height: 90px;
     margin-top: -165px;
-    margin-left: -255px;
+    margin-left: -275px;
     z-index: 1;
 }
 
@@ -133,6 +203,7 @@
     z-index: 1;
 }
 
+/* Белый фон карточки с родителями */
 .WhiteCardParents {
     background-color: honeydew;
     border-radius: 10px;
@@ -141,6 +212,7 @@
     margin: 10px 50px 10px 10px;
 }
 
+/* Заголовок "Сведения о родителях" */
 .CardTitleParent {
     padding-top: 10px;
     margin-left: 50px;
@@ -149,17 +221,12 @@
     letter-spacing: 1.5px;
 }
 
-.ParentInfo {
-    margin-left: 25px;
-    margin-top: -5px;
-    font-size: 15px;
-    letter-spacing: 1px;
-}
-
+/* Карточка "Мать" */
 .MotherCard {
     display: flex;
 }
 
+/* Ячейка с заголовком "Мать" */
 .MotherColumn1 {
     box-sizing: border-box;
     width: 25px;
@@ -172,6 +239,7 @@
     border-color: honeydew;
 }
 
+/* Заголовок "Мать" */
 .MotherTitle {
     font-size: 15px;
     font-family: Montserrat SemiBold;
@@ -179,6 +247,7 @@
     margin-top: 45px;
 }
 
+/* Ячейка с информацией о матери студента */
 .MotherColumn2 {
     box-sizing: border-box;
     background-color: lightcoral;
@@ -186,14 +255,26 @@
     border-radius: 0px 20px 20px 0px;
 }
 
+/* Строка ФИО матери */
 .MotherInfo1 {
-    font-family: Montserrat SemiBold;
+    font-family: Montserrat Semibold;
     font-size: 15px;
     letter-spacing: 1px;
     margin-top: 5px;
     margin-left: 10px;
 }
 
+.ParentData1 {
+    font-family: Montserrat;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: -39px;
+    margin-left: 65px;
+}
+
+/* --- */
+
+/* Строка Телефон матери */
 .MotherInfo {
     font-family: Montserrat SemiBold;
     font-size: 15px;
@@ -202,16 +283,40 @@
     margin-left: 10px;
 }
 
+.ParentData2 {
+    font-family: Montserrat;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: -39px;
+    margin-left: 100px;
+}
+
+/* --- */
+
+/* Строка Место работы матери */
 .MotherInfo3 {
     font-family: Montserrat SemiBold;
     margin-bottom: -5px;
 }
 
+.ParentData3 {
+    font-family: Montserrat;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: -24px;
+    margin-left: 150px;
+    margin-bottom: -5px;
+}
+
+/* --- */
+
+/* Карточка "Отец" */
 .FatherCard {
     display: flex;
     margin-top: 25px;
 }
 
+/* Ячейка с заголовком "Отец" */
 .FatherColumn1 {
     box-sizing: border-box;
     width: 25px;
@@ -224,13 +329,15 @@
     border-color: honeydew;
 }
 
+/* Заголовок "Отец" */
 .FatherTitle {
     font-size: 15px;
     font-family: Montserrat SemiBold;
     transform: rotate(-90deg);
-    margin-top: 45px;
+    margin-top: 48px;
 }
 
+/* Ячейка с данными отца студента */
 .FatherColumn2 {
     box-sizing: border-box;
     background-color: cadetblue;
@@ -238,6 +345,7 @@
     border-radius: 0px 20px 20px 0px;
 }
 
+/* Строка ФИО отца */
 .FatherInfo1 {
     font-family: Montserrat SemiBold;
     font-size: 15px;
@@ -246,6 +354,17 @@
     margin-left: 10px;
 }
 
+.ParentData4 {
+    font-family: Montserrat;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: -38px;
+    margin-left: 65px;
+}
+
+/* --- */
+
+/* Строка Телефон отца */
 .FatherInfo {
     font-family: Montserrat SemiBold;
     font-size: 15px;
@@ -254,7 +373,29 @@
     margin-left: 10px;
 }
 
+.ParentData5 {
+    font-family: Montserrat;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: -38px;
+    margin-left: 100px;
+}
+
+/* --- */
+
+/* Строка Место работы отца */
 .FatherInfo3 {
     font-family: Montserrat SemiBold;
     margin-bottom: -5px;
 }
+
+.ParentData6 {
+    font-family: Montserrat;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: -23px;
+    margin-left: 150px;
+    margin-bottom: -5px;
+}
+
+/* --- */
