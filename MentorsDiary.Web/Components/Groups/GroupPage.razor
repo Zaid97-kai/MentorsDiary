@@ -166,8 +166,6 @@
         </div>
     </div>
     
-    @if (_studentDataVisible)
-    {
-        <StudentData @bind-Student="_selectedStudent" @bind-Visible="_studentDataVisible"/>
-    }
+    <StudentData @bind-Student="_selectedStudent" BaseUri="@BaseUri" />
+    
 </Loading>

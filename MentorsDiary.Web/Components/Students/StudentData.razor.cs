@@ -21,7 +21,14 @@ public partial class StudentData
     /// </summary>
     /// <value>The student.</value>
     [Parameter]
-    public Student? Student { get; set; }
+    public Student? Student { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the base URI.
+    /// </summary>
+    /// <value>The base URI.</value>
+    [Parameter]
+    public string? BaseUri { get; set; }
 
     /// <summary>
     /// Gets or sets the student changed.
@@ -52,9 +59,16 @@ public partial class StudentData
     private ParentStudentService ParentStudentService { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the navigation manager.
+    /// </summary>
+    /// <value>The navigation manager.</value>
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = null!;
+
+    /// <summary>
     /// The parents
     /// </summary>
-    private List<Parent?> _parents = new();
+    private List<Parent?> _parents;
 
     /// <summary>
     /// The is loading
@@ -90,7 +104,7 @@ public partial class StudentData
         _isLoading = false;
         StateHasChanged();
     }
-    
+
     /// <summary>
     /// Closes the student page.
     /// </summary>
