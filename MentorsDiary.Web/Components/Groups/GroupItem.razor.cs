@@ -139,7 +139,7 @@ public partial class GroupItem
                 break;
         }
 
-        _isLoading = true;
+        _isLoading = false;
         StateHasChanged();
 
         _group = await GroupService.GetIdAsync(GroupId);

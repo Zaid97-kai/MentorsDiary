@@ -1,6 +1,7 @@
 ﻿using AntDesign;
 using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
+using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Bases.Filters;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
@@ -240,7 +241,7 @@ public partial class GroupList
     /// Updates the asynchronous.
     /// </summary>
     /// <param name="group">The group.</param>
-    private void UpdateAsync(Group group)
+    private void UpdateAsync(IHaveId group)
     {
         NavigationManager.NavigateTo($"{NavigateToUri}/{group.Id}");
     }
@@ -249,7 +250,7 @@ public partial class GroupList
     /// Shows the group page asynchronous.
     /// </summary>
     /// <param name="group">The group.</param>
-    private void ShowGroupPageAsync(Group group)
+    private void ShowGroupPageAsync(IHaveId group)
     {
         NavigationManager.NavigateTo($"{NavigateToUri}-page/{group.Id}");
     }
