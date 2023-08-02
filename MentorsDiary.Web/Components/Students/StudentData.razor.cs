@@ -21,7 +21,15 @@ public partial class StudentData
     /// </summary>
     /// <value>The student.</value>
     [Parameter]
-    public Student? Student { get; set; } = new();
+    public Student? Student
+    {
+        get => _student;
+        set
+        {
+            _student = value;
+            _ = GetItemAsync();
+        }
+    }
 
     /// <summary>
     /// Gets or sets the base URI.
@@ -36,20 +44,6 @@ public partial class StudentData
     /// <value>The student changed.</value>
     [Parameter]
     public EventCallback<Student>? StudentChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="StudentData" /> is visible.
-    /// </summary>
-    /// <value><c>true</c> if visible; otherwise, <c>false</c>.</value>
-    [Parameter]
-    public bool Visible { get; set; }
-
-    /// <summary>
-    /// Gets or sets the change visible.
-    /// </summary>
-    /// <value>The change visible.</value>
-    [Parameter]
-    public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the parent student service.
@@ -76,6 +70,11 @@ public partial class StudentData
     private bool _isLoading;
 
     /// <summary>
+    /// The student
+    /// </summary>
+    private Student? _student = new();
+
+    /// <summary>
     /// On initialized as an asynchronous operation.
     /// </summary>
     /// <returns>A Task representing the asynchronous operation.</returns>
@@ -93,8 +92,9 @@ public partial class StudentData
         _isLoading = true;
         StateHasChanged();
 
-        _parents = JsonConvert.DeserializeObject<List<ParentStudent>>(await (await ParentStudentService.GetAllByFilterAsync(
-            new FilterParams()
+        _parents = JsonConvert.DeserializeObject<List<ParentStudent>>(await 
+            (await ParentStudentService.GetAllByFilterAsync(
+            new FilterParams
             {
                 ColumnName = "StudentId",
                 FilterOption = EnumFilterOptions.Contains,
@@ -103,13 +103,5 @@ public partial class StudentData
 
         _isLoading = false;
         StateHasChanged();
-    }
-
-    /// <summary>
-    /// Closes the student page.
-    /// </summary>
-    private void CloseStudentPage()
-    {
-        Visible = !Visible;
     }
 }
