@@ -21,7 +21,7 @@ public partial class StudentData
     /// </summary>
     /// <value>The student.</value>
     [Parameter]
-    public Student? Student { get; set; }
+    public Student? Student { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the base URI.

@@ -1,9 +1,7 @@
 ﻿#modal-block {
     position: fixed;
     top: 0;
-    left: -100vw;
-    width: 100vw;
-    height: 1000px;
+    left: -200vw;
     transition: all .5s;
     z-index: 9;
 }
@@ -13,7 +11,9 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    left: 0;
+    width: 100vw;
+    height: 100vh;
+    left: -8vw;
 }
 
 /* Фон модального окна */
@@ -45,7 +45,7 @@
 }
 
 /* Кнопка "Х" для закрытия модального окна */
-.close-block {
+.close-button {
     position: absolute;
     margin-top: -50px;
     margin-left: 570px;

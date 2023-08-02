@@ -165,10 +165,7 @@
             </GridRow>
         </div>
     </div>
-
-    @if (_selectedStudent!.Id != 0)
-    {
-        <StudentData @bind-Student="_selectedStudent" BaseUri="@BaseUri" />
-    }
-
+    
+    <StudentData @bind-Student="_selectedStudent" BaseUri="@BaseUri" />
+    
 </Loading>

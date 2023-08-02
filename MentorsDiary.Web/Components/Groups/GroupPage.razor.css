@@ -1,9 +1,16 @@
-﻿#modal-block {
+﻿.btn-modal {
+    cursor: pointer;
+    padding: 1rem 3rem;
+    color: #fff;
+    text-decoration: none;
+    background-color: #83bec5;
+    transition: all 0.3s ease-out;
+}
+
+#modal-block {
     position: fixed;
     top: 0;
-    left: -100vw;
-    width: 100vw;
-    height: 100vh;
+    left: -50vw;
     transition: all .5s;
     z-index: 9;
 }
@@ -13,6 +20,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    width: 100vw;
+    height: 100vh;
     left: 0;
 }
 
