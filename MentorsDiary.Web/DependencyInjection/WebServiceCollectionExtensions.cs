@@ -33,8 +33,8 @@ public static class WebServiceCollectionExtensions
 
         #endregion
 
-        serviceCollection.AddScoped<WebsiteAuthenticator>();
-        serviceCollection.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<WebsiteAuthenticator>());
+        serviceCollection.AddTransient<WebsiteAuthenticator>();
+        serviceCollection.AddTransient<AuthenticationStateProvider>(sp => sp.GetRequiredService<WebsiteAuthenticator>());
 
         serviceCollection.AddTransient(_ => new HttpClient
         {
