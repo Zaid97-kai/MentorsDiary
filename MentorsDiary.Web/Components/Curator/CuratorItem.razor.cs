@@ -97,7 +97,7 @@ public partial class CuratorItem
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
-    private string NavigateToUri => "curator";
+    private static string NavigateToUri => "curator";
 
     /// <summary>
     /// The is loading

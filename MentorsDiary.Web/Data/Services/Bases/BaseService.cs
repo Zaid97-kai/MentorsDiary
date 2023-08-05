@@ -1,4 +1,5 @@
 ﻿using MentorsDiary.Application.Entities.Bases.Filters;
+using Newtonsoft.Json;
 
 namespace MentorsDiary.Web.Data.Services.Bases;
 
@@ -57,9 +58,10 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity>
     /// </summary>
     /// <param name="query">The query.</param>
     /// <returns>A Task&lt;HttpResponseMessage&gt; representing the asynchronous operation.</returns>
-    public virtual async Task<HttpResponseMessage> GetAllByFilterAsync(FilterParams query)
+    public virtual async Task<IEnumerable<TEntity>?> GetAllByFilterAsync(FilterParams query)
     {
-        var result = await _httpClient?.PostAsJsonAsync($"api/{BasePath}/filter", query)!;
+        var responseMessage = await _httpClient?.PostAsJsonAsync($"api/{BasePath}/filter", query)!;
+        var result = JsonConvert.DeserializeObject<IEnumerable<TEntity>>(await responseMessage.Content.ReadAsStringAsync());
         return result;
     }
 
