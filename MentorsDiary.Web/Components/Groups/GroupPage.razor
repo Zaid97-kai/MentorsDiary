@@ -1,4 +1,6 @@
 ﻿@page "/group-page/{GroupId:int}"
+@using MentorsDiary.Application.Entities.GroupEvents.Domains
+@using MentorsDiary.Web.Components.GroupEvents
 
 <Loading Spinning="@_isLoading">
     <div class="container bg-secondary bg-opacity-50 my-4" style="min-height: 600px; max-height: 800px">
@@ -124,11 +126,17 @@
                                                 </AntDesign.Button>
                                             </SpaceItem>
                                             <SpaceItem>
-                                                <AntDesign.Button OnClickStopPropagation="true"
-                                                                  Type="@ButtonType.Link"
-                                                                  Size="small" OnClick="() => ShowGroupEventPageAsync(groupEvent)">
-                                                    <Icon Type="@IconType.Outline.Search" />
-                                                </AntDesign.Button>
+                                                <Popover Id="@groupEvent.Id.ToString()" OnVisibleChange="OnVisibleChange" Visible="_visible" Title="@groupEvent.Event?.Name" Trigger="@(new[] { Trigger.Click })">
+                                                    <ContentTemplate>
+                                                        <GroupEventData GroupEvent="groupEvent" @bind-Visible="_visible" />
+                                                    </ContentTemplate>
+                                                    <ChildContent>
+                                                        <AntDesign.Button Id="@groupEvent.Id.ToString()" Type="@ButtonType.Link"
+                                                                          Size="small">
+                                                            <Icon Type="@IconType.Outline.Search" />
+                                                        </AntDesign.Button>
+                                                    </ChildContent>
+                                                </Popover>
                                             </SpaceItem>
                                         </Space>
                                     </ActionTemplate>
@@ -165,7 +173,16 @@
             </GridRow>
         </div>
     </div>
-    
+
     <StudentData @bind-Student="_selectedStudent" BaseUri="@BaseUri" />
-    
+
 </Loading>
+
+@code {
+    private bool _visible;
+
+    private void OnVisibleChange(bool visible)
+    {
+        _visible = visible;
+    }
+}
