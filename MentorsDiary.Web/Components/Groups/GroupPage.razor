@@ -1,6 +1,4 @@
 ﻿@page "/group-page/{GroupId:int}"
-@using MentorsDiary.Application.Entities.GroupEvents.Domains
-@using MentorsDiary.Web.Components.GroupEvents
 
 <Loading Spinning="@_isLoading">
     <div class="container bg-secondary bg-opacity-50 my-4" style="min-height: 600px; max-height: 800px">
@@ -76,13 +74,7 @@
                         }
                         else
                         {
-                            <div class="container" style="max-height: 400px; min-height: 400px; display: flex; justify-content: center; align-items: center;">
-                                <Empty>
-                                    <DescriptionTemplate>
-                                        <span>Список студентов пуст</span>
-                                    </DescriptionTemplate>
-                                </Empty>
-                            </div>
+                            <EmptyPage Content="Список студентов пуст." />
                         }
                     </div>
                 </GridCol>
@@ -135,13 +127,7 @@
                         }
                         else
                         {
-                            <div class="container" style="max-height: 400px; min-height: 400px; display: flex; justify-content: center; align-items: center;">
-                                <Empty>
-                                    <DescriptionTemplate>
-                                        <span>Список мероприятий пуст</span>
-                                    </DescriptionTemplate>
-                                </Empty>
-                            </div>
+                            <EmptyPage Content="Список мероприятий пуст." />
                         }
                     </div>
                 </GridCol>
