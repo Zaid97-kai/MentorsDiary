@@ -1,9 +1,17 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MentorsDiary.MAUI.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace MentorsDiary.MAUI
 {
+    /// <summary>
+    /// Class MauiProgram.
+    /// </summary>
     public static class MauiProgram
     {
+        /// <summary>
+        /// Creates the maui application.
+        /// </summary>
+        /// <returns>MauiApp.</returns>
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
@@ -19,6 +27,8 @@ namespace MentorsDiary.MAUI
 		builder.Logging.AddDebug();
 #endif
 
+            builder.Services.AddMauiCollection();
+            
             return builder.Build();
         }
     }
