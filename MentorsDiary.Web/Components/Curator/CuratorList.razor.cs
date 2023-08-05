@@ -186,14 +186,13 @@ public partial class CuratorList
 
             if (division.Name != null)
             {
-                var result = await UserService.GetAllByFilterAsync(
-                    new FilterParams()
+                Users = (await UserService.GetAllByFilterAsync(
+                    new FilterParams
                     {
                         ColumnName = "DivisionId",
                         FilterOption = EnumFilterOptions.Contains,
                         FilterValue = division.Id.ToString()
-                    });
-                Users = JsonConvert.DeserializeObject<List<User>>(await result.Content.ReadAsStringAsync());
+                    }) ?? Array.Empty<User>()).ToList();
             }
 
             for (var index = Curators!.Count - 1; index >= 0; index--)
@@ -201,11 +200,9 @@ public partial class CuratorList
                 var flag = true;
                 for (var i = 0; i < Users!.Count; i++)
                 {
-                    if (Curators[index].UserId == Users[i].Id)
-                    {
-                        flag = false;
-                        break;
-                    }
+                    if (Curators[index].UserId != Users[i].Id) continue;
+                    flag = false;
+                    break;
                 }
                 if (flag)
                 {

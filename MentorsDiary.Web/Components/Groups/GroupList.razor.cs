@@ -102,27 +102,25 @@ public partial class GroupList
                 break;
             case EnumRoles.DeputyDirector:
             {
-                var result = await GroupService.GetAllByFilterAsync(
+                Groups = (await GroupService.GetAllByFilterAsync(
                     new FilterParams
                     {
                         ColumnName = "DivisionId",
                         FilterOption = EnumFilterOptions.Contains,
                         FilterValue = CurrentUser.DivisionId.ToString()!
-                    });
-                Groups = JsonConvert.DeserializeObject<List<Group>>(await result.Content.ReadAsStringAsync());
+                    }) ?? Array.Empty<Group>()).ToList();
                 break;
             }
             case EnumRoles.Curator:
             {
-                var curator = (await CuratorService.GetAllAsync() ?? Array.Empty<Application.Entities.Curators.Domains.Curator>()).FirstOrDefault(c => c.UserId == CurrentUser.Id);
-                var result = await GroupService.GetAllByFilterAsync(
+                var curator = await CuratorService.GetIdAsync(CurrentUser.Id);
+                Groups = (await GroupService.GetAllByFilterAsync(
                     new FilterParams
                     {
                         ColumnName = "CuratorId",
                         FilterOption = EnumFilterOptions.Contains,
                         FilterValue = curator?.Id.ToString()!
-                    });
-                Groups = JsonConvert.DeserializeObject<List<Group>>(await result.Content.ReadAsStringAsync());
+                    }) ?? Array.Empty<Group>()).ToList();
                 break;
             }
         }
@@ -182,14 +180,13 @@ public partial class GroupList
 
             if (division.Name != null)
             {
-                var result = await GroupService.GetAllByFilterAsync(
+                Groups = (await GroupService.GetAllByFilterAsync(
                     new FilterParams()
                     {
                         ColumnName = "DivisionId",
                         FilterOption = EnumFilterOptions.Contains,
                         FilterValue = division.Id.ToString()
-                    });
-                Groups = JsonConvert.DeserializeObject<List<Group>>(await result.Content.ReadAsStringAsync());
+                    }) ?? Array.Empty<Group>()).ToList();
             }
 
             _isLoading = false;

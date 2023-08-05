@@ -52,7 +52,7 @@ public partial class DeputyDirectorList
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
-    private string NavigateToUri => "deputydirector";
+    private static string NavigateToUri => "deputydirector";
 
     /// <summary>
     /// On initialized as an asynchronous operation.
@@ -113,16 +113,13 @@ public partial class DeputyDirectorList
 
             if (division.Name != null)
             {
-                var result = await UserService.GetAllByFilterAsync(
-                    new FilterParams()
+                Users = (await UserService.GetAllByFilterAsync(
+                    new FilterParams
                     {
                         ColumnName = "DivisionId",
                         FilterOption = EnumFilterOptions.Contains,
                         FilterValue = division.Id.ToString()
-                    });
-                Users = (JsonConvert.DeserializeObject<List<User>>(await result.Content.ReadAsStringAsync()) ?? new List<User>())
-                    .Where(u => u.Role == EnumRoles.DeputyDirector)
-                    .ToList();
+                    }) ?? Array.Empty<User>()).Where(u => u.Role == EnumRoles.DeputyDirector).ToList();
             }
 
             _isLoading = false;

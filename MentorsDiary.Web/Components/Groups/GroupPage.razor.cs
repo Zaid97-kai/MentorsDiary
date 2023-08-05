@@ -122,11 +122,6 @@ public partial class GroupPage
     private List<GroupEvent> GroupEvents { get; set; } = new();
 
     /// <summary>
-    /// The student data visible
-    /// </summary>
-    private bool _studentDataVisible;
-
-    /// <summary>
     /// The is loading
     /// </summary>
     private bool _isLoading;
@@ -225,20 +220,15 @@ public partial class GroupPage
         _isLoading = true;
         StateHasChanged();
 
-        var filterParams = new FilterParams()
+        var filterParams = new FilterParams
         {
             FilterOption = EnumFilterOptions.Contains,
             ColumnName = nameof(GroupId),
             FilterValue = Convert.ToString(GroupId)
         };
 
-        var responseMessageStudent = await StudentService.GetAllByFilterAsync(filterParams);
-        if (responseMessageStudent != null)
-            Students = JsonConvert.DeserializeObject<List<Student>>(await responseMessageStudent.Content.ReadAsStringAsync()) ?? new List<Student>();
-
-        var responseMessageGroupEvent = await GroupEventService.GetAllByFilterAsync(filterParams);
-        if (responseMessageGroupEvent != null)
-            GroupEvents = JsonConvert.DeserializeObject<List<GroupEvent>>(await responseMessageGroupEvent.Content.ReadAsStringAsync()) ?? new List<GroupEvent>();
+        Students = (await StudentService.GetAllByFilterAsync(filterParams) ?? Array.Empty<Student>()).ToList();
+        GroupEvents = (await GroupEventService.GetAllByFilterAsync(filterParams) ?? Array.Empty<GroupEvent>()).ToList();
 
         _isLoading = false;
         StateHasChanged();

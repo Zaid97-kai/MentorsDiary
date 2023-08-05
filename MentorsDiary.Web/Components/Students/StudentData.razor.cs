@@ -92,14 +92,13 @@ public partial class StudentData
         _isLoading = true;
         StateHasChanged();
 
-        _parents = JsonConvert.DeserializeObject<List<ParentStudent>>(await 
-            (await ParentStudentService.GetAllByFilterAsync(
+        _parents = (await ParentStudentService.GetAllByFilterAsync(
             new FilterParams
             {
                 ColumnName = "StudentId",
                 FilterOption = EnumFilterOptions.Contains,
                 FilterValue = Student?.Id.ToString()!
-            })).Content.ReadAsStringAsync())!.Select(s => s.Parent).ToList();
+            }) ?? Array.Empty<ParentStudent>()).Select(s => s.Parent).ToList();
 
         _isLoading = false;
         StateHasChanged();

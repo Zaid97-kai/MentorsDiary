@@ -118,14 +118,12 @@ public partial class StudentItem
         StateHasChanged();
 
         _student = await StudentService.GetIdAsync(StudentId);
-
-        _parents = JsonConvert.DeserializeObject<List<ParentStudent>>(await (await ParentStudentService.GetAllByFilterAsync(
-            new FilterParams()
-            {
-                ColumnName = "StudentId",
-                FilterOption = EnumFilterOptions.Contains,
-                FilterValue = _student?.Id.ToString()!
-            })).Content.ReadAsStringAsync())!.Select(s => s.Parent).ToList();
+        _parents = (await ParentStudentService.GetAllByFilterAsync(new FilterParams
+        {
+            ColumnName = "StudentId",
+            FilterOption = EnumFilterOptions.Contains,
+            FilterValue = _student?.Id.ToString()!
+        }) ?? Array.Empty<ParentStudent>()).Select(p => p.Parent).ToList();
 
         _isLoading = false;
         StateHasChanged();
