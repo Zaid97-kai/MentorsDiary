@@ -126,17 +126,7 @@
                                                 </AntDesign.Button>
                                             </SpaceItem>
                                             <SpaceItem>
-                                                <Popover Id="@groupEvent.Id.ToString()" OnVisibleChange="OnVisibleChange" Visible="_visible" Title="@groupEvent.Event?.Name" Trigger="@(new[] { Trigger.Click })">
-                                                    <ContentTemplate>
-                                                        <GroupEventData GroupEvent="groupEvent" @bind-Visible="_visible" />
-                                                    </ContentTemplate>
-                                                    <ChildContent>
-                                                        <AntDesign.Button Id="@groupEvent.Id.ToString()" Type="@ButtonType.Link"
-                                                                          Size="small">
-                                                            <Icon Type="@IconType.Outline.Search" />
-                                                        </AntDesign.Button>
-                                                    </ChildContent>
-                                                </Popover>
+                                                <GroupEventPopover GroupEvent="groupEvent" />
                                             </SpaceItem>
                                         </Space>
                                     </ActionTemplate>
@@ -177,12 +167,3 @@
     <StudentData @bind-Student="_selectedStudent" BaseUri="@BaseUri" />
 
 </Loading>
-
-@code {
-    private bool _visible;
-
-    private void OnVisibleChange(bool visible)
-    {
-        _visible = visible;
-    }
-}
