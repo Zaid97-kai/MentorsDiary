@@ -1,6 +1,7 @@
 ﻿using MentorsDiary.API.Controllers.Bases;
 using MentorsDiary.Application.Entities.GroupEventStudents.Domains;
 using MentorsDiary.Application.Entities.GroupEventStudents.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MentorsDiary.API.Controllers;
@@ -10,6 +11,7 @@ namespace MentorsDiary.API.Controllers;
 /// Implements the <see cref="BaseController{GroupEventStudent, IGroupEventStudentRepository}" />
 /// </summary>
 /// <seealso cref="BaseController{GroupEventStudent, IGroupEventStudentRepository}" />
+[Authorize]
 public class GroupEventStudentController : BaseController<GroupEventStudent, IGroupEventStudentRepository>
 {
     /// <summary>

@@ -1,6 +1,7 @@
 ﻿using MentorsDiary.API.Controllers.Bases;
 using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Application.Entities.Users.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MentorsDiary.API.Controllers;
@@ -10,6 +11,7 @@ namespace MentorsDiary.API.Controllers;
 /// Implements the <see cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Users.Domains.User, MentorsDiary.Application.Entities.Users.Interfaces.IUserRepository}" />
 /// </summary>
 /// <seealso cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Users.Domains.User, MentorsDiary.Application.Entities.Users.Interfaces.IUserRepository}" />
+[Authorize]
 public class UserController : BaseController<User, IUserRepository>
 {
     /// <summary>

@@ -1,6 +1,7 @@
 ﻿using MentorsDiary.API.Controllers.Bases;
 using MentorsDiary.Application.Entities.Students.Domains;
 using MentorsDiary.Application.Entities.Students.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MentorsDiary.API.Controllers;
 
@@ -9,6 +10,7 @@ namespace MentorsDiary.API.Controllers;
 /// Implements the <see cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Students.Domains.Student, MentorsDiary.Application.Entities.Students.Interfaces.IStudentRepository}" />
 /// </summary>
 /// <seealso cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Students.Domains.Student, MentorsDiary.Application.Entities.Students.Interfaces.IStudentRepository}" />
+[Authorize]
 public class StudentController : BaseController<Student, IStudentRepository>
 {
     /// <summary>

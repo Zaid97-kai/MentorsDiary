@@ -1,6 +1,7 @@
 ﻿using MentorsDiary.API.Controllers.Bases;
 using MentorsDiary.Application.Entities.Events.Domains;
 using MentorsDiary.Application.Entities.Events.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MentorsDiary.API.Controllers;
 
@@ -9,6 +10,7 @@ namespace MentorsDiary.API.Controllers;
 /// Implements the <see cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Events.Domains.Event, MentorsDiary.Application.Entities.Events.Interfaces.IEventRepository}" />
 /// </summary>
 /// <seealso cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Events.Domains.Event, MentorsDiary.Application.Entities.Events.Interfaces.IEventRepository}" />
+[Authorize]
 public class EventController : BaseController<Event, IEventRepository>
 {
     /// <summary>

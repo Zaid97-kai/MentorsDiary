@@ -1,6 +1,7 @@
 ﻿using MentorsDiary.API.Controllers.Bases;
 using MentorsDiary.Application.Entities.Curators.Domains;
 using MentorsDiary.Application.Entities.Curators.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MentorsDiary.API.Controllers;
 
@@ -9,6 +10,7 @@ namespace MentorsDiary.API.Controllers;
 /// Implements the <see cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Curators.Domains.Curator, MentorsDiary.Application.Entities.Curators.Interfaces.ICuratorRepository}" />
 /// </summary>
 /// <seealso cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Curators.Domains.Curator, MentorsDiary.Application.Entities.Curators.Interfaces.ICuratorRepository}" />
+[Authorize]
 public class CuratorController : BaseController<Curator, ICuratorRepository>
 {
     /// <summary>

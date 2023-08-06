@@ -1,6 +1,7 @@
 ﻿using MentorsDiary.API.Controllers.Bases;
 using MentorsDiary.Application.Entities.Groups.Domains;
 using MentorsDiary.Application.Entities.Groups.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MentorsDiary.API.Controllers;
 
@@ -9,6 +10,7 @@ namespace MentorsDiary.API.Controllers;
 /// Implements the <see cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Groups.Domains.Group, MentorsDiary.Application.Entities.Groups.Interfaces.IGroupRepository}" />
 /// </summary>
 /// <seealso cref="MentorsDiary.API.Controllers.Bases.BaseController{MentorsDiary.Application.Entities.Groups.Domains.Group, MentorsDiary.Application.Entities.Groups.Interfaces.IGroupRepository}" />
+[Authorize]
 public class GroupController : BaseController<Group, IGroupRepository>
 {
     /// <summary>

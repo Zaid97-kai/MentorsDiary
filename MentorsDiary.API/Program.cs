@@ -1,5 +1,7 @@
 using MentorsDiary.Application.DependencyInjection;
 using MentorsDiary.Persistence.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MentorsDiary.API;
 
@@ -26,6 +28,30 @@ public class Program
         builder.Services.AddPersistence(builder.Configuration);
 
         #endregion
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
+            {
+                opt.Authority = "https://localhost:4000";
+                opt.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateAudience = false
+                };
+            });
+
+        builder.Services.AddAuthorization(opt =>
+        {
+            opt.AddPolicy("M2M", policy =>
+            {
+                policy.RequireAuthenticatedUser()
+                    .RequireClaim("scope", "app");
+            });
+            opt.AddPolicy("Interactive", policy =>
+            {
+                policy.RequireAuthenticatedUser()
+                    .RequireClaim("scope", "user");
+            });
+        });
 
         var app = builder.Build();
         
