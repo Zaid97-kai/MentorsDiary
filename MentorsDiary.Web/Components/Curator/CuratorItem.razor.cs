@@ -1,10 +1,12 @@
 ﻿using AntDesign;
+using DocumentFormat.OpenXml.Wordprocessing;
 using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace MentorsDiary.Web.Components.Curator;
 
@@ -93,6 +95,8 @@ public partial class CuratorItem
     /// <value>The selected division.</value>
     private Division? SelectedDivision { get; set; } = new();
 
+    private User? Clone { get; set; } = new();
+
     /// <summary>
     /// Gets the navigate to URI.
     /// </summary>
@@ -104,6 +108,12 @@ public partial class CuratorItem
     /// </summary>
     private bool _isLoading;
 
+    private string? _avatar;
+
+    private string? _newAvatar;
+
+    private IBrowserFile? _resizedImage;
+
     #endregion
 
     /// <summary>
@@ -113,6 +123,19 @@ public partial class CuratorItem
     protected override async Task OnInitializedAsync()
     {
         await GetListAsync();
+        await UploadAvatarPath();
+    }
+
+    private async Task UploadAvatarPath()
+    {
+        if (CurrentUser.ImagePath != null)
+        {
+            var result = await UserService?.GetAllByFilterAsync(CurrentUser.ImagePath)!;
+            if (result != null)
+                _avatar = result.ToString();
+            else
+                await MessageService?.Error("Ошибка фотографии")!;
+        }
     }
 
     /// <summary>
@@ -147,6 +170,7 @@ public partial class CuratorItem
                 _curator.Name = _curator.User.Name;
                 _curator.User.Role = EnumRoles.Curator;
                 _curator.User.Division = null;
+                await UploadAvatar();
             }
 
             var responseUpdateCurator = await CuratorService.UpdateAsync(_curator);
@@ -167,6 +191,31 @@ public partial class CuratorItem
         NavigationManager.NavigateTo("/curator");
     }
 
+    private async Task UploadAvatar()
+    {
+        using var content = new MultipartFormDataContent();
+        var fileName = Path.GetRandomFileName();
+
+        content.Add(
+            content: new StreamContent(_resizedImage?.OpenReadStream() ?? Stream.Null),
+            name: "\"files\"",
+            fileName: fileName);
+
+        var response = await UserService?.UploadAvatarAsync(content)!;
+
+        if (response.IsSuccessStatusCode)   
+        {
+            _curator!.ImagePath = fileName;
+            Clone!.ImagePath = fileName;
+
+            await MessageService.Success("Upload completed successfully.");
+            var result = await UserService.GetAvatarAsync(_curator!.ImagePath);
+            _avatar = result.RequestMessage?.RequestUri?.ToString();
+        }
+        else
+            await MessageService.Error("Upload failed.");
+    }
+
     /// <summary>
     /// Called when [selected item changed handler].
     /// </summary>
@@ -174,6 +223,30 @@ public partial class CuratorItem
     private void OnSelectedItemChangedHandler(Division value)
     {
         SelectedDivision = value;
+        StateHasChanged();
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.File;
+        if (imageFile.ContentType != "image/jpeg" && imageFile.ContentType != "image/png")
+        {
+            await MessageService.Error("You can only upload JPG/PNG file!");
+        }
+        else
+        {
+            _resizedImage = await imageFile.RequestImageFileAsync("image/png", 500, 500);
+
+            var ms = new MemoryStream();
+            await _resizedImage.OpenReadStream().CopyToAsync(ms);
+            var bytes = ms.ToArray();
+
+            var b64 = Convert.ToBase64String(bytes);
+
+            _newAvatar = "data:image/png;base64," + b64;
+            _avatar = _newAvatar;
+        }
+
         StateHasChanged();
     }
 }

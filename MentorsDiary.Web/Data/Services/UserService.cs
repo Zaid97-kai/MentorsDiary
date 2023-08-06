@@ -17,5 +17,5 @@ public class UserService: BaseService<User>
     public UserService(HttpClient? httpClient) : base(httpClient)
     {
 
-    }
+    }   
 }

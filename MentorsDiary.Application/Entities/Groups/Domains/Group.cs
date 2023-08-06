@@ -18,7 +18,7 @@ namespace MentorsDiary.Application.Entities.Groups.Domains;
 /// <seealso cref="BaseUserCU" />
 /// <seealso cref="IHaveId" />
 /// <seealso cref="IHaveName" />
-public class Group : BaseUserCU, IHaveId, IHaveName
+public class Group : BaseUserCU, IHaveId, IHaveName, IHaveImage
 {
     /// <summary>
     /// Gets or sets the identifier.
@@ -51,6 +51,12 @@ public class Group : BaseUserCU, IHaveId, IHaveName
     /// </summary>
     /// <value>The division.</value>
     public virtual Division? Division { get; set; }
+
+    /// <summary>
+    /// Gets or sets the image path.
+    /// </summary>
+    /// <value>The image path.</value>
+    public string? ImagePath { get; set; }
 
     /// <summary>
     /// Gets or sets the curator identifier.

@@ -106,4 +106,25 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity>
         var result = await _httpClient?.PutAsJsonAsync($"api/{BasePath}/Update", entity)!;
         return result;
     }
+    /// <summary>
+    /// Upload avatar as an asynchronous operation.
+    /// </summary>
+    /// <param name="content">The content.</param>
+    /// <returns>A Task&lt;HttpResponseMessage&gt; representing the asynchronous operation.</returns>
+    public async Task<HttpResponseMessage> UploadAvatarAsync(MultipartFormDataContent content)
+    {
+        var result = await _httpClient?.PostAsync($"api/{BasePath}/UploadAvatar", content)!;
+        return result;
+    }
+
+    /// <summary>
+    /// Get avatar as an asynchronous operation.
+    /// </summary>
+    /// <param name="avatarPath">The avatar path.</param>
+    /// <returns>A Task&lt;HttpResponseMessage&gt; representing the asynchronous operation.</returns>
+    public async Task<HttpResponseMessage> GetAvatarAsync(string avatarPath)
+    {
+        var result = await _httpClient!.GetAsync($"api/{BasePath}/GetAvatar/{avatarPath}");
+        return result;
+    }
 }
