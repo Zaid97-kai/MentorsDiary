@@ -1,8 +1,10 @@
 ﻿using AntDesign;
+using DocumentFormat.OpenXml.Wordprocessing;
 using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Bases.Filters;
+using MentorsDiary.Application.Entities.Curators.Domains;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
@@ -18,6 +20,8 @@ namespace MentorsDiary.Web.Components.Curator;
 /// <seealso cref="ComponentBase" />
 public partial class CuratorList
 {
+    [Parameter]
+    public User? Curator { get; set; }
     /// <summary>
     /// Gets or sets the user service.
     /// </summary>
@@ -76,11 +80,15 @@ public partial class CuratorList
     /// <value>The curators.</value>
     private List<Application.Entities.Curators.Domains.Curator>? Curators { get; set; }
 
+    private Application.Entities.Curators.Domains.Curator? _curator { get; set; }
+
     /// <summary>
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
     private string NavigateToUri => "curator";
+
+    private string? _avatar;
 
     /// <summary>
     /// On initialized as an asynchronous operation.
@@ -89,6 +97,7 @@ public partial class CuratorList
     protected override async Task OnInitializedAsync()
     {
         await GetListAsync();
+        await UploadAvatarPath();
     }
 
     /// <summary>
@@ -268,5 +277,16 @@ public partial class CuratorList
     private void UpdateAsync(IHaveId curator)
     {
         NavigationManager.NavigateTo($"{NavigateToUri}/{curator.Id}");
+    }
+    private async Task UploadAvatarPath()
+    {
+        if (_curator!.ImagePath != null)
+        {
+            var result = await UserService?.GetAvatarAsync(_curator!.ImagePath)!;
+            if (result != null)
+                _avatar = result.RequestMessage?.RequestUri?.ToString();
+            else
+                await MessageService?.Error("Ошибка фотографии")!;
+        }
     }
 }

@@ -128,11 +128,11 @@ public partial class CuratorItem
 
     private async Task UploadAvatarPath()
     {
-        if (CurrentUser.ImagePath != null)
+        if (_curator!.ImagePath != null)
         {
-            var result = await UserService?.GetAllByFilterAsync(CurrentUser.ImagePath)!;
+            var result = await UserService?.GetAvatarAsync(_curator!.ImagePath)!;
             if (result != null)
-                _avatar = result.ToString();
+                _avatar = result.RequestMessage?.RequestUri?.ToString();
             else
                 await MessageService?.Error("Ошибка фотографии")!;
         }
