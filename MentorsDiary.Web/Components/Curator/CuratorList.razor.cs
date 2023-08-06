@@ -80,8 +80,6 @@ public partial class CuratorList
     /// <value>The curators.</value>
     private List<Application.Entities.Curators.Domains.Curator>? Curators { get; set; }
 
-    private Application.Entities.Curators.Domains.Curator? _curator { get; set; }
-
     /// <summary>
     /// Gets the navigate to URI.
     /// </summary>
@@ -280,13 +278,13 @@ public partial class CuratorList
     }
     private async Task UploadAvatarPath()
     {
-        if (_curator!.ImagePath != null)
-        {
-            var result = await UserService?.GetAvatarAsync(_curator!.ImagePath)!;
-            if (result != null)
-                _avatar = result.RequestMessage?.RequestUri?.ToString();
-            else
-                await MessageService?.Error("Ошибка фотографии")!;
-        }
+        //if (_curator!.ImagePath != null)
+        //{
+        //    var result = await UserService?.GetAvatarAsync(_curator!.ImagePath)!;
+        //    if (result != null)
+        //        _avatar = result.RequestMessage?.RequestUri?.ToString();
+        //    else
+        //        await MessageService?.Error("Ошибка фотографии")!;
+        //}
     }
 }
