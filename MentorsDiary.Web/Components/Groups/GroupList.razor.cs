@@ -19,6 +19,8 @@ namespace MentorsDiary.Web.Components.Groups;
 /// <seealso cref="ComponentBase" />
 public partial class GroupList
 {
+    #region INJECTIONS
+
     /// <summary>
     /// Gets or sets the group service.
     /// </summary>
@@ -54,6 +56,10 @@ public partial class GroupList
     [Inject]
     private AuthenticationService AuthenticationService { get; set; } = null!;
 
+    #endregion
+
+    #region PROPERTIES
+
     /// <summary>
     /// Gets the current user.
     /// </summary>
@@ -76,6 +82,8 @@ public partial class GroupList
     /// </summary>
     /// <value>The navigate to URI.</value>
     private static string NavigateToUri => "group";
+
+    #endregion
 
     /// <summary>
     /// On initialized as an asynchronous operation.
@@ -165,6 +173,7 @@ public partial class GroupList
             await MessageService.Error(response.ReasonPhrase);
 
         _isLoading = false;
+        StateHasChanged();
     }
 
     /// <summary>

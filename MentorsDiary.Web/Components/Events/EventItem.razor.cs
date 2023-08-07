@@ -1,8 +1,9 @@
 ﻿using AntDesign;
+using MentorsDiary.Application.Entities.Events.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace MentorsDiary.Web.Components.Event;
+namespace MentorsDiary.Web.Components.Events;
 
 /// <summary>
 /// Class EventItem.
@@ -11,12 +12,16 @@ namespace MentorsDiary.Web.Components.Event;
 /// <seealso cref="ComponentBase" />
 public partial class EventItem
 {
+    #region PARAMETERS
+
     /// <summary>
     /// Gets or sets the event identifier.
     /// </summary>
     /// <value>The event identifier.</value>
     [Parameter]
     public int EventId { get; set; }
+
+    #endregion
 
     #region INJECTIONS
 
@@ -32,14 +37,14 @@ public partial class EventItem
     /// </summary>
     /// <value>The event service.</value>
     [Inject]
-    public EventService EventService { get; set; } = null!;
+    private EventService EventService { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the message service.
     /// </summary>
     /// <value>The message service.</value>
     [Inject]
-    private IMessageService MessageService { get; set; } = null!;
+    private MessageService MessageService { get; set; } = null!;
 
     #endregion
 
@@ -48,7 +53,7 @@ public partial class EventItem
     /// <summary>
     /// The event
     /// </summary>
-    private Application.Entities.Events.Domains.Event? _event = new();
+    private Event? _event = new();
 
     /// <summary>
     /// Gets the navigate to URI.

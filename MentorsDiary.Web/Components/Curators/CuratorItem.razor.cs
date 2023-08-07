@@ -6,7 +6,7 @@ using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace MentorsDiary.Web.Components.Curator;
+namespace MentorsDiary.Web.Components.Curators;
 
 /// <summary>
 /// Class CuratorItem.
@@ -15,12 +15,16 @@ namespace MentorsDiary.Web.Components.Curator;
 /// <seealso cref="ComponentBase" />
 public partial class CuratorItem
 {
+    #region PARAMETERS
+
     /// <summary>
     /// Gets or sets the curator identifier.
     /// </summary>
     /// <value>The curator identifier.</value>
     [Parameter]
     public int CuratorId { get; set; }
+
+    #endregion
 
     #region INJECTIONS
 

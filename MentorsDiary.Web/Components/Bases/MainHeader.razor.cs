@@ -12,6 +12,8 @@ namespace MentorsDiary.Web.Components.Bases;
 /// <seealso cref="ComponentBase" />
 public partial class MainHeader
 {
+    #region INJECTIONS
+
     /// <summary>
     /// Gets or sets the authentication service.
     /// </summary>
@@ -32,6 +34,8 @@ public partial class MainHeader
     /// <value>The user service.</value>
     [Inject] 
     private UserService UserService { get; set; } = null!;
+
+    #endregion
 
     /// <summary>
     /// Gets the current user.

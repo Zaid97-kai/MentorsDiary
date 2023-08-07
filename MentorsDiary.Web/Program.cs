@@ -14,7 +14,9 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+
+        builder.Services.AddSingleton<IConfigurationBuilder, ConfigurationManager>();
+
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
         builder.Services.AddAntDesign();

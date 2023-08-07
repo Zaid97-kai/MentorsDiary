@@ -1,12 +1,13 @@
 ﻿using AntDesign;
 using HttpService.Services;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
+using MentorsDiary.Application.Entities.Events.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 
-namespace MentorsDiary.Web.Components.Event;
+namespace MentorsDiary.Web.Components.Events;
 
 /// <summary>
 /// Class EventList.
@@ -47,6 +48,8 @@ public partial class EventList
 
     #endregion
 
+    #region PROPERTIES
+
     /// <summary>
     /// Gets the current user.
     /// </summary>
@@ -62,19 +65,21 @@ public partial class EventList
     /// Gets or sets the events.
     /// </summary>
     /// <value>The events.</value>
-    private List<Application.Entities.Events.Domains.Event>? Events { get; set; }
+    private List<Event>? Events { get; set; }
 
     /// <summary>
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
-    private string NavigateToUri => "event";
+    private static string NavigateToUri => "event";
 
     /// <summary>
     /// Gets the selected date time.
     /// </summary>
     /// <value>The selected date time.</value>
     public DateTime?[]? SelectedDateTime { get; private set; }
+
+    #endregion
 
     /// <summary>
     /// On initialized as an asynchronous operation.
@@ -94,7 +99,7 @@ public partial class EventList
         _isLoading = true;
         StateHasChanged();
 
-        Events = (await EventService.GetAllAsync() ?? Array.Empty<Application.Entities.Events.Domains.Event>()).ToList();
+        Events = (await EventService.GetAllAsync() ?? Array.Empty<Event>()).ToList();
 
         _isLoading = false;
         StateHasChanged();
@@ -109,18 +114,19 @@ public partial class EventList
         _isLoading = true;
         StateHasChanged();
 
-        var response = await EventService.CreateAsync(new Application.Entities.Events.Domains.Event()
+        var response = await EventService.CreateAsync(new Event()
         {
             DateCreated = DateTime.Now,
             UserCreated = CurrentUser.Name
         });
 
         if (response.IsSuccessStatusCode)
-            NavigationManager.NavigateTo($"{NavigateToUri}/{JsonConvert.DeserializeObject<Application.Entities.Events.Domains.Event>(await response.Content.ReadAsStringAsync())!.Id}");
+            NavigationManager.NavigateTo($"{NavigateToUri}/{JsonConvert.DeserializeObject<Event>(await response.Content.ReadAsStringAsync())!.Id}");
         else
             await MessageService.Error(response.ReasonPhrase);
 
         _isLoading = false;
+        StateHasChanged();
     }
 
     /// <summary>
@@ -134,7 +140,7 @@ public partial class EventList
             _isLoading = true;
             StateHasChanged();
 
-            Events = (await EventService.GetAllByFilterAsync(query!) ?? Array.Empty<Application.Entities.Events.Domains.Event>()).ToList();
+            Events = (await EventService.GetAllByFilterAsync(query!) ?? Array.Empty<Event>()).ToList();
 
             _isLoading = false;
             StateHasChanged();
@@ -148,7 +154,7 @@ public partial class EventList
     /// </summary>
     /// <param name="event">The event.</param>
     /// <returns>A Task representing the asynchronous operation.</returns>
-    private async Task RemoveAsync(Application.Entities.Events.Domains.Event @event)
+    private async Task RemoveAsync(Event @event)
     {
         var response = await EventService.DeleteAsync(@event.Id);
 
@@ -158,8 +164,6 @@ public partial class EventList
             await MessageService.Error(response.ReasonPhrase);
 
         await GetListAsync();
-
-        StateHasChanged();
     }
 
     /// <summary>
@@ -181,7 +185,8 @@ public partial class EventList
 
         await GetListAsync();
 
-        _isLoading = true;
+        _isLoading = true; 
+        StateHasChanged();
 
         if (SelectedDateTime[0] != null && SelectedDateTime[1] != null)
             Events = Events?.Where(d => d.DateEvent > SelectedDateTime[0] && d.DateEvent < SelectedDateTime[1]).ToList();

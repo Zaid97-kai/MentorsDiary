@@ -5,7 +5,6 @@ using MentorsDiary.Application.Bases.Enums;
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Bases.Filters;
 using MentorsDiary.Application.Entities.GroupEvents.Domains;
-using MentorsDiary.Application.Entities.GroupEventStudents.Domains;
 using MentorsDiary.Application.Entities.Parents.Domains;
 using MentorsDiary.Application.Entities.ParentStudents.Domains;
 using MentorsDiary.Application.Entities.Students.Domains;
@@ -27,12 +26,21 @@ namespace MentorsDiary.Web.Components.Groups;
 /// <seealso cref="ComponentBase" />
 public partial class GroupPage
 {
+    #region PARAMETERS
+
     /// <summary>
     /// Gets or sets the group identifier.
     /// </summary>
     /// <value>The group identifier.</value>
     [Parameter]
     public int GroupId { get; set; }
+
+    #endregion
+
+    #region INJECTIONS
+
+    [Inject]
+    private ConfigurationManager ConfigurationManager { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the group event service.
@@ -90,13 +98,16 @@ public partial class GroupPage
     [Inject]
     private NavigationManager NavigationManager { get; set; } = null!;
 
-
     /// <summary>
     /// Gets or sets the message service.
     /// </summary>
     /// <value>The message service.</value>
     [Inject]
     private MessageService MessageService { get; set; } = null!;
+
+    #endregion
+
+    #region PROPERTIES
 
     /// <summary>
     /// Gets the current group.
@@ -136,7 +147,9 @@ public partial class GroupPage
     /// Gets the base URI.
     /// </summary>
     /// <value>The base URI.</value>
-    private string BaseUri => $"https://localhost:7225/group-page/{GroupId}/#close-block";
+    private string BaseUri => $"{ConfigurationManager["LOCAL_API"]}/group-page/{GroupId}/#close-block";
+
+    #endregion
 
     /// <summary>
     /// Create student as an asynchronous operation.
@@ -166,8 +179,8 @@ public partial class GroupPage
         var createdParentMother = JsonConvert.DeserializeObject<Parent>(await responseCreateParentMother.Content.ReadAsStringAsync());
         var createdParentFather = JsonConvert.DeserializeObject<Parent>(await responseCreateParentFather.Content.ReadAsStringAsync());
 
-        await ParentStudentService.CreateAsync(new ParentStudent { ParentId = createdParentMother.Id, StudentId = createdStudent.Id });
-        await ParentStudentService.CreateAsync(new ParentStudent { ParentId = createdParentFather.Id, StudentId = createdStudent.Id });
+        await ParentStudentService.CreateAsync(new ParentStudent { ParentId = createdParentMother!.Id, StudentId = createdStudent!.Id });
+        await ParentStudentService.CreateAsync(new ParentStudent { ParentId = createdParentFather!.Id, StudentId = createdStudent.Id });
 
         if (responseCreateStudent.IsSuccessStatusCode)
             NavigationManager.NavigateTo($"student/{createdStudent.Id}/{GroupId}");
@@ -175,6 +188,7 @@ public partial class GroupPage
             await MessageService.Error(responseCreateStudent.ReasonPhrase);
 
         _isLoading = false;
+        StateHasChanged();
     }
 
     /// <summary>
@@ -276,10 +290,10 @@ public partial class GroupPage
     /// <summary>
     /// Downloads the excel file.
     /// </summary>
-    public void DownloadExcelFile()
+    public async Task DownloadExcelFile()
     {
         var excelBytes = ExportGroups();
-        Js.InvokeVoidAsync("saveAsFile", $"List_of_{CurrentGroup!.Name}_{DateTime.Now.ToString("d")}.xlsx", Convert.ToBase64String(excelBytes));
+        await Js.InvokeVoidAsync("saveAsFile", $"List_of_{CurrentGroup!.Name}_{DateTime.Now:d}.xlsx", Convert.ToBase64String(excelBytes));
     }
 
     /// <summary>
@@ -367,7 +381,7 @@ public partial class GroupPage
     private void ShowStudentPageAsync(Student student)
     {
         _selectedStudent = student;
-        NavigationManager.NavigateTo($"https://localhost:7225/group-page/{GroupId}/#modal-block", true);
+        NavigationManager.NavigateTo($"{((ConfigurationManager)ConfigurationManager)["LOCAL_API"]}/group-page/{GroupId}/#modal-block", true);
     }
 
     /// <summary>

@@ -14,12 +14,16 @@ namespace MentorsDiary.Web.Components.DeputyDirector;
 /// <seealso cref="ComponentBase" />
 public partial class DeputyDirectorItem
 {
+    #region PARAMETERS
+
     /// <summary>
     /// Gets or sets the deputy director identifier.
     /// </summary>
     /// <value>The deputy director identifier.</value>
     [Parameter]
     public int DeputyDirectorId { get; set; }
+
+    #endregion
 
     #region INJECTIONS
 

@@ -14,6 +14,8 @@ namespace MentorsDiary.Web.Components.GroupEvents;
 /// <seealso cref="ComponentBase" />
 public partial class GroupEventItem
 {
+    #region PARAMETERS
+
     /// <summary>
     /// Gets or sets the group event identifier.
     /// </summary>
@@ -27,6 +29,8 @@ public partial class GroupEventItem
     /// <value>The group identifier.</value>
     [Parameter]
     public int GroupId { get; set; }
+
+    #endregion
 
     #region INJECTIONS
 

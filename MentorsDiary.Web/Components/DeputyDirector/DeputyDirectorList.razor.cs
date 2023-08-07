@@ -1,5 +1,6 @@
 ﻿using AntDesign;
 using MentorsDiary.Application.Bases.Enums;
+using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Application.Entities.Bases.Filters;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
@@ -16,6 +17,8 @@ namespace MentorsDiary.Web.Components.DeputyDirector;
 /// <seealso cref="ComponentBase" />
 public partial class DeputyDirectorList
 {
+    #region INJECTIONS
+
     /// <summary>
     /// Gets or sets the user service.
     /// </summary>
@@ -37,6 +40,10 @@ public partial class DeputyDirectorList
     [Inject]
     private MessageService MessageService { get; set; } = null!;
 
+    #endregion
+
+    #region PROPERTIES
+
     /// <summary>
     /// The is loading
     /// </summary>
@@ -47,12 +54,14 @@ public partial class DeputyDirectorList
     /// </summary>
     /// <value>The users.</value>
     private List<User>? Users { get; set; }
-    
+
     /// <summary>
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
     private static string NavigateToUri => "deputydirector";
+
+    #endregion
 
     /// <summary>
     /// On initialized as an asynchronous operation.
@@ -61,7 +70,6 @@ public partial class DeputyDirectorList
     protected override async Task OnInitializedAsync()
     {
         await GetListAsync();
-        StateHasChanged();
     }
 
     /// <summary>
@@ -171,7 +179,7 @@ public partial class DeputyDirectorList
     /// Updates the asynchronous.
     /// </summary>
     /// <param name="user">The user.</param>
-    private void UpdateAsync(User user)
+    private void UpdateAsync(IHaveId user)
     {
         NavigationManager.NavigateTo($"{NavigateToUri}/{user.Id}");
     }

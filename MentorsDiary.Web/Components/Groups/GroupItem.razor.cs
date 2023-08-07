@@ -16,12 +16,16 @@ namespace MentorsDiary.Web.Components.Groups;
 /// <seealso cref="ComponentBase" />
 public partial class GroupItem
 {
+    #region PARAMETERS
+
     /// <summary>
     /// Gets or sets the group identifier.
     /// </summary>
     /// <value>The group identifier.</value>
     [Parameter]
     public int GroupId { get; set; }
+
+    #endregion
 
     #region INJECTIONS
 
