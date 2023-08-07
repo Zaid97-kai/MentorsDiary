@@ -40,7 +40,7 @@ public partial class GroupPage
     #region INJECTIONS
 
     [Inject]
-    private ConfigurationManager ConfigurationManager { get; set; } = null!;
+    private IConfiguration ConfigurationManager { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the group event service.
@@ -381,7 +381,7 @@ public partial class GroupPage
     private void ShowStudentPageAsync(Student student)
     {
         _selectedStudent = student;
-        NavigationManager.NavigateTo($"{((ConfigurationManager)ConfigurationManager)["LOCAL_API"]}/group-page/{GroupId}/#modal-block", true);
+        NavigationManager.NavigateTo($"{ConfigurationManager["LOCAL_API"]}/group-page/{GroupId}/#modal-block", true);
     }
 
     /// <summary>
