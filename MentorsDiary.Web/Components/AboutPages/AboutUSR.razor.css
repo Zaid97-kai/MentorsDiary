@@ -1,6 +1,16 @@
-﻿/* Заголовок УСР */
+﻿@font-face {
+    font-family: 'montserrat-semibold';
+    src: url('fonts/static/montserrat-semibold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'montserrat-light';
+    src: url('fonts/static/montserrat-light.ttf') format('truetype');
+}
+
+/* Заголовок УСР */
 .USR-Title {
-    font-family: Montserrat SemiBold;
+    font-family: montserrat-semibold;
     display: flex;
     justify-content: center;
     font-size: 25px;
@@ -9,15 +19,14 @@
 
 /* Для заголовков */
 .Title {
-    font-family: Montserrat SemiBold;
+    font-family: montserrat-semibold;
     font-size: 20px;
     color: black;
-
 }
 
 /* Для текста */
 .Text {
-    font-family: Montserrat;
+    font-family: montserrat-light;
     font-size: 18px;
     line-height: 25px;
     color: black;
@@ -84,7 +93,7 @@
 }
 
 .FuncText {
-    font-family: Montserrat;
+    font-family: montserrat-light;
     font-size: 18px;
     padding-left: 30px;
     padding-top: 10px;
@@ -110,7 +119,7 @@
 
 /* ФИО сотрудников */
 .StructureFIO {
-    font-family: Montserrat SemiBold;
+    font-family: montserrat-semibold;
     font-size: 18px;
     color: black;
 }
@@ -206,14 +215,14 @@
 .DepInfo {
     flex: 30;
     color: black;
-    font-family: Montserrat;
+    font-family: montserrat-light;
     font-size: 18px;
     text-align: left;
 }
 
 /* Заголовок отдела */
 .DepTitle1 {
-    font-family: Montserrat SemiBold;
+    font-family: montserrat-semibold;
     font-size: 18px;
     padding-top: 20px;
     padding-left: 30px;
@@ -231,7 +240,7 @@
 
 /* Заголовок отдела */
 .DepTitle2 {
-    font-family: Montserrat SemiBold;
+    font-family: montserrat-semibold;
     font-size: 18px;
     padding-top: 20px;
     padding-left: 30px;
@@ -268,7 +277,7 @@
     text-align: center;
     cursor: pointer;
     color: black;
-    font-family: Montserrat;
+    font-family: montserrat-light;
     font-size: 18px;
 }
 
@@ -332,7 +341,7 @@
     border-radius: 20px;
     border-color: lightgray;
     color: black;
-    font-family: Montserrat;
+    font-family: montserrat-light;
     font-size: 18px;
 }
 
@@ -363,7 +372,7 @@
     text-align: center;
     cursor: pointer;
     color: black;
-    font-family: Montserrat;
+    font-family: montserrat-light;
     font-size: 18px;
 }
 
@@ -394,7 +403,7 @@
     text-align: center;
     cursor: pointer;
     color: black;
-    font-family: Montserrat;
+    font-family: montserrat-light;
     font-size: 18px;
 }
 
@@ -423,7 +432,7 @@
     transition: 0.5s;
     cursor: pointer;
     color: black;
-    font-family: Montserrat;
+    font-family: montserrat-light;
     font-size: 18px;
 }
 
@@ -441,7 +450,7 @@
     border-radius: 20px;
     padding: 30px 0 10px 30px;
     color: black;
-    font-family: Montserrat;
+    font-family: montserrat-light;
     font-size: 18px;
     text-align: left;
 }
