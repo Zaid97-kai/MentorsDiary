@@ -1,7 +1,6 @@
 using MentorsDiary.Application.Bases.Interfaces.IHaves;
 using MentorsDiary.Web.Data.Services.Bases;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace MentorsDiary.Web.Components.Searches;
 
@@ -16,6 +15,8 @@ public partial class BodySearchBar<TValue, TService>
     where TValue : class, IHaveId, IHaveName, new()
     where TService : BaseService<TValue>
 {
+    #region PARAMETERS
+
     /// <summary>
     /// Gets or sets the on selected item changed handler.
     /// </summary>
@@ -30,12 +31,20 @@ public partial class BodySearchBar<TValue, TService>
     [Parameter]
     public EventCallback<string?> OnSearchItemChangedHandler { get; set; }
 
+    #endregion
+
+    #region INJECTIONS
+
     /// <summary>
     /// Gets or sets the division service.
     /// </summary>
     /// <value>The division service.</value>
     [Inject]
     private TService? Service { get; set; }
+
+    #endregion
+
+    #region PROPERTIES
 
     /// <summary>
     /// Gets or sets the values.
@@ -55,6 +64,8 @@ public partial class BodySearchBar<TValue, TService>
     /// <value>The text value.</value>
     public string TxtValue { get; set; } = string.Empty;
 
+    #endregion
+
     /// <summary>
     /// On initialized as an asynchronous operation.
     /// </summary>
@@ -71,34 +82,7 @@ public partial class BodySearchBar<TValue, TService>
         });
         Values?.AddRange((ret ?? Array.Empty<TValue>()).ToList());
     }
-
-    /// <summary>
-    /// Called when [blur].
-    /// </summary>
-    private void OnBlur()
-    {
-
-    }
-
-    /// <summary>
-    /// Called when [focus].
-    /// </summary>
-    /// <returns>Task.</returns>
-    private Task OnFocus()
-    {
-        Console.WriteLine("focus");
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
-    /// Called when [search].
-    /// </summary>
-    /// <param name="obj">The object.</param>
-    private void OnSearch(string obj)
-    {
-        Console.WriteLine($"search: {obj}");
-    }
-
+    
     /// <summary>
     /// Called when [press enter handler].
     /// </summary>

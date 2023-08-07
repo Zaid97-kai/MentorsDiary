@@ -211,7 +211,7 @@ public partial class GroupList
     /// <param name="query">The query.</param>
     private async Task SearchList(string query)
     {
-        if (query != string.Empty)
+        if (query != null)
         {
             _isLoading = true;
             StateHasChanged();
