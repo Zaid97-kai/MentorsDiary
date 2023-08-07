@@ -27,20 +27,7 @@
                 {
                     <MentorsDiary.Web.Components.Displays.BoxCard>
                         <Body>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="text-label">Наименование</div>
-                                    <div>@data.Name</div>
-                                </div>
-                                <div class="col">
-                                    <div class="text-label">Описание</div>
-                                    <div>@data.Comment</div>
-                                </div>
-                                <div class="col">
-                                    <div class="text-label">Дата проведения</div>
-                                    <div>@data.DateEvent?.ToString("D")</div>
-                                </div>
-                            </div>
+                            <EventData Event="@data" />
                         </Body>
                         <ActionTemplate>
                             <Space Size="@("2")">

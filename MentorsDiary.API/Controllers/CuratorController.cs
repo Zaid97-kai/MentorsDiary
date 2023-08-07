@@ -15,7 +15,7 @@ public class CuratorController : BaseController<Curator, ICuratorRepository>
     /// Initializes a new instance of the <see cref="CuratorController"/> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
-    public CuratorController(ICuratorRepository repository) : base(repository)
+    public CuratorController(ICuratorRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
 
     }

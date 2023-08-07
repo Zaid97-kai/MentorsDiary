@@ -15,7 +15,7 @@ public class ParentController : BaseController<Parent, IParentRepository>
     /// Initializes a new instance of the <see cref="ParentController"/> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
-    public ParentController(IParentRepository repository) : base(repository)
+    public ParentController(IParentRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
 
     }

@@ -15,7 +15,7 @@ public class EventController : BaseController<Event, IEventRepository>
     /// Initializes a new instance of the <see cref="EventController"/> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
-    public EventController(IEventRepository repository) : base(repository)
+    public EventController(IEventRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
 
     }

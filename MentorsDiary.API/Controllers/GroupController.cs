@@ -15,7 +15,7 @@ public class GroupController : BaseController<Group, IGroupRepository>
     /// Initializes a new instance of the <see cref="GroupController"/> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
-    public GroupController(IGroupRepository repository) : base(repository)
+    public GroupController(IGroupRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
 
     }

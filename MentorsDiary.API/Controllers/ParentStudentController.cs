@@ -15,7 +15,8 @@ public class ParentStudentController : BaseController<ParentStudent, IParentStud
     /// Initializes a new instance of the <see cref="ParentStudentController"/> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
-    public ParentStudentController(IParentStudentRepository repository) : base(repository)
+    public ParentStudentController(IParentStudentRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
+
     }
 }

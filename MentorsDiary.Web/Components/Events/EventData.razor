@@ -1,0 +1,54 @@
+﻿@using MentorsDiary.Application.Entities.Events.Domains
+
+<div class="row">
+    @if (_avatar == null)
+    {
+        <div class="col">
+            <img class="img-thumbnail" src="../img/no-img.jpg" alt="">
+        </div>
+    }
+    else
+    {
+        <div class="col">
+            <img class="img-thumbnail" src="@_avatar" alt="">
+        </div>
+    }
+    <div class="col">
+        <div class="text-label">Наименование</div>
+        <div>@Event.Name</div>
+    </div>
+    <div class="col">
+        <div class="text-label">Описание</div>
+        <div>@Event.Comment</div>
+    </div>
+    <div class="col">
+        <div class="text-label">Дата проведения</div>
+        <div>@Event.DateEvent?.ToString("D")</div>
+    </div>
+</div>
+
+@code
+{
+    [Parameter]
+    public Event Event { get; set; } = null!;
+
+    [Inject]
+    private UserService UserService { get; set; } = null!;
+
+    [Inject]
+    private MessageService MessageService { get; set; } = null!;
+
+    private string _avatar = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Event.ImagePath != null)
+        {
+            var result = await UserService.GetAvatarAsync(Event.ImagePath)!;
+            if (result.IsSuccessStatusCode)
+                _avatar = result.RequestMessage?.RequestUri?.ToString()!;
+            else
+                await MessageService.Error("Ошибка фотографии");
+        }
+    }
+}

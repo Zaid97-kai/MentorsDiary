@@ -15,7 +15,7 @@ public class DivisionController : BaseController<Division, IDivisionRepository>
     /// Initializes a new instance of the <see cref="DivisionController"/> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
-    public DivisionController(IDivisionRepository repository) : base(repository)
+    public DivisionController(IDivisionRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
 
     }
