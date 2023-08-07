@@ -78,7 +78,7 @@ public partial class DeputyDirectorItem
     /// <value>The selected division.</value>
     private Division? SelectedDivision { get; set; } = new();
 
-    private Application.Entities.Curators.Domains.Curator? Clone { get; set; } = new();
+    private Application.Entities.Users.Domains.User? Clone { get; set; } = new();
 
     /// <summary>
     /// Gets the navigate to URI.

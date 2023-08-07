@@ -67,7 +67,7 @@ public partial class EventItem
     /// </summary>
     private bool _isLoading;
 
-    private Application.Entities.Curators.Domains.Curator? Clone { get; set; } = new();
+    private Application.Entities.Events.Domains.Event? Clone { get; set; } = new();
 
     private string? _avatar;
 
