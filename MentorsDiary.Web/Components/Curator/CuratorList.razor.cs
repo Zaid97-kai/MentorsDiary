@@ -86,8 +86,6 @@ public partial class CuratorList
     /// <value>The navigate to URI.</value>
     private string NavigateToUri => "curator";
 
-    private string? _avatar;
-
     /// <summary>
     /// On initialized as an asynchronous operation.
     /// </summary>
@@ -95,7 +93,6 @@ public partial class CuratorList
     protected override async Task OnInitializedAsync()
     {
         await GetListAsync();
-        await UploadAvatarPath();
     }
 
     /// <summary>
@@ -275,16 +272,5 @@ public partial class CuratorList
     private void UpdateAsync(IHaveId curator)
     {
         NavigationManager.NavigateTo($"{NavigateToUri}/{curator.Id}");
-    }
-    private async Task UploadAvatarPath()
-    {
-        //if (_curator!.ImagePath != null)
-        //{
-        //    var result = await UserService?.GetAvatarAsync(_curator!.ImagePath)!;
-        //    if (result != null)
-        //        _avatar = result.RequestMessage?.RequestUri?.ToString();
-        //    else
-        //        await MessageService?.Error("Ошибка фотографии")!;
-        //}
     }
 }
