@@ -84,7 +84,7 @@ public partial class CuratorList
     /// Gets or sets the curators.
     /// </summary>
     /// <value>The curators.</value>
-    private List<Application.Entities.Curators.Domains.Curator>? Curators { get; set; }
+    private List<Curator>? Curators { get; set; }
 
     /// <summary>
     /// Gets the navigate to URI.
@@ -118,14 +118,14 @@ public partial class CuratorList
                 Users = (await UserService.GetAllAsync() ?? Array.Empty<User>()).Where(u => u.Role == EnumRoles.Curator).ToList();
 
                 Curators = (await CuratorService.GetAllAsync() ??
-                            Array.Empty<Application.Entities.Curators.Domains.Curator>()).Where(c => Users.Any(u => u.Id == c.UserId)).ToList();
+                            Array.Empty<Curator>()).Where(c => Users.Any(u => u.Id == c.UserId)).ToList();
                 break;
             case EnumRoles.DeputyDirector:
                 Users = (await UserService.GetAllAsync() ?? Array.Empty<User>()).Where(u => u.Role == EnumRoles.Curator && u.DivisionId == CurrentUser.DivisionId)
                     .ToList();
 
                 Curators = (await CuratorService.GetAllAsync() ??
-                            Array.Empty<Application.Entities.Curators.Domains.Curator>()).Where(c => Users.Any(u => u.Id == c.UserId)).ToList();
+                            Array.Empty<Curator>()).Where(c => Users.Any(u => u.Id == c.UserId)).ToList();
                 break;
         }
 
@@ -168,14 +168,14 @@ public partial class CuratorList
         if (deserializeObject != null)
         {
             var responseCuratorCreate =
-                await CuratorService.CreateAsync(new Application.Entities.Curators.Domains.Curator
+                await CuratorService.CreateAsync(new Curator
                 {
                     UserId = deserializeObject.Id
                 });
 
             if (responseUserCreate.IsSuccessStatusCode && responseCuratorCreate.IsSuccessStatusCode)
                 NavigationManager.NavigateTo(
-                    $"{NavigateToUri}/{JsonConvert.DeserializeObject<Application.Entities.Curators.Domains.Curator>(await responseCuratorCreate.Content.ReadAsStringAsync())!.Id}");
+                    $"{NavigateToUri}/{JsonConvert.DeserializeObject<Curator>(await responseCuratorCreate.Content.ReadAsStringAsync())!.Id}");
             else
                 await MessageService.Error($"{responseUserCreate.ReasonPhrase}\n{responseCuratorCreate.ReasonPhrase}");
         }
@@ -241,7 +241,7 @@ public partial class CuratorList
             StateHasChanged();
 
             Curators = (await CuratorService.GetAllByFilterAsync(query!) ??
-                        Array.Empty<Application.Entities.Curators.Domains.Curator>()).ToList();
+                        Array.Empty<Curator>()).ToList();
 
             _isLoading = false;
             StateHasChanged();
@@ -255,7 +255,7 @@ public partial class CuratorList
     /// </summary>
     /// <param name="curator">The curator.</param>
     /// <returns>A Task representing the asynchronous operation.</returns>
-    private async Task RemoveAsync(Application.Entities.Curators.Domains.Curator curator)
+    private async Task RemoveAsync(Curator curator)
     {
         var responseDeleteUser = await UserService.DeleteAsync(curator.UserId);
         var responseDeleteCurator = await CuratorService.DeleteAsync(curator.Id);
