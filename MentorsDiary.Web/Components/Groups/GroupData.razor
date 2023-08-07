@@ -1,0 +1,51 @@
+﻿@using MentorsDiary.Application.Entities.Groups.Domains
+<div class="row">
+    @if (_avatar == null)
+    {
+        <div class="col">
+            <img class="img-thumbnail" src="../img/no-img.jpg" alt="">
+        </div>
+    }
+    else
+    {
+        <div class="col">
+            <img class="img-thumbnail" src="@_avatar" alt="">
+        </div>
+    }
+    <div class="col">
+        <div class="text-label">Номер группы</div>
+        <div>@Group.Name</div>
+    </div>
+    <div class="col">
+        <div class="text-label">Подразделение</div>
+        <div>@Group.Division?.Name</div>
+    </div>
+    <div class="col">
+        <div class="text-label">Куратор</div>
+        <div>@Group.Curator?.Name</div>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public Group Group { get; set; } = null!;
+
+    [Inject]
+    private UserService UserService { get; set; } = null!;
+
+    [Inject]
+    private MessageService MessageService { get; set; } = null!;
+
+    private string _avatar = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Group.ImagePath != null)
+        {
+            var result = await UserService.GetAvatarAsync(Group.ImagePath)!;
+            if (result.IsSuccessStatusCode)
+                _avatar = result.RequestMessage?.RequestUri?.ToString()!;
+            else
+                await MessageService.Error("Ошибка фотографии");
+        }
+    }
+}
