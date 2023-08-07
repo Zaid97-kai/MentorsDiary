@@ -1,0 +1,58 @@
+﻿@using MentorsDiary.Application.Entities.Users.Domains
+
+<div class="row">
+    @if (_avatar == null)
+    {
+        <div class="col">
+            <img class="img-thumbnail" src="../img/no-img.jpg" alt="">
+        </div>
+    }
+    else
+    {
+        <div class="col">
+            <img class="img-thumbnail" src="@_avatar" alt="">
+        </div>
+    }
+    <div class="col">
+        <div class="text-label">Имя</div>
+        <div>@DeputyDirector.Name</div>
+    </div>
+    <div class="col">
+        <div class="text-label">Подразделение</div>
+        <div>@DeputyDirector.Division?.Name</div>
+    </div>
+    <div class="col">
+        <div class="text-label">Телефон</div>
+        <div>@DeputyDirector.Phone</div>
+    </div>
+    <div class="col">
+        <div class="text-label">Электронная почта</div>
+        <div>@DeputyDirector.Email</div>
+    </div>
+</div>
+
+@code
+{
+    [Parameter]
+    public User DeputyDirector { get; set; } = null!;
+
+    [Inject]
+    private UserService UserService { get; set; } = null!;
+
+    [Inject]
+    private MessageService MessageService { get; set; } = null!;
+
+    private string _avatar = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (DeputyDirector.ImagePath != null)
+        {
+            var result = await UserService.GetAvatarAsync(DeputyDirector.ImagePath)!;
+            if (result.IsSuccessStatusCode)
+                _avatar = result.RequestMessage?.RequestUri?.ToString()!;
+            else
+                await MessageService.Error("Ошибка фотографии");
+        }
+    }
+}
