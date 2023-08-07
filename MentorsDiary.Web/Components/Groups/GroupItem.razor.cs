@@ -1,6 +1,7 @@
 ﻿using AntDesign;
 using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
+using MentorsDiary.Application.Entities.Curators.Domains;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Groups.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
@@ -96,7 +97,7 @@ public partial class GroupItem
     /// Gets or sets the curators.
     /// </summary>
     /// <value>The curators.</value>
-    private List<Application.Entities.Curators.Domains.Curator>? Curators { get; set; } = new();
+    private List<Curator>? Curators { get; set; } = new();
 
     /// <summary>
     /// Gets the navigate to URI.
@@ -134,11 +135,11 @@ public partial class GroupItem
             case EnumRoles.Administrator:
                 Divisions = (await DivisionService.GetAllAsync() ?? Array.Empty<Division>()).ToList();
                 Curators = (await CuratorService.GetAllAsync() ??
-                            Array.Empty<Application.Entities.Curators.Domains.Curator>()).ToList();
+                            Array.Empty<Curator>()).ToList();
                 break;
             case EnumRoles.DeputyDirector:
                 Curators = (await CuratorService.GetAllAsync() ??
-                            Array.Empty<Application.Entities.Curators.Domains.Curator>())
+                            Array.Empty<Curator>())
                     .Where(c => c.User?.DivisionId == CurrentUser.DivisionId).ToList();
                 break;
         }
