@@ -24,12 +24,12 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity>
     protected virtual string BasePath => typeof(TEntity).Name.ToLower();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BaseService{TEntity}" /> class.
+    /// Initializes a new instance of the <see cref="BaseService{TEntity}"/> class.
     /// </summary>
-    /// <param name="httpClient">The HTTP client.</param>
-    protected BaseService(HttpClient? httpClient)
+    /// <param name="clientFactory">The client factory.</param>
+    protected BaseService(IHttpClientFactory clientFactory)
     {
-        _httpClient = httpClient;
+        _httpClient = clientFactory.CreateClient("API");
     }
 
     /// <summary>

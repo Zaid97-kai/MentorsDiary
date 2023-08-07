@@ -13,8 +13,8 @@ public class GroupService: BaseService<Group>
     /// <summary>
     /// Initializes a new instance of the <see cref="GroupService"/> class.
     /// </summary>
-    /// <param name="httpClient">The HTTP client.</param>
-    public GroupService(HttpClient? httpClient) : base(httpClient)
+    /// <param name="clientFactory">The client factory.</param>
+    public GroupService(IHttpClientFactory clientFactory) : base(clientFactory)
     {
 
     }

@@ -13,8 +13,8 @@ public class ParentService: BaseService<Parent>
     /// <summary>
     /// Initializes a new instance of the <see cref="ParentService"/> class.
     /// </summary>
-    /// <param name="httpClient">The HTTP client.</param>
-    public ParentService(HttpClient? httpClient) : base(httpClient)
+    /// <param name="clientFactory">The client factory.</param>
+    public ParentService(IHttpClientFactory clientFactory) : base(clientFactory)
     {
 
     }

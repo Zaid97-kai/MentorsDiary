@@ -13,8 +13,8 @@ public class CuratorService: BaseService<Curator>
     /// <summary>
     /// Initializes a new instance of the <see cref="CuratorService"/> class.
     /// </summary>
-    /// <param name="httpClient">The HTTP client.</param>
-    public CuratorService(HttpClient? httpClient) : base(httpClient)
+    /// <param name="clientFactory">The client factory.</param>
+    public CuratorService(IHttpClientFactory clientFactory) : base(clientFactory)
     {
 
     }

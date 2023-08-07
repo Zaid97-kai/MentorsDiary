@@ -13,8 +13,8 @@ public class DivisionService: BaseService<Division>
     /// <summary>
     /// Initializes a new instance of the <see cref="DivisionService"/> class.
     /// </summary>
-    /// <param name="httpClient">The HTTP client.</param>
-    public DivisionService(HttpClient? httpClient) : base(httpClient)
+    /// <param name="clientFactory">The client factory.</param>
+    public DivisionService(IHttpClientFactory clientFactory) : base(clientFactory)
     {
 
     }
