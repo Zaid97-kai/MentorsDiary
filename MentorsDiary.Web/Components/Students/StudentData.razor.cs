@@ -5,7 +5,6 @@ using MentorsDiary.Application.Entities.ParentStudents.Domains;
 using MentorsDiary.Application.Entities.Students.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
-using Newtonsoft.Json;
 
 namespace MentorsDiary.Web.Components.Students;
 
@@ -16,6 +15,8 @@ namespace MentorsDiary.Web.Components.Students;
 /// <seealso cref="ComponentBase" />
 public partial class StudentData
 {
+    #region PARAMETERS
+
     /// <summary>
     /// Gets or sets the student.
     /// </summary>
@@ -45,6 +46,10 @@ public partial class StudentData
     [Parameter]
     public EventCallback<Student>? StudentChanged { get; set; }
 
+    #endregion
+
+    #region INJECTIONS
+
     /// <summary>
     /// Gets or sets the parent student service.
     /// </summary>
@@ -62,7 +67,7 @@ public partial class StudentData
     /// <summary>
     /// The parents
     /// </summary>
-    private List<Parent?> _parents;
+    private List<Parent?>? _parents;
 
     /// <summary>
     /// The is loading
@@ -73,6 +78,8 @@ public partial class StudentData
     /// The student
     /// </summary>
     private Student? _student = new();
+
+    #endregion
 
     /// <summary>
     /// On initialized as an asynchronous operation.

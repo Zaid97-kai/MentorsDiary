@@ -39,8 +39,12 @@ public partial class GroupPage
 
     #region INJECTIONS
 
+    /// <summary>
+    /// Gets or sets the configuration.
+    /// </summary>
+    /// <value>The configuration.</value>
     [Inject]
-    private IConfiguration ConfigurationManager { get; set; } = null!;
+    private IConfiguration Configuration { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the group event service.
@@ -147,7 +151,7 @@ public partial class GroupPage
     /// Gets the base URI.
     /// </summary>
     /// <value>The base URI.</value>
-    private string BaseUri => $"{ConfigurationManager["LOCAL_API"]}/group-page/{GroupId}/#close-block";
+    private string BaseUri => $"{Configuration["LOCAL_API"]}/group-page/{GroupId}/#close-block";
 
     #endregion
 
@@ -381,7 +385,7 @@ public partial class GroupPage
     private void ShowStudentPageAsync(Student student)
     {
         _selectedStudent = student;
-        NavigationManager.NavigateTo($"{ConfigurationManager["LOCAL_API"]}/group-page/{GroupId}/#modal-block", true);
+        NavigationManager.NavigateTo($"{Configuration["LOCAL_API"]}/group-page/{GroupId}/#modal-block", true);
     }
 
     /// <summary>
@@ -410,17 +414,6 @@ public partial class GroupPage
     private void UpdateGroupEventAsync(IHaveId groupEvent)
     {
         NavigationManager.NavigateTo($"group-event/{groupEvent.Id}/{GroupId}");
-    }
-
-    /// <summary>
-    /// Shows the group event page asynchronous.
-    /// </summary>
-    /// <param name="groupEvent">The group event.</param>
-    /// <returns>Task.</returns>
-    /// <exception cref="System.NotImplementedException"></exception>
-    private Task ShowGroupEventPageAsync(GroupEvent groupEvent)
-    {
-        throw new NotImplementedException();
     }
 
     /// <summary>

@@ -6,7 +6,6 @@ using MentorsDiary.Application.Entities.ParentStudents.Domains;
 using MentorsDiary.Application.Entities.Students.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
-using Newtonsoft.Json;
 
 namespace MentorsDiary.Web.Components.Students;
 

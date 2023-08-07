@@ -25,18 +25,11 @@ namespace MentorsDiary.Persistence;
 public class MentorsDiaryDbContext : DbContext, IMentorsDiaryContext
 {
     /// <summary>
-    /// The service provider
-    /// </summary>
-    private readonly IServiceProvider _serviceProvider;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MentorsDiaryDbContext" /> class.
+    /// Initializes a new instance of the <see cref="MentorsDiaryDbContext"/> class.
     /// </summary>
     /// <param name="options">The options.</param>
-    /// <param name="serviceProvider">The service provider.</param>
-    public MentorsDiaryDbContext(DbContextOptions<MentorsDiaryDbContext> options, IServiceProvider serviceProvider) : base(options)
+    public MentorsDiaryDbContext(DbContextOptions<MentorsDiaryDbContext> options) : base(options)
     {
-        _serviceProvider = serviceProvider;
     }
 
     /// <summary>
@@ -58,7 +51,7 @@ public class MentorsDiaryDbContext : DbContext, IMentorsDiaryContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder = DataSeederUser.SeedData(modelBuilder);
-        modelBuilder = DataSeederDivision.SeedData(modelBuilder);
+        DataSeederDivision.SeedData(modelBuilder);
     }
 
     /// <summary>
