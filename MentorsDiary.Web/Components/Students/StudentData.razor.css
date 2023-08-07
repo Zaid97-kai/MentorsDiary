@@ -1,4 +1,14 @@
-﻿#modal-block {
+﻿@font-face {
+    font-family: 'Montserrat Semibold';
+    src: url('fonts/static/montserrat-semibold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('fonts/static/montserrat-light.ttf') format('truetype');
+}
+
+#modal-block {
     position: fixed;
     top: 0;
     left: -200vw;
