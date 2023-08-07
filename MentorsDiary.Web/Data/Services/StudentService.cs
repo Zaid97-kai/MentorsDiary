@@ -13,8 +13,8 @@ public class StudentService: BaseService<Student>
     /// <summary>
     /// Initializes a new instance of the <see cref="StudentService"/> class.
     /// </summary>
-    /// <param name="httpClient">The HTTP client.</param>
-    public StudentService(HttpClient? httpClient) : base(httpClient)
+    /// <param name="clientFactory">The client factory.</param>
+    public StudentService(IHttpClientFactory clientFactory) : base(clientFactory)
     {
 
     }

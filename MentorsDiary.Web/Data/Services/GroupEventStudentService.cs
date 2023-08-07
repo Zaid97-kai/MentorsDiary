@@ -18,10 +18,10 @@ public class GroupEventStudentService: BaseService<GroupEventStudent>
     /// <summary>
     /// Initializes a new instance of the <see cref="GroupEventStudentService"/> class.
     /// </summary>
-    /// <param name="httpClient">The HTTP client.</param>
-    public GroupEventStudentService(HttpClient httpClient) : base(httpClient)
+    /// <param name="clientFactory">The client factory.</param>
+    public GroupEventStudentService(IHttpClientFactory clientFactory) : base(clientFactory)
     {
-        _httpClient = httpClient;
+        _httpClient = clientFactory.CreateClient("API");
     }
 
     /// <summary>

@@ -11,10 +11,10 @@ namespace MentorsDiary.Web.Data.Services;
 public class GroupEventService: BaseService<GroupEvent>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="GroupEventService" /> class.
+    /// Initializes a new instance of the <see cref="GroupEventService"/> class.
     /// </summary>
-    /// <param name="httpClient">The HTTP client.</param>
-    public GroupEventService(HttpClient? httpClient) : base(httpClient)
+    /// <param name="clientFactory">The client factory.</param>
+    public GroupEventService(IHttpClientFactory clientFactory) : base(clientFactory)
     {
     }
 }

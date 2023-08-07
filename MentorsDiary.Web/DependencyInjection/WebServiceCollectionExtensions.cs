@@ -36,9 +36,14 @@ public static class WebServiceCollectionExtensions
         serviceCollection.AddTransient<WebsiteAuthenticator>();
         serviceCollection.AddTransient<AuthenticationStateProvider>(sp => sp.GetRequiredService<WebsiteAuthenticator>());
 
-        serviceCollection.AddTransient(_ => new HttpClient
+        serviceCollection.AddHttpClient("API", client =>
         {
-            BaseAddress = new Uri("https://localhost:7269")
+            client.BaseAddress = new Uri("https://localhost:7269");
+        });
+
+        serviceCollection.AddHttpClient("AUTH", client =>
+        {
+            client.BaseAddress = new Uri("https://localhost:4000");
         });
         
         return serviceCollection;

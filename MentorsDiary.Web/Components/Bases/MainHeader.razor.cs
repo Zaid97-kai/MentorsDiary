@@ -1,5 +1,6 @@
 using HttpService.Services;
 using MentorsDiary.Application.Entities.Users.Domains;
+using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
 
 namespace MentorsDiary.Web.Components.Bases;
@@ -26,6 +27,13 @@ public partial class MainHeader
     private NavigationManager NavigationManager { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the user service.
+    /// </summary>
+    /// <value>The user service.</value>
+    [Inject] 
+    private UserService UserService { get; set; } = null!;
+
+    /// <summary>
     /// Gets the current user.
     /// </summary>
     /// <value>The current user.</value>
@@ -45,5 +53,14 @@ public partial class MainHeader
     private void NavigateToHome()
     {
         NavigationManager.NavigateTo("/");
+    }
+
+    /// <summary>
+    /// Updates the password.
+    /// </summary>
+    private async Task UpdatePassword()
+    {
+        var list = (await UserService.GetAllAsync() ?? Array.Empty<User>()).ToList();
+        await UserService.CreateApplicationUsersAsync(list);
     }
 }
