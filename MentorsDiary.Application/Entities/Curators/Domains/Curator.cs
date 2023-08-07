@@ -15,7 +15,7 @@ namespace MentorsDiary.Application.Entities.Curators.Domains;
 /// <seealso cref="BaseUserCU" />
 /// <seealso cref="IHaveId" />
 /// <seealso cref="IHaveName" />
-public class Curator : BaseUserCU, IHaveId, IHaveName
+public class Curator : BaseUserCU, IHaveId, IHaveName, IHaveImage
 {
     /// <summary>
     /// Gets or sets the identifier.
@@ -34,6 +34,12 @@ public class Curator : BaseUserCU, IHaveId, IHaveName
     /// </summary>
     /// <value>The user identifier.</value>
     public int UserId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the image path.
+    /// </summary>
+    /// <value>The image path.</value>
+    public string? ImagePath { get; set; }
 
     /// <summary>
     /// Gets or sets the user.

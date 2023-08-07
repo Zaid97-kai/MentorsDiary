@@ -21,6 +21,9 @@ public partial class CuratorList
 {
     #region INJECTIONS
 
+    [Parameter]
+    public User? Curator { get; set; }
+
     /// <summary>
     /// Gets or sets the user service.
     /// </summary>
