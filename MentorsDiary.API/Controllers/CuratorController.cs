@@ -12,9 +12,10 @@ namespace MentorsDiary.API.Controllers;
 public class CuratorController : BaseController<Curator, ICuratorRepository>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="CuratorController"/> class.
+    /// Initializes a new instance of the <see cref="CuratorController" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
+    /// <param name="env">The env.</param>
     public CuratorController(ICuratorRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
 

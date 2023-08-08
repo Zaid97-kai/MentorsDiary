@@ -15,6 +15,7 @@ public class GroupEventController : BaseController<GroupEvent, IGroupEventReposi
     /// Initializes a new instance of the <see cref="GroupEventController" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
+    /// <param name="env">The env.</param>
     public GroupEventController(IGroupEventRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
     }

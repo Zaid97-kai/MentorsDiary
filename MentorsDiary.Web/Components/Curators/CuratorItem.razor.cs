@@ -1,5 +1,4 @@
 ﻿using AntDesign;
-using DocumentFormat.OpenXml.Wordprocessing;
 using HttpService.Services;
 using MentorsDiary.Application.Bases.Enums;
 using MentorsDiary.Application.Entities.Divisions.Domains;
@@ -99,6 +98,10 @@ public partial class CuratorItem
     /// <value>The selected division.</value>
     private Division? SelectedDivision { get; set; } = new();
 
+    /// <summary>
+    /// Gets or sets the clone.
+    /// </summary>
+    /// <value>The clone.</value>
     private Application.Entities.Curators.Domains.Curator? Clone { get; set; } = new();
 
     /// <summary>
@@ -112,10 +115,19 @@ public partial class CuratorItem
     /// </summary>
     private bool _isLoading;
 
+    /// <summary>
+    /// The avatar
+    /// </summary>
     private string? _avatar;
 
+    /// <summary>
+    /// The new avatar
+    /// </summary>
     private string? _newAvatar;
 
+    /// <summary>
+    /// The resized image
+    /// </summary>
     private IBrowserFile? _resizedImage;
 
     #endregion
@@ -130,6 +142,9 @@ public partial class CuratorItem
         await UploadAvatarPath();
     }
 
+    /// <summary>
+    /// Uploads the avatar path.
+    /// </summary>
     private async Task UploadAvatarPath()
     {
         if (_curator!.ImagePath != null)
@@ -195,6 +210,9 @@ public partial class CuratorItem
         NavigationManager.NavigateTo("/curator");
     }
 
+    /// <summary>
+    /// Uploads the avatar.
+    /// </summary>
     private async Task UploadAvatar()
     {
         using var content = new MultipartFormDataContent();
@@ -230,6 +248,10 @@ public partial class CuratorItem
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Handles the <see cref="E:InputFileChange" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="InputFileChangeEventArgs"/> instance containing the event data.</param>
     private async Task OnInputFileChange(InputFileChangeEventArgs e)
     {
         var imageFile = e.File;

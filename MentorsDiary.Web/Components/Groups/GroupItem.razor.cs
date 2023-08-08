@@ -94,7 +94,11 @@ public partial class GroupItem
     /// <value>The divisions.</value>
     private List<Division>? Divisions { get; set; } = new();
 
-    private Application.Entities.Groups.Domains.Group? Clone { get; set; } = new();
+    /// <summary>
+    /// Gets or sets the clone.
+    /// </summary>
+    /// <value>The clone.</value>
+    private Group? Clone { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the curators.
@@ -113,10 +117,19 @@ public partial class GroupItem
     /// </summary>
     private bool _isLoading;
 
+    /// <summary>
+    /// The avatar
+    /// </summary>
     private string? _avatar;
 
+    /// <summary>
+    /// The new avatar
+    /// </summary>
     private string? _newAvatar;
 
+    /// <summary>
+    /// The resized image
+    /// </summary>
     private IBrowserFile? _resizedImage;
 
     #endregion
@@ -131,6 +144,9 @@ public partial class GroupItem
         await UploadAvatarPath();
     }
 
+    /// <summary>
+    /// Uploads the avatar path.
+    /// </summary>
     private async Task UploadAvatarPath()
     {
         if (_group!.ImagePath != null)
@@ -204,6 +220,9 @@ public partial class GroupItem
         NavigationManager.NavigateTo("/group");
     }
 
+    /// <summary>
+    /// Uploads the avatar.
+    /// </summary>
     private async Task UploadAvatar()
     {
         using var content = new MultipartFormDataContent();
@@ -229,6 +248,10 @@ public partial class GroupItem
             await MessageService.Error("Upload failed.");
     }
 
+    /// <summary>
+    /// Handles the <see cref="E:InputFileChange" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="InputFileChangeEventArgs"/> instance containing the event data.</param>
     private async Task OnInputFileChange(InputFileChangeEventArgs e)
     {
         var imageFile = e.File;

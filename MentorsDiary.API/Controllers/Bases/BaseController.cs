@@ -22,12 +22,21 @@ public class BaseController<TEntity, TRepository> : ControllerBase
     /// </summary>
     private readonly TRepository _repository;
 
+    /// <summary>
+    /// The env
+    /// </summary>
     private readonly IWebHostEnvironment _env;
+
+    /// <summary>
+    /// The resources
+    /// </summary>
+    private const string Resources = "Resources";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BaseController{TEntity, TRepository}" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
+    /// <param name="env">The env.</param>
     public BaseController(TRepository repository, IWebHostEnvironment env)
     {
         _repository = repository;
@@ -135,11 +144,10 @@ public class BaseController<TEntity, TRepository> : ControllerBase
     [HttpPost("UploadAvatar")]
     public async Task<IFormFile> UploadAvatar([FromForm] List<IFormFile> files)
     {
-        if (!Directory.Exists(Path.Combine(_env.ContentRootPath, "resources")))
-        {
-            Directory.CreateDirectory(Path.Combine(_env.ContentRootPath, "resources"));
-        }
-        var path = Path.Combine(_env.ContentRootPath, "resources", files[0].FileName);
+        if (!Directory.Exists(Path.Combine(_env.ContentRootPath, Resources)))
+            Directory.CreateDirectory(Path.Combine(_env.ContentRootPath, Resources));
+
+        var path = Path.Combine(_env.ContentRootPath, Resources, files[0].FileName);
 
         await using FileStream fs = new(path, FileMode.Create);
         await files[0].CopyToAsync(fs);
@@ -155,19 +163,15 @@ public class BaseController<TEntity, TRepository> : ControllerBase
     [HttpGet("GetAvatar/{avatarPath}")]
     public async Task<IActionResult> GetAvatar(string avatarPath)
     {
-        if (!Directory.Exists(Path.Combine(_env.ContentRootPath, "resources")))
-        {
-            Directory.CreateDirectory(Path.Combine(_env.ContentRootPath, "resources"));
-        }
+        if (!Directory.Exists(Path.Combine(_env.ContentRootPath, Resources)))
+            Directory.CreateDirectory(Path.Combine(_env.ContentRootPath, Resources));
 
-        if (System.IO.File.Exists(Path.Combine(_env.ContentRootPath, "resources", avatarPath)))
+        if (System.IO.File.Exists(Path.Combine(_env.ContentRootPath, Resources, avatarPath)))
         {
-            var fileBytes = await System.IO.File.ReadAllBytesAsync(Path.Combine(_env.ContentRootPath, "resources", avatarPath));
+            var fileBytes = await System.IO.File.ReadAllBytesAsync(Path.Combine(_env.ContentRootPath, Resources, avatarPath));
             return File(fileBytes, "image/png");
         }
         else
-        {
             return NotFound();
-        }
     }
 }

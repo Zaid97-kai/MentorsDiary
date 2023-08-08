@@ -12,9 +12,10 @@ namespace MentorsDiary.API.Controllers;
 public class GroupController : BaseController<Group, IGroupRepository>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="GroupController"/> class.
+    /// Initializes a new instance of the <see cref="GroupController" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
+    /// <param name="env">The env.</param>
     public GroupController(IGroupRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
 

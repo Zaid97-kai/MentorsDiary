@@ -171,8 +171,6 @@ public partial class DeputyDirectorList
             await MessageService.Error(response.ReasonPhrase);
 
         await GetListAsync();
-
-        StateHasChanged();
     }
 
     /// <summary>

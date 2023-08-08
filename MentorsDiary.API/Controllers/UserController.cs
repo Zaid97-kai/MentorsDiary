@@ -13,17 +13,11 @@ namespace MentorsDiary.API.Controllers;
 public class UserController : BaseController<User, IUserRepository>
 {
     /// <summary>
-    /// The env
-    /// </summary>
-    private readonly IWebHostEnvironment _env;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UserController"/> class.
+    /// Initializes a new instance of the <see cref="UserController" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
     /// <param name="env">The env.</param>
     public UserController(IUserRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
-        _env = env;
     }
 }

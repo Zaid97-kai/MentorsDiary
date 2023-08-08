@@ -1,6 +1,5 @@
 ﻿using AntDesign;
 using MentorsDiary.Application.Bases.Enums;
-using MentorsDiary.Application.Entities.Curators.Domains;
 using MentorsDiary.Application.Entities.Divisions.Domains;
 using MentorsDiary.Application.Entities.Users.Domains;
 using MentorsDiary.Web.Data.Services;
@@ -78,23 +77,36 @@ public partial class DeputyDirectorItem
     /// <value>The selected division.</value>
     private Division? SelectedDivision { get; set; } = new();
 
-    private Application.Entities.Users.Domains.User? Clone { get; set; } = new();
+    /// <summary>
+    /// Gets or sets the clone.
+    /// </summary>
+    /// <value>The clone.</value>
+    private User? Clone { get; set; } = new();
 
     /// <summary>
     /// Gets the navigate to URI.
     /// </summary>
     /// <value>The navigate to URI.</value>
-    private string NavigateToUri => "deputydirector";
+    private static string NavigateToUri => "deputydirector";
 
     /// <summary>
     /// The is loading
     /// </summary>
     private bool _isLoading;
 
+    /// <summary>
+    /// The avatar
+    /// </summary>
     private string? _avatar;
 
+    /// <summary>
+    /// The new avatar
+    /// </summary>
     private string? _newAvatar;
 
+    /// <summary>
+    /// The resized image
+    /// </summary>
     private IBrowserFile? _resizedImage;
 
     #endregion
@@ -109,6 +121,9 @@ public partial class DeputyDirectorItem
         await UploadAvatarPath();
     }
 
+    /// <summary>
+    /// Uploads the avatar path.
+    /// </summary>
     private async Task UploadAvatarPath()
     {
         if (_deputyDirector!.ImagePath != null)
@@ -166,6 +181,9 @@ public partial class DeputyDirectorItem
         NavigationManager.NavigateTo("/deputydirector");
     }
 
+    /// <summary>
+    /// Uploads the avatar.
+    /// </summary>
     private async Task UploadAvatar()
     {
         using var content = new MultipartFormDataContent();
@@ -201,6 +219,10 @@ public partial class DeputyDirectorItem
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Handles the <see cref="E:InputFileChange" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="InputFileChangeEventArgs"/> instance containing the event data.</param>
     private async Task OnInputFileChange(InputFileChangeEventArgs e)
     {
         var imageFile = e.File;

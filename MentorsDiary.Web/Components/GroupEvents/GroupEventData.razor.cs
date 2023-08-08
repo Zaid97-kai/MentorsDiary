@@ -15,6 +15,8 @@ namespace MentorsDiary.Web.Components.GroupEvents;
 /// <seealso cref="ComponentBase" />
 public partial class GroupEventData
 {
+    #region PARAMETERS
+
     /// <summary>
     /// Gets or sets the group event.
     /// </summary>
@@ -36,12 +38,20 @@ public partial class GroupEventData
     [Parameter]
     public EventCallback<bool> VisibleChanged { get; set; }
 
+    #endregion
+
+    #region INJECTIONS
+
     /// <summary>
     /// Gets the group event student service.
     /// </summary>
     /// <value>The group event student service.</value>
     [Inject]
     private GroupEventStudentService GroupEventStudentService { get; set; } = null!;
+
+    #endregion
+
+    #region PROPERTIES
 
     /// <summary>
     /// The students
@@ -52,6 +62,8 @@ public partial class GroupEventData
     /// The is loading
     /// </summary>
     private bool _isLoading;
+
+    #endregion
 
     /// <summary>
     /// On initialized as an asynchronous operation.

@@ -12,9 +12,10 @@ namespace MentorsDiary.API.Controllers;
 public class EventController : BaseController<Event, IEventRepository>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="EventController"/> class.
+    /// Initializes a new instance of the <see cref="EventController" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
+    /// <param name="env">The env.</param>
     public EventController(IEventRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
 

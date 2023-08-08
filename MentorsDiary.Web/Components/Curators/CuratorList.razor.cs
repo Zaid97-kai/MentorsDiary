@@ -21,6 +21,10 @@ public partial class CuratorList
 {
     #region INJECTIONS
 
+    /// <summary>
+    /// Gets or sets the curator.
+    /// </summary>
+    /// <value>The curator.</value>
     [Parameter]
     public User? Curator { get; set; }
 
