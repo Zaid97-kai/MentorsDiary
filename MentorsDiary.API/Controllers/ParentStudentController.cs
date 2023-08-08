@@ -12,10 +12,12 @@ namespace MentorsDiary.API.Controllers;
 public class ParentStudentController : BaseController<ParentStudent, IParentStudentRepository>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ParentStudentController"/> class.
+    /// Initializes a new instance of the <see cref="ParentStudentController" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
-    public ParentStudentController(IParentStudentRepository repository) : base(repository)
+    /// <param name="env">The env.</param>
+    public ParentStudentController(IParentStudentRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
+
     }
 }

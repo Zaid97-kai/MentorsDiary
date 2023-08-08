@@ -12,10 +12,11 @@ namespace MentorsDiary.API.Controllers;
 public class DivisionController : BaseController<Division, IDivisionRepository>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DivisionController"/> class.
+    /// Initializes a new instance of the <see cref="DivisionController" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
-    public DivisionController(IDivisionRepository repository) : base(repository)
+    /// <param name="env">The env.</param>
+    public DivisionController(IDivisionRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
 
     }

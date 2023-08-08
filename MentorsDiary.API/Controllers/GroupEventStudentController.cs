@@ -18,10 +18,11 @@ public class GroupEventStudentController : BaseController<GroupEventStudent, IGr
     private readonly IGroupEventStudentRepository _repository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GroupEventStudentController"/> class.
+    /// Initializes a new instance of the <see cref="GroupEventStudentController" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
-    public GroupEventStudentController(IGroupEventStudentRepository repository) : base(repository)
+    /// <param name="env">The env.</param>
+    public GroupEventStudentController(IGroupEventStudentRepository repository, IWebHostEnvironment env) : base(repository, env)
     {
         _repository = repository;
     }

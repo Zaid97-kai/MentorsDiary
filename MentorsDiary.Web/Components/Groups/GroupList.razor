@@ -27,20 +27,7 @@
                 {
                     <MentorsDiary.Web.Components.Displays.BoxCard>
                         <Body>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="text-label">Номер группы</div>
-                                    <div>@group.Name</div>
-                                </div>
-                                <div class="col">
-                                    <div class="text-label">Подразделение</div>
-                                    <div>@group.Division?.Name</div>
-                                </div>
-                                <div class="col">
-                                    <div class="text-label">Куратор</div>
-                                    <div>@group.Curator?.Name</div>
-                                </div>
-                            </div>
+                            <GroupData Group="@group" />
                         </Body>
                         <ActionTemplate>
                             <Space Size="@("3")">

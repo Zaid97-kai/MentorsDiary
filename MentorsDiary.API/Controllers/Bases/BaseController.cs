@@ -23,12 +23,24 @@ public class BaseController<TEntity, TRepository> : ControllerBase
     private readonly TRepository _repository;
 
     /// <summary>
+    /// The env
+    /// </summary>
+    private readonly IWebHostEnvironment _env;
+
+    /// <summary>
+    /// The resources
+    /// </summary>
+    private const string Resources = "Resources";
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="BaseController{TEntity, TRepository}" /> class.
     /// </summary>
     /// <param name="repository">The repository.</param>
-    public BaseController(TRepository repository)
+    /// <param name="env">The env.</param>
+    public BaseController(TRepository repository, IWebHostEnvironment env)
     {
         _repository = repository;
+        _env = env;
     }
 
     /// <summary>
@@ -122,5 +134,44 @@ public class BaseController<TEntity, TRepository> : ControllerBase
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// Saves the image.
+    /// </summary>
+    /// <param name="files">The files.</param>
+    /// <returns>IFormFile.</returns>
+    [HttpPost("UploadAvatar")]
+    public async Task<IFormFile> UploadAvatar([FromForm] List<IFormFile> files)
+    {
+        if (!Directory.Exists(Path.Combine(_env.ContentRootPath, Resources)))
+            Directory.CreateDirectory(Path.Combine(_env.ContentRootPath, Resources));
+
+        var path = Path.Combine(_env.ContentRootPath, Resources, files[0].FileName);
+
+        await using FileStream fs = new(path, FileMode.Create);
+        await files[0].CopyToAsync(fs);
+
+        return files[0];
+    }
+
+    /// <summary>
+    /// Retrieves image.
+    /// </summary>
+    /// <param name="avatarPath">Path to the image.</param>
+    /// <returns>File.</returns>
+    [HttpGet("GetAvatar/{avatarPath}")]
+    public async Task<IActionResult> GetAvatar(string avatarPath)
+    {
+        if (!Directory.Exists(Path.Combine(_env.ContentRootPath, Resources)))
+            Directory.CreateDirectory(Path.Combine(_env.ContentRootPath, Resources));
+
+        if (System.IO.File.Exists(Path.Combine(_env.ContentRootPath, Resources, avatarPath)))
+        {
+            var fileBytes = await System.IO.File.ReadAllBytesAsync(Path.Combine(_env.ContentRootPath, Resources, avatarPath));
+            return File(fileBytes, "image/png");
+        }
+        else
+            return NotFound();
     }
 }

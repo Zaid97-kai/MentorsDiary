@@ -2,6 +2,7 @@
 using MentorsDiary.Application.Entities.Events.Domains;
 using MentorsDiary.Web.Data.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace MentorsDiary.Web.Components.Events;
 
@@ -66,6 +67,27 @@ public partial class EventItem
     /// </summary>
     private bool _isLoading;
 
+    /// <summary>
+    /// Gets or sets the clone.
+    /// </summary>
+    /// <value>The clone.</value>
+    private Application.Entities.Events.Domains.Event? Clone { get; set; } = new();
+
+    /// <summary>
+    /// The avatar
+    /// </summary>
+    private string? _avatar;
+
+    /// <summary>
+    /// The new avatar
+    /// </summary>
+    private string? _newAvatar;
+
+    /// <summary>
+    /// The resized image
+    /// </summary>
+    private IBrowserFile? _resizedImage;
+
     #endregion
 
     /// <summary>
@@ -75,6 +97,22 @@ public partial class EventItem
     protected override async Task OnInitializedAsync()
     {
         await GetItemAsync();
+        await UploadAvatarPath();
+    }
+
+    /// <summary>
+    /// Uploads the avatar path.
+    /// </summary>
+    private async Task UploadAvatarPath()
+    {
+        if (_event!.ImagePath != null)
+        {
+            var result = await EventService?.GetAvatarAsync(_event!.ImagePath)!;
+            if (result != null)
+                _avatar = result.RequestMessage?.RequestUri?.ToString();
+            else
+                await MessageService?.Error("Ошибка фотографии")!;
+        }
     }
 
     /// <summary>
@@ -103,6 +141,7 @@ public partial class EventItem
 
         if (_event != null)
         {
+            await UploadAvatar();
             var response = await EventService.UpdateAsync(_event);
 
             if (response.IsSuccessStatusCode)
@@ -115,5 +154,60 @@ public partial class EventItem
         StateHasChanged();
 
         NavigationManager.NavigateTo(NavigateToUri);
+    }
+    /// <summary>
+    /// Uploads the avatar.
+    /// </summary>
+    private async Task UploadAvatar()
+    {
+        using var content = new MultipartFormDataContent();
+        var fileName = Path.GetRandomFileName();
+
+        content.Add(
+            content: new StreamContent(_resizedImage?.OpenReadStream() ?? Stream.Null),
+            name: "\"files\"",
+            fileName: fileName);
+
+        var response = await EventService?.UploadAvatarAsync(content)!;
+
+        if (response.IsSuccessStatusCode)
+        {
+            _event!.ImagePath = fileName;
+            Clone!.ImagePath = fileName;
+
+            await MessageService.Success("Upload completed successfully.");
+            var result = await EventService.GetAvatarAsync(_event!.ImagePath);
+            _avatar = result.RequestMessage?.RequestUri?.ToString();
+        }
+        else
+            await MessageService.Error("Upload failed.");
+    }
+
+    /// <summary>
+    /// Handles the <see cref="E:InputFileChange" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="InputFileChangeEventArgs"/> instance containing the event data.</param>
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.File;
+        if (imageFile.ContentType != "image/jpeg" && imageFile.ContentType != "image/png")
+        {
+            await MessageService.Error("You can only upload JPG/PNG file!");
+        }
+        else
+        {
+            _resizedImage = await imageFile.RequestImageFileAsync("image/png", 500, 500);
+
+            var ms = new MemoryStream();
+            await _resizedImage.OpenReadStream().CopyToAsync(ms);
+            var bytes = ms.ToArray();
+
+            var b64 = Convert.ToBase64String(bytes);
+
+            _newAvatar = "data:image/png;base64," + b64;
+            _avatar = _newAvatar;
+        }
+
+        StateHasChanged();
     }
 }

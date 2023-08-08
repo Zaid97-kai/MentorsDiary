@@ -12,19 +12,15 @@
         </div>
     }
     <div class="col">
-        <div class="text-label">Имя</div>
-        <div>@Curator.User?.Name</div>
+        <div class="text-label">Номер группы</div>
+        <div>@Group.Name</div>
     </div>
     <div class="col">
         <div class="text-label">Подразделение</div>
-        <div>@Curator.User?.Division?.Name</div>
+        <div>@Group.Division?.Name</div>
     </div>
     <div class="col">
-        <div class="text-label">Телефон</div>
-        <div>@Curator.User?.Phone</div>
-    </div>
-    <div class="col">
-        <div class="text-label">Электронная почта</div>
-        <div>@Curator.User?.Email</div>
+        <div class="text-label">Куратор</div>
+        <div>@Group.Curator?.Name</div>
     </div>
 </div>

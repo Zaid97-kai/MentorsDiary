@@ -28,24 +28,7 @@
                 {
                     <MentorsDiary.Web.Components.Displays.BoxCard>
                         <Body>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="text-label">Имя</div>
-                                    <div>@data.Name</div>
-                                </div>
-                                <div class="col">
-                                    <div class="text-label">Подразделение</div>
-                                    <div>@data.Division?.Name</div>
-                                </div>
-                                <div class="col">
-                                    <div class="text-label">Телефон</div>
-                                    <div>@data.Phone</div>
-                                </div>
-                                <div class="col">
-                                    <div class="text-label">Электронная почта</div>
-                                    <div>@data.Email</div>
-                                </div>
-                            </div>
+                            <DeputyDirectorData DeputyDirector="@data"/>
                         </Body>
                         <ActionTemplate>
                             <Space Size="@("2")">

@@ -108,6 +108,7 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity>
         var result = await _httpClient?.PutAsJsonAsync($"api/{BasePath}/Update", entity)!;
         return result;
     }
+
     /// <summary>
     /// Upload avatar as an asynchronous operation.
     /// </summary>
