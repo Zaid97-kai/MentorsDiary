@@ -19,8 +19,6 @@ namespace MentorsDiary.Web.Components.Curators;
 /// <seealso cref="ComponentBase" />
 public partial class CuratorList
 {
-    #region INJECTIONS
-
     /// <summary>
     /// Gets or sets the curator.
     /// </summary>
@@ -28,6 +26,8 @@ public partial class CuratorList
     [Parameter]
     public User? Curator { get; set; }
 
+    #region INJECTIONS
+    
     /// <summary>
     /// Gets or sets the user service.
     /// </summary>
