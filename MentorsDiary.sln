@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentorsDiary.Web", "Mentors
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentorsDiary.MAUI", "MentorsDiary.MAUI\MentorsDiary.MAUI.csproj", "{75DCB348-469B-4320-AA85-8A758D867451}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentorsDiary.Desktop.Admin", "MentorsDiary.Desktop.Admin\MentorsDiary.Desktop.Admin.csproj", "{7FBC9D3F-D16A-4966-BCD9-EBDC5B851C6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{75DCB348-469B-4320-AA85-8A758D867451}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75DCB348-469B-4320-AA85-8A758D867451}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75DCB348-469B-4320-AA85-8A758D867451}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7FBC9D3F-D16A-4966-BCD9-EBDC5B851C6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FBC9D3F-D16A-4966-BCD9-EBDC5B851C6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FBC9D3F-D16A-4966-BCD9-EBDC5B851C6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FBC9D3F-D16A-4966-BCD9-EBDC5B851C6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{1A0E9761-36CA-4AAE-8D27-20DF135B75CF} = {FE1C546D-4224-4134-852D-2EBF5DBC11C2}
 		{A7573D87-98E2-4F48-B913-99633A831E24} = {FE1C546D-4224-4134-852D-2EBF5DBC11C2}
 		{75DCB348-469B-4320-AA85-8A758D867451} = {FE1C546D-4224-4134-852D-2EBF5DBC11C2}
+		{7FBC9D3F-D16A-4966-BCD9-EBDC5B851C6D} = {FE1C546D-4224-4134-852D-2EBF5DBC11C2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0873575B-BC89-42F3-8439-FBA38EEED1BD}
